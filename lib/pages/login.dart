@@ -2,27 +2,21 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:skillshark/extentions/hover_extentions.dart';
-import 'package:skillshark/pages/login.dart';
+import 'package:skillshark/pages/signup.dart';
 
-class signupScreen extends StatefulWidget {
+class loginScreen extends StatefulWidget {
   @override
-  _signupScreenState createState() => _signupScreenState();
+  _loginScreenState createState() => _loginScreenState();
 }
 
-class _signupScreenState extends State<signupScreen> {
+class _loginScreenState extends State<loginScreen> {
   final emailTextConrtoller = TextEditingController();
   final passTextConrtoller = TextEditingController();
-  final firstnameTextController = TextEditingController();
-  final lastnameTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        //decoration: BoxDecoration(
-        //image: DecorationImage(
-        //image: AssetImage("images/signup.jpg"), fit: BoxFit.cover),
-        //),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
@@ -66,12 +60,12 @@ class _signupScreenState extends State<signupScreen> {
                         borderRadius: BorderRadius.circular(2),
                         boxShadow: [
                           BoxShadow(
-                              color: Colors.black.withOpacity(0.7),
+                              color: Colors.black,
                               offset: Offset(4, 4),
                               blurRadius: 8,
                               spreadRadius: 4),
                           BoxShadow(
-                              color: Colors.white.withOpacity(0.7),
+                              color: Colors.white,
                               offset: Offset(-4, -4),
                               blurRadius: 8,
                               spreadRadius: 4),
@@ -86,7 +80,7 @@ class _signupScreenState extends State<signupScreen> {
                           children: [
                             Container(
                               child: Text(
-                                'Sign Up',
+                                'Log In',
                                 style: TextStyle(
                                     fontSize: 25, fontWeight: FontWeight.w600),
                               ),
@@ -97,11 +91,11 @@ class _signupScreenState extends State<signupScreen> {
                             Container(
                               child: RichText(
                                   text: TextSpan(
-                                      text: 'Already have an account?',
+                                      text: 'New user?',
                                       style: TextStyle(color: Colors.black),
                                       children: <TextSpan>[
                                     TextSpan(
-                                        text: ' Log In',
+                                        text: ' Sign up',
                                         style:
                                             TextStyle(color: Colors.blueAccent),
                                         recognizer: TapGestureRecognizer()
@@ -110,31 +104,9 @@ class _signupScreenState extends State<signupScreen> {
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
-                                                        loginScreen()));
+                                                        signupScreen()));
                                           })
                                   ])),
-                            ),
-                            SizedBox(
-                              height: 10,
-                            ),
-                            Container(
-                              child: TextField(
-                                controller: firstnameTextController,
-                                decoration: InputDecoration(
-                                  labelText: 'First Name',
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: TextField(
-                                controller: lastnameTextController,
-                                decoration: InputDecoration(
-                                  labelText: 'Last Name',
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              height: 20,
                             ),
                             Container(
                               child: TextField(
@@ -175,7 +147,7 @@ class _signupScreenState extends State<signupScreen> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      'Create Account',
+                                      'Log In',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                           color: Colors.white, fontSize: 20),
@@ -249,40 +221,6 @@ class _signupScreenState extends State<signupScreen> {
                                 ),
                               ),
                             ).moveUpOnHover,
-                            Divider(
-                              height: 30,
-                            ),
-                            Container(
-                              child: RichText(
-                                text: TextSpan(
-                                    text: 'Subject to ',
-                                    style: TextStyle(
-                                        color: Colors.black87, fontSize: 10),
-                                    children: <TextSpan>[
-                                      TextSpan(
-                                        text: 'Privacy Policy ',
-                                        style: TextStyle(
-                                            color: Colors.blueAccent,
-                                            fontSize: 10),
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {},
-                                      ),
-                                      TextSpan(
-                                          text: 'and ',
-                                          style: TextStyle(
-                                              color: Colors.black87,
-                                              fontSize: 10)),
-                                      TextSpan(
-                                        text: 'Terms of condition ',
-                                        style: TextStyle(
-                                            color: Colors.blueAccent,
-                                            fontSize: 10),
-                                        recognizer: TapGestureRecognizer()
-                                          ..onTap = () {},
-                                      ),
-                                    ]),
-                              ),
-                            )
                           ],
                         ),
                       ),
