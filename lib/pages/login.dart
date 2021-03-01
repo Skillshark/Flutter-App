@@ -49,7 +49,7 @@ class _loginScreenState extends State<loginScreen> {
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height,
-              child: Container(
+              child: Center(
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 15),
@@ -150,7 +150,9 @@ class _loginScreenState extends State<loginScreen> {
                                       'Log In',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                          color: Colors.white, fontSize: 20),
+                                          color: Colors.white,
+                                          fontSize: 20,
+                                          fontWeight: FontWeight.w700),
                                     ),
                                   ),
                                 ),
@@ -190,6 +192,7 @@ class _loginScreenState extends State<loginScreen> {
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 20,
+                                        fontWeight: FontWeight.w700,
                                       ),
                                     ),
                                   ),
@@ -215,7 +218,10 @@ class _loginScreenState extends State<loginScreen> {
                                       'Facebook',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                          color: Colors.white, fontSize: 20),
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
                                   ),
                                 ),

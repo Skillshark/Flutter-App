@@ -55,7 +55,7 @@ class _signupScreenState extends State<signupScreen> {
             ),
             SizedBox(
               height: MediaQuery.of(context).size.height,
-              child: Container(
+              child: Center(
                 child: Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 8, vertical: 15),
@@ -178,7 +178,10 @@ class _signupScreenState extends State<signupScreen> {
                                       'Create Account',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                          color: Colors.white, fontSize: 20),
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -218,6 +221,7 @@ class _signupScreenState extends State<signupScreen> {
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 20,
+                                        fontWeight: FontWeight.w700,
                                       ),
                                     ),
                                   ),
@@ -243,7 +247,10 @@ class _signupScreenState extends State<signupScreen> {
                                       'Facebook',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
-                                          color: Colors.white, fontSize: 20),
+                                        color: Colors.white,
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.w700,
+                                      ),
                                     ),
                                   ),
                                 ),
