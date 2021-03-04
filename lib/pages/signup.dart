@@ -106,7 +106,7 @@ class _signupScreenState extends State<signupScreen> {
                                             TextStyle(color: Colors.blueAccent),
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () {
-                                            Navigator.push(
+                                            Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>

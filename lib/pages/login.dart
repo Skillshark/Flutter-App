@@ -100,7 +100,7 @@ class _loginScreenState extends State<loginScreen> {
                                             TextStyle(color: Colors.blueAccent),
                                         recognizer: TapGestureRecognizer()
                                           ..onTap = () {
-                                            Navigator.push(
+                                            Navigator.pushReplacement(
                                                 context,
                                                 MaterialPageRoute(
                                                     builder: (context) =>
