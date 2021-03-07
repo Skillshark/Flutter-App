@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skillshark/pages/dashboard.dart';
 import 'package:skillshark/pages/login.dart';
+import 'package:skillshark/pages/profile.dart';
 import 'pages/signup.dart';
 
 void main() => runApp(SignUpApp());
@@ -19,7 +20,8 @@ class SignUpApp extends StatelessWidget {
       routes: {
         '/signup': (context) => signupScreen(),
         '/login': (context) => loginScreen(),
-        '/': (context) => dashboardScreen(),
+        '/dashbord': (context) => dashboardScreen(),
+        '/': (context) => profileScreen(),
       },
     );
   }

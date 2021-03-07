@@ -44,15 +44,22 @@ class _postState extends State<post> {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      InkWell(
-                        child: Row(
-                          children: [
-                            Icon(Icons.thumb_up_alt_outlined),
-                            Text('6.6k'),
-                            Icon(Icons.message_outlined),
-                            Text('1.1k'),
-                          ],
-                        ),
+                      Row(
+                        children: [
+                          Icon(
+                            Icons.thumb_up_alt_outlined,
+                            size: 12.5,
+                          ),
+                          Text('6.6k'),
+                          SizedBox(
+                            width: 1,
+                          ),
+                          Icon(
+                            Icons.message_outlined,
+                            size: 12.5,
+                          ),
+                          Text('1.1k'),
+                        ],
                       ),
                     ],
                   ),
