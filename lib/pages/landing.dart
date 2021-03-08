@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:skillshark/components/post.dart';
 
-class dashboardScreen extends StatefulWidget {
+class landingScreen extends StatefulWidget {
   @override
-  _dashboardScreenState createState() => _dashboardScreenState();
+  _landingScreenState createState() => _landingScreenState();
 }
 
-class _dashboardScreenState extends State<dashboardScreen> {
+class _landingScreenState extends State<landingScreen> {
   var searchTextController = TextEditingController();
 
   @override
@@ -52,7 +52,9 @@ class _dashboardScreenState extends State<dashboardScreen> {
                   child: Row(
                     children: [
                       InkWell(
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.pushNamed(context, '/login');
+                        },
                         child: Container(
                           height: 25,
                           width: 100,
@@ -65,7 +67,7 @@ class _dashboardScreenState extends State<dashboardScreen> {
                           ),
                           child: Center(
                             child: Text(
-                              'Upload Video',
+                              'Log in',
                               style: TextStyle(
                                 fontSize: 15,
                                 fontWeight: FontWeight.w400,
@@ -74,21 +76,28 @@ class _dashboardScreenState extends State<dashboardScreen> {
                           ),
                         ),
                       ),
-                      IconButton(
-                        icon: Icon(Icons.notifications_none_outlined),
-                        onPressed: () {},
-                      ),
                       InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, '/profile');
+                          Navigator.pushNamed(context, '/signup');
                         },
                         child: Container(
-                          height: 30,
-                          width: 30,
+                          height: 25,
+                          width: 100,
                           decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: AssetImage('images/profile.jpg'),
+                            borderRadius: BorderRadius.circular(12.5),
+                            color: Colors.grey,
+                            border: Border.all(
+                              color: Colors.black54,
+                              width: 2,
+                            ),
+                          ),
+                          child: Center(
+                            child: Text(
+                              'Sign Up',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
                           ),
                         ),

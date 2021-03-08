@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:skillshark/components/authentication_services.dart';
 import 'package:skillshark/components/post.dart';
 
 class profileScreen extends StatefulWidget {
@@ -58,6 +59,31 @@ class _profileScreenState extends State<profileScreen> {
                     ],
                   ),
                 ),
+                InkWell(
+                  onTap: () {
+                    context.read<AuthenticationService>().signOut();
+                  },
+                  child: Container(
+                    height: 25,
+                    width: 100,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(12.5),
+                      border: Border.all(
+                        color: Colors.black54,
+                        width: 2,
+                      ),
+                    ),
+                    child: Center(
+                      child: Text(
+                        'Log Out',
+                        style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.w400,
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
               ],
             ),
           ),
@@ -98,9 +124,42 @@ class _profileScreenState extends State<profileScreen> {
                         child: Text(
                           'Saswat Nayak',
                           textAlign: TextAlign.center,
+                          style: TextStyle(
+                            fontSize: 25,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                       ),
-                      Container(),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        child: InkWell(
+                          child: Container(
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(5),
+                              color: Colors.black87,
+                            ),
+                            child: Text(
+                              'Edit Profile',
+                              textAlign: TextAlign.center,
+                              style: TextStyle(color: Colors.white),
+                            ),
+                          ),
+                        ),
+                      ),
+                      SizedBox(
+                        height: 20,
+                      ),
+                      Container(
+                        child: Text(
+                          'Links :',
+                          style: TextStyle(
+                            fontSize: 15,
+                            fontWeight: FontWeight.w300,
+                          ),
+                        ),
+                      ),
                     ],
                   ),
                 ),

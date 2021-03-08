@@ -1,8 +1,10 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
+import 'package:skillshark/components/authentication_services.dart';
 import 'package:skillshark/extentions/hover_extentions.dart';
 import 'package:skillshark/pages/signup.dart';
+import 'package:provider/provider.dart';
 
 class loginScreen extends StatefulWidget {
   @override
@@ -135,6 +137,12 @@ class _loginScreenState extends State<loginScreen> {
                               height: 50,
                             ),
                             InkWell(
+                              onTap: () {
+                                context.read<AuthenticationService>().logIn(
+                                      email: emailTextConrtoller.toString(),
+                                      password: passTextConrtoller.toString(),
+                                    );
+                              },
                               child: Center(
                                 child: Container(
                                   width:
