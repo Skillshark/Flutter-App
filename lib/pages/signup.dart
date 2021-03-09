@@ -167,8 +167,8 @@ class _signupScreenState extends State<signupScreen> {
                             InkWell(
                               onTap: () {
                                 context.read<AuthenticationService>().signUp(
-                                      email: emailTextConrtoller.toString(),
-                                      password: passTextConrtoller.toString(),
+                                      email: emailTextConrtoller.text,
+                                      password: passTextConrtoller.text,
                                     );
                               },
                               child: Center(

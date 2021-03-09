@@ -76,6 +76,9 @@ class _landingScreenState extends State<landingScreen> {
                           ),
                         ),
                       ),
+                      SizedBox(
+                        height: 10,
+                      ),
                       InkWell(
                         onTap: () {
                           Navigator.pushNamed(context, '/signup');

@@ -139,8 +139,8 @@ class _loginScreenState extends State<loginScreen> {
                             InkWell(
                               onTap: () {
                                 context.read<AuthenticationService>().logIn(
-                                      email: emailTextConrtoller.toString(),
-                                      password: passTextConrtoller.toString(),
+                                      email: emailTextConrtoller.text,
+                                      password: passTextConrtoller.text,
                                     );
                               },
                               child: Center(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skillshark/components/authentication_services.dart';
 import 'package:skillshark/components/post.dart';
+import 'package:provider/provider.dart';
 
 class profileScreen extends StatefulWidget {
   @override

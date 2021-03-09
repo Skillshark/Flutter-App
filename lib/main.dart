@@ -24,6 +24,7 @@ class SignUpApp extends StatelessWidget {
         StreamProvider(
           create: (context) =>
               context.read<AuthenticationService>().authStateChanges,
+          initialData: null,
         ),
       ],
       child: MaterialApp(
