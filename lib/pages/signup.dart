@@ -170,6 +170,7 @@ class _signupScreenState extends State<signupScreen> {
                                       email: emailTextConrtoller.text,
                                       password: passTextConrtoller.text,
                                     );
+                                Navigator.pushNamed(context, '/');
                               },
                               child: Center(
                                 child: Container(

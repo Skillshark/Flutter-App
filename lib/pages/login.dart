@@ -142,6 +142,7 @@ class _loginScreenState extends State<loginScreen> {
                                       email: emailTextConrtoller.text,
                                       password: passTextConrtoller.text,
                                     );
+                                Navigator.pushNamed(context, '/');
                               },
                               child: Center(
                                 child: Container(

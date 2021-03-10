@@ -53,7 +53,7 @@ class authenticationWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final firebaseUser = context.watch<User>();
+    var firebaseUser = context.watch<User>();
 
     if (firebaseUser != null) {
       return dashboardScreen();

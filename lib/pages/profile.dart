@@ -63,6 +63,7 @@ class _profileScreenState extends State<profileScreen> {
                 InkWell(
                   onTap: () {
                     context.read<AuthenticationService>().signOut();
+                    Navigator.pushNamed(context, '/');
                   },
                   child: Container(
                     height: 25,
