@@ -114,6 +114,9 @@ class _loginScreenState extends State<loginScreen> {
                               child: TextField(
                                 controller: emailTextConrtoller,
                                 decoration: InputDecoration(
+                                  focusColor: Colors.grey,
+                                  fillColor: Colors.grey,
+                                  hoverColor: Colors.grey,
                                   labelText: 'Email',
                                   prefixIcon: Icon(Icons.mail_outline),
                                 ),
@@ -128,6 +131,9 @@ class _loginScreenState extends State<loginScreen> {
                                 controller: passTextConrtoller,
                                 cursorColor: Colors.black45,
                                 decoration: InputDecoration(
+                                  focusColor: Colors.grey,
+                                  fillColor: Colors.grey,
+                                  hoverColor: Colors.grey,
                                   labelText: 'Password',
                                   prefixIcon: Icon(Icons.lock_outline_rounded),
                                 ),

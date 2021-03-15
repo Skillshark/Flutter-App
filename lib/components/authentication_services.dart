@@ -1,4 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:skillshark/components/userdata_service.dart';
 
 class AuthenticationService {
   final FirebaseAuth _firebaseAuth;
@@ -21,10 +22,13 @@ class AuthenticationService {
     }
   }
 
-  Future<String> signUp({String email, String password}) async {
+  Future<String> signUp(
+      {String email, String password, String username}) async {
     try {
       await _firebaseAuth.createUserWithEmailAndPassword(
           email: email, password: password);
+      await UserdataService()
+          .userCreate(_firebaseAuth.currentUser.uid.toString(), username);
       return 'Signed Up';
     } on FirebaseAuthException catch (e) {
       return e.toString();

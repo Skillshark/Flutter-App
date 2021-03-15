@@ -14,8 +14,7 @@ class profileEditScreen extends StatefulWidget {
 class _profileEditScreenState extends State<profileEditScreen> {
   var emailTextConrtoller = TextEditingController();
   var linkedInTextConrtoller = TextEditingController();
-  var firstnameTextController = TextEditingController();
-  var lastnameTextController = TextEditingController();
+  var nameTextController = TextEditingController();
   var gitHubTextConrtoller = TextEditingController();
 
   @override
@@ -98,9 +97,8 @@ class _profileEditScreenState extends State<profileEditScreen> {
                               height: 10,
                             ),
                             Container(
-                              width: MediaQuery.of(context).size.width * .2 + 5,
-                              height:
-                                  MediaQuery.of(context).size.width * .2 + 5,
+                              width: MediaQuery.of(context).size.width * .2,
+                              height: MediaQuery.of(context).size.width * .2,
                               child: Stack(
                                 children: [
                                   Center(
@@ -122,13 +120,24 @@ class _profileEditScreenState extends State<profileEditScreen> {
                                     ),
                                   ),
                                   Positioned(
-                                    bottom: 0,
-                                    right: 0,
+                                    bottom: 25,
+                                    right: 25,
                                     child: InkWell(
                                       onTap: () {},
                                       child: Container(
-                                        height: 5,
-                                        width: 5,
+                                        height: 40,
+                                        width: 40,
+                                        decoration: BoxDecoration(
+                                            color: Colors.white,
+                                            shape: BoxShape.circle,
+                                            boxShadow: [
+                                              BoxShadow(
+                                                  color: Colors.black
+                                                      .withOpacity(0.7),
+                                                  offset: Offset(4, 4),
+                                                  blurRadius: 8,
+                                                  spreadRadius: 4),
+                                            ]),
                                         child: Icon(Icons.edit),
                                       ),
                                     ),
@@ -138,17 +147,12 @@ class _profileEditScreenState extends State<profileEditScreen> {
                             ),
                             Container(
                               child: TextField(
-                                controller: firstnameTextController,
+                                controller: nameTextController,
                                 decoration: InputDecoration(
-                                  labelText: 'First Name',
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: TextField(
-                                controller: lastnameTextController,
-                                decoration: InputDecoration(
-                                  labelText: 'Last Name',
+                                  focusColor: Colors.grey,
+                                  fillColor: Colors.grey,
+                                  hoverColor: Colors.grey,
+                                  labelText: 'Name',
                                 ),
                               ),
                             ),
@@ -159,6 +163,9 @@ class _profileEditScreenState extends State<profileEditScreen> {
                               child: TextField(
                                 controller: emailTextConrtoller,
                                 decoration: InputDecoration(
+                                  focusColor: Colors.grey,
+                                  fillColor: Colors.grey,
+                                  hoverColor: Colors.grey,
                                   labelText: 'Email',
                                   prefixIcon: Icon(Icons.mail_outline),
                                 ),
@@ -172,22 +179,31 @@ class _profileEditScreenState extends State<profileEditScreen> {
                                 controller: gitHubTextConrtoller,
                                 cursorColor: Colors.black45,
                                 decoration: InputDecoration(
+                                  focusColor: Colors.grey,
+                                  fillColor: Colors.grey,
+                                  hoverColor: Colors.grey,
                                   labelText: 'GitHub',
                                   prefixIcon: Icon(Icons.lock_outline_rounded),
                                 ),
                               ),
                             ),
                             SizedBox(
-                              height: 50,
+                              height: 20,
                             ),
                             Container(
                               child: TextField(
                                 controller: linkedInTextConrtoller,
                                 decoration: InputDecoration(
+                                  focusColor: Colors.grey,
+                                  fillColor: Colors.grey,
+                                  hoverColor: Colors.grey,
                                   labelText: 'LinkedIn',
                                   prefixIcon: Icon(Icons.mail_outline),
                                 ),
                               ),
+                            ),
+                            SizedBox(
+                              height: 20,
                             ),
                             InkWell(
                               onTap: () {},

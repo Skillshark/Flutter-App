@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:skillshark/components/authentication_services.dart';
 import 'package:skillshark/components/post.dart';
 import 'package:provider/provider.dart';
+import 'package:skillshark/components/userdata_service.dart';
 
 class profileScreen extends StatefulWidget {
   @override
@@ -137,6 +139,9 @@ class _profileScreenState extends State<profileScreen> {
                       ),
                       Container(
                         child: InkWell(
+                          onTap: () {
+                            Navigator.pushNamed(context, '/profile_edit');
+                          },
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(5),

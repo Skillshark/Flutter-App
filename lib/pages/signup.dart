@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:skillshark/components/authentication_services.dart';
+import 'package:skillshark/components/userdata_service.dart';
 import 'package:skillshark/extentions/hover_extentions.dart';
 import 'package:skillshark/pages/login.dart';
 import 'package:provider/provider.dart';
@@ -14,8 +15,7 @@ class signupScreen extends StatefulWidget {
 class _signupScreenState extends State<signupScreen> {
   final emailTextConrtoller = TextEditingController();
   final passTextConrtoller = TextEditingController();
-  final firstnameTextController = TextEditingController();
-  final lastnameTextController = TextEditingController();
+  var nameTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -121,17 +121,13 @@ class _signupScreenState extends State<signupScreen> {
                             ),
                             Container(
                               child: TextField(
-                                controller: firstnameTextController,
+                                textCapitalization: TextCapitalization.words,
+                                controller: nameTextController,
                                 decoration: InputDecoration(
-                                  labelText: 'First Name',
-                                ),
-                              ),
-                            ),
-                            Container(
-                              child: TextField(
-                                controller: lastnameTextController,
-                                decoration: InputDecoration(
-                                  labelText: 'Last Name',
+                                  focusColor: Colors.grey,
+                                  fillColor: Colors.grey,
+                                  hoverColor: Colors.grey,
+                                  labelText: 'Name',
                                 ),
                               ),
                             ),
@@ -142,6 +138,9 @@ class _signupScreenState extends State<signupScreen> {
                               child: TextField(
                                 controller: emailTextConrtoller,
                                 decoration: InputDecoration(
+                                  focusColor: Colors.grey,
+                                  fillColor: Colors.grey,
+                                  hoverColor: Colors.grey,
                                   labelText: 'Email',
                                   prefixIcon: Icon(Icons.mail_outline),
                                 ),
@@ -156,6 +155,9 @@ class _signupScreenState extends State<signupScreen> {
                                 controller: passTextConrtoller,
                                 cursorColor: Colors.black45,
                                 decoration: InputDecoration(
+                                  focusColor: Colors.grey,
+                                  fillColor: Colors.grey,
+                                  hoverColor: Colors.grey,
                                   labelText: 'Password',
                                   prefixIcon: Icon(Icons.lock_outline_rounded),
                                 ),
@@ -169,6 +171,7 @@ class _signupScreenState extends State<signupScreen> {
                                 context.read<AuthenticationService>().signUp(
                                       email: emailTextConrtoller.text,
                                       password: passTextConrtoller.text,
+                                      username: nameTextController.text,
                                     );
                                 Navigator.pushNamed(context, '/');
                               },
