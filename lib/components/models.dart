@@ -22,3 +22,23 @@ class Usr {
     );
   }
 }
+
+class Post {
+  final String postid;
+  final String title;
+  final List tags;
+  final String bio;
+
+  Post({this.postid, this.title, this.tags, this.bio});
+
+  factory Post.fromFirestore(DocumentSnapshot doc) {
+    Map data = doc.data();
+
+    return Post(
+      postid: doc.id,
+      title: ['title'] ?? '',
+      tags: ['tags'] ?? '',
+      bio: ['bio'] ?? '',
+    );
+  }
+}

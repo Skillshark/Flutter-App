@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:skillshark/components/post.dart';
 import 'models.dart';
 
 class DatabaseService {
@@ -10,5 +11,13 @@ class DatabaseService {
         .doc(uid)
         .snapshots()
         .map((event) => Usr.fromFirestore(event));
+  }
+
+  Stream<Post> getPost(String postid) {
+    return _db
+        .collection('post')
+        .doc(postid)
+        .snapshots()
+        .map((event) => Post.fromFirestore(event));
   }
 }

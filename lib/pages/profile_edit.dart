@@ -2,6 +2,8 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:skillshark/components/authentication_services.dart';
+import 'package:skillshark/components/models.dart';
+import 'package:skillshark/components/userdata_service.dart';
 import 'package:skillshark/extentions/hover_extentions.dart';
 import 'package:skillshark/pages/login.dart';
 import 'package:provider/provider.dart';

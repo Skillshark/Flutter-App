@@ -1,10 +1,7 @@
-import 'dart:html';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skillshark/components/authentication_services.dart';
-import 'package:skillshark/components/userdata_service.dart';
 import 'package:skillshark/pages/dashboard.dart';
 import 'package:skillshark/pages/landing.dart';
 import 'package:skillshark/pages/login.dart';
@@ -36,7 +33,6 @@ class SignUpApp extends StatelessWidget {
               GoogleFonts.sourceSansProTextTheme(Theme.of(context).textTheme),
           primaryColor: Colors.white,
         ),
-        initialRoute: '/',
         routes: {
           '/': (context) => authenticationWrapper(),
           '/signup': (context) => signupScreen(),
@@ -56,7 +52,7 @@ class authenticationWrapper extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var firebaseUser = context.watch<User>();
+    final firebaseUser = context.watch<User>();
 
     if (firebaseUser != null) {
       return dashboardScreen();
