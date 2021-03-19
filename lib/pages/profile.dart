@@ -1,6 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:skillshark/components/authentication_services.dart';
+import 'package:skillshark/components/db_service.dart';
+import 'package:skillshark/components/models.dart';
 import 'package:skillshark/components/post.dart';
 import 'package:provider/provider.dart';
 import 'package:skillshark/components/userdata_service.dart';
@@ -12,158 +15,85 @@ class profileScreen extends StatefulWidget {
 
 class _profileScreenState extends State<profileScreen> {
   var searchTextController = TextEditingController();
+  final db = FirebaseFirestore.instance;
 
   @override
   Widget build(BuildContext context) {
+    var currentUser = FirebaseAuth.instance.currentUser;
+
     return Scaffold(
-      body: Column(
-        children: [
-          Container(
-            padding: EdgeInsets.symmetric(horizontal: 5),
-            height: 40,
-            width: MediaQuery.of(context).size.width,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      body: StreamBuilder<Usr>(
+          stream: DatabaseService().getUser(currentUser.uid),
+          builder: (context, snapshot) {
+            return Column(
               children: [
                 Container(
-                  child: Text(
-                    'Skillshark',
-                    style: TextStyle(
-                      fontSize: 25,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                ),
-                Divider(
-                  thickness: 10,
-                  color: Colors.black,
-                ),
-                Container(
-                  width: MediaQuery.of(context).size.width * .5,
-                  child: TextField(
-                    controller: searchTextController,
-                    decoration: InputDecoration(
-                      hintText: 'Search',
-                      prefixIcon: Icon(Icons.search_outlined),
-                    ),
-                  ),
-                ),
-                Divider(
-                  thickness: 10,
-                  color: Colors.black,
-                ),
-                Container(
+                  padding: EdgeInsets.symmetric(horizontal: 5),
+                  height: 40,
+                  width: MediaQuery.of(context).size.width,
                   child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      IconButton(
-                        icon: Icon(Icons.notifications_none_outlined),
-                        onPressed: () {},
-                      ),
-                    ],
-                  ),
-                ),
-                InkWell(
-                  onTap: () {
-                    context.read<AuthenticationService>().signOut();
-                    Navigator.pushNamed(context, '/');
-                  },
-                  child: Container(
-                    height: 25,
-                    width: 100,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12.5),
-                      border: Border.all(
-                        color: Colors.black54,
-                        width: 2,
-                      ),
-                    ),
-                    child: Center(
-                      child: Text(
-                        'Log Out',
-                        style: TextStyle(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w400,
-                        ),
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height - 40,
-            padding: EdgeInsets.symmetric(vertical: 20),
-            child: Row(
-              children: [
-                Container(
-                  width: MediaQuery.of(context).size.width * .25,
-                  padding: EdgeInsets.all(10),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(2),
-                  ),
-                  child: ListView(
-                    shrinkWrap: true,
-                    children: [
-                      Center(
-                        child: Container(
-                          width: MediaQuery.of(context).size.width * .2,
-                          height: MediaQuery.of(context).size.width * .2,
-                          padding: EdgeInsets.all(8),
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            image: DecorationImage(
-                              image: AssetImage('images/profile.jpg'),
-                              fit: BoxFit.cover,
-                            ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
                       Container(
                         child: Text(
-                          'Saswat Nayak',
-                          textAlign: TextAlign.center,
+                          'Skillshark',
                           style: TextStyle(
                             fontSize: 25,
-                            fontWeight: FontWeight.bold,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ),
-                      SizedBox(
-                        height: 20,
+                      Divider(
+                        thickness: 10,
+                        color: Colors.black,
                       ),
                       Container(
-                        child: InkWell(
-                          onTap: () {
-                            Navigator.pushNamed(context, '/profile_edit');
-                          },
-                          child: Container(
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(5),
-                              color: Colors.black87,
+                        width: MediaQuery.of(context).size.width * .5,
+                        child: TextField(
+                          controller: searchTextController,
+                          decoration: InputDecoration(
+                            hintText: 'Search',
+                            prefixIcon: Icon(Icons.search_outlined),
+                          ),
+                        ),
+                      ),
+                      Divider(
+                        thickness: 10,
+                        color: Colors.black,
+                      ),
+                      Container(
+                        child: Row(
+                          children: [
+                            IconButton(
+                              icon: Icon(Icons.notifications_none_outlined),
+                              onPressed: () {},
                             ),
+                          ],
+                        ),
+                      ),
+                      InkWell(
+                        onTap: () {
+                          context.read<AuthenticationService>().signOut();
+                          Navigator.pushNamed(context, '/');
+                        },
+                        child: Container(
+                          height: 25,
+                          width: 100,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(12.5),
+                            border: Border.all(
+                              color: Colors.black54,
+                              width: 2,
+                            ),
+                          ),
+                          child: Center(
                             child: Text(
-                              'Edit Profile',
-                              textAlign: TextAlign.center,
-                              style: TextStyle(color: Colors.white),
+                              'Log Out',
+                              style: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w400,
+                              ),
                             ),
-                          ),
-                        ),
-                      ),
-                      SizedBox(
-                        height: 20,
-                      ),
-                      Container(
-                        child: Text(
-                          'Links :',
-                          style: TextStyle(
-                            fontSize: 15,
-                            fontWeight: FontWeight.w300,
                           ),
                         ),
                       ),
@@ -171,40 +101,120 @@ class _profileScreenState extends State<profileScreen> {
                   ),
                 ),
                 Container(
-                  width: MediaQuery.of(context).size.width * .75,
-                  child: CustomScrollView(
-                    slivers: [
-                      SliverAppBar(
-                        title: Text('Your Posts'),
-                        foregroundColor: Colors.white,
+                  width: MediaQuery.of(context).size.width,
+                  height: MediaQuery.of(context).size.height - 40,
+                  padding: EdgeInsets.symmetric(vertical: 20),
+                  child: Row(
+                    children: [
+                      Container(
+                        width: MediaQuery.of(context).size.width * .25,
+                        padding: EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(2),
+                        ),
+                        child: ListView(
+                          shrinkWrap: true,
+                          children: [
+                            Center(
+                              child: Container(
+                                width: MediaQuery.of(context).size.width * .2,
+                                height: MediaQuery.of(context).size.width * .2,
+                                padding: EdgeInsets.all(8),
+                                decoration: BoxDecoration(
+                                  shape: BoxShape.circle,
+                                  image: DecorationImage(
+                                    image: AssetImage('images/profile.jpg'),
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                              child: Text(
+                                'Saswat Nayak',
+                                textAlign: TextAlign.center,
+                                style: TextStyle(
+                                  fontSize: 25,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                              child: InkWell(
+                                onTap: () {
+                                  Navigator.pushNamed(context, '/profile_edit');
+                                },
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    borderRadius: BorderRadius.circular(5),
+                                    color: Colors.black87,
+                                  ),
+                                  child: Text(
+                                    'Edit Profile',
+                                    textAlign: TextAlign.center,
+                                    style: TextStyle(color: Colors.white),
+                                  ),
+                                ),
+                              ),
+                            ),
+                            SizedBox(
+                              height: 20,
+                            ),
+                            Container(
+                              child: Text(
+                                'Links :',
+                                style: TextStyle(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w300,
+                                ),
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      SliverGrid.extent(
-                        maxCrossAxisExtent: 300,
-                        mainAxisSpacing: 10,
-                        crossAxisSpacing: 10,
-                        children: [
-                          post(),
-                          post(),
-                          post(),
-                          post(),
-                          post(),
-                          post(),
-                          post(),
-                          post(),
-                          post(),
-                          post(),
-                          post(),
-                          post(),
-                        ],
-                      )
+                      Container(
+                        width: MediaQuery.of(context).size.width * .75,
+                        child: CustomScrollView(
+                          slivers: [
+                            SliverAppBar(
+                              title: Text('Your Posts'),
+                              foregroundColor: Colors.white,
+                            ),
+                            SliverGrid.extent(
+                              maxCrossAxisExtent: 300,
+                              mainAxisSpacing: 10,
+                              crossAxisSpacing: 10,
+                              children: [
+                                post(),
+                                post(),
+                                post(),
+                                post(),
+                                post(),
+                                post(),
+                                post(),
+                                post(),
+                                post(),
+                                post(),
+                                post(),
+                                post(),
+                              ],
+                            )
+                          ],
+                        ),
+                      ),
                     ],
                   ),
-                ),
+                )
               ],
-            ),
-          )
-        ],
-      ),
+            );
+          }),
     );
   }
 }

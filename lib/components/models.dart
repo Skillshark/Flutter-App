@@ -36,9 +36,9 @@ class Post {
 
     return Post(
       postid: doc.id,
-      title: ['title'] ?? '',
-      tags: ['tags'] ?? '',
-      bio: ['bio'] ?? '',
+      title: data['title'] ?? '',
+      tags: data['tags'] ?? '',
+      bio: data['bio'] ?? '',
     );
   }
 }

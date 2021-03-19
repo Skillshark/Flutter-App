@@ -20,4 +20,12 @@ class DatabaseService {
         .snapshots()
         .map((event) => Post.fromFirestore(event));
   }
+
+  Stream<List<Post>> streamPost() {
+    var ref = _db.collection('post');
+
+    return ref
+        .snapshots()
+        .map((list) => list.docs.map((doc) => Post.fromFirestore(doc)));
+  }
 }

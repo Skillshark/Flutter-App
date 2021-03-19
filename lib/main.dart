@@ -31,7 +31,7 @@ class SignUpApp extends StatelessWidget {
         theme: ThemeData(
           textTheme:
               GoogleFonts.sourceSansProTextTheme(Theme.of(context).textTheme),
-          primaryColor: Colors.white,
+          primaryColor: Colors.grey,
         ),
         routes: {
           '/': (context) => authenticationWrapper(),
