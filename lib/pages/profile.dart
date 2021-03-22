@@ -134,14 +134,16 @@ class _profileScreenState extends State<profileScreen> {
                               height: 20,
                             ),
                             Container(
-                              child: Text(
-                                'Saswat Nayak',
-                                textAlign: TextAlign.center,
-                                style: TextStyle(
-                                  fontSize: 25,
-                                  fontWeight: FontWeight.bold,
-                                ),
-                              ),
+                              child: (snapshot.data.name != null)
+                                  ? Text(
+                                      snapshot.data.name,
+                                      textAlign: TextAlign.center,
+                                      style: TextStyle(
+                                        fontSize: 25,
+                                        fontWeight: FontWeight.bold,
+                                      ),
+                                    )
+                                  : Text(''),
                             ),
                             SizedBox(
                               height: 20,
@@ -168,14 +170,19 @@ class _profileScreenState extends State<profileScreen> {
                               height: 20,
                             ),
                             Container(
-                              child: Text(
-                                'Links :',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w300,
-                                ),
-                              ),
-                            ),
+                              child: (snapshot.data.gitHub == null &&
+                                      snapshot.data.linkedIn == null)
+                                  ? Container(
+                                      child: Text(
+                                        'Links :',
+                                        style: TextStyle(
+                                          fontSize: 15,
+                                          fontWeight: FontWeight.w300,
+                                        ),
+                                      ),
+                                    )
+                                  : SizedBox(),
+                            )
                           ],
                         ),
                       ),

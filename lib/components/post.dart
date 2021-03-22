@@ -1,6 +1,16 @@
 import 'package:flutter/material.dart';
 
 class post extends StatefulWidget {
+  String title;
+  String bio;
+  String userid;
+
+  post({
+    Key key,
+    this.title,
+    this.bio,
+    this.userid,
+  }) : super(key: key);
   @override
   _postState createState() => _postState();
 }
