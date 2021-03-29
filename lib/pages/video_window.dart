@@ -1,17 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:skillshark/components/post.dart';
 import 'package:skillshark/components/profile_preview.dart';
 
-class dashboardScreen extends StatefulWidget {
-  @override
-  _dashboardScreenState createState() => _dashboardScreenState();
-}
-
-class _dashboardScreenState extends State<dashboardScreen> {
-  var searchTextController = TextEditingController();
-
+class videoWindow extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
+    var searchTextController = TextEditingController();
+
     return Scaffold(
       body: Column(
         children: [
@@ -95,38 +89,6 @@ class _dashboardScreenState extends State<dashboardScreen> {
               ],
             ),
           ),
-          Container(
-            width: MediaQuery.of(context).size.width,
-            height: MediaQuery.of(context).size.height - 40,
-            padding: EdgeInsets.symmetric(vertical: 20),
-            child: CustomScrollView(
-              slivers: [
-                SliverAppBar(
-                  title: Text('Your Feed'),
-                  foregroundColor: Colors.white,
-                ),
-                SliverGrid.extent(
-                  maxCrossAxisExtent: 300,
-                  mainAxisSpacing: 10,
-                  crossAxisSpacing: 10,
-                  children: [
-                    post(),
-                    post(),
-                    post(),
-                    post(),
-                    post(),
-                    post(),
-                    post(),
-                    post(),
-                    post(),
-                    post(),
-                    post(),
-                    post(),
-                  ],
-                )
-              ],
-            ),
-          )
         ],
       ),
     );

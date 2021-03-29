@@ -12,6 +12,34 @@ class AuthenticationService {
     await _firebaseAuth.signOut();
   }
 
+  Future<User> signInWithGoogle() async {
+    GoogleAuthProvider googleProvider = GoogleAuthProvider();
+
+    googleProvider.setCustomParameters({'login_hint': 'user@example.com'});
+
+    UserCredential googleCred =
+        await FirebaseAuth.instance.signInWithPopup(googleProvider);
+
+    if (googleCred.additionalUserInfo.isNewUser) {
+      await UserdataService().userCreate(_firebaseAuth.currentUser.uid,
+          googleCred.additionalUserInfo.username);
+    }
+    return googleCred.user;
+  }
+
+  Future<User> signInWithGitHub() async {
+    GithubAuthProvider githubProvider = GithubAuthProvider();
+
+    UserCredential githubCred =
+        await FirebaseAuth.instance.signInWithPopup(githubProvider);
+
+    if (githubCred.additionalUserInfo.isNewUser) {
+      await UserdataService().userCreate(_firebaseAuth.currentUser.uid,
+          githubCred.additionalUserInfo.username);
+    }
+    return githubCred.user;
+  }
+
   Future<String> logIn({String email, String password}) async {
     try {
       await _firebaseAuth.signInWithEmailAndPassword(

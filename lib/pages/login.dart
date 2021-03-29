@@ -190,6 +190,12 @@ class _loginScreenState extends State<loginScreen> {
                               height: 30,
                             ),
                             InkWell(
+                              onTap: () {
+                                context
+                                    .read<AuthenticationService>()
+                                    .signInWithGoogle();
+                                Navigator.pushNamed(context, '/');
+                              },
                               child: Center(
                                 child: Container(
                                   width:
@@ -218,6 +224,12 @@ class _loginScreenState extends State<loginScreen> {
                               height: 50,
                             ),
                             InkWell(
+                              onTap: () {
+                                context
+                                    .read<AuthenticationService>()
+                                    .signInWithGitHub();
+                                Navigator.pushNamed(context, '/');
+                              },
                               child: Center(
                                 child: Container(
                                   width:
@@ -230,7 +242,7 @@ class _loginScreenState extends State<loginScreen> {
                                   ),
                                   child: Center(
                                     child: Text(
-                                      'Facebook',
+                                      'GitHub',
                                       textAlign: TextAlign.center,
                                       style: TextStyle(
                                         color: Colors.white,

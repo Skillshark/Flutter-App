@@ -18,7 +18,7 @@ class Usr {
       name: data['name'] ?? '',
       linkedIn: data['linkedIn'] ?? '',
       gitHub: data['gitHub'] ?? '',
-      dplink: data[''] ?? '',
+      dplink: data['dpurl'] ?? '',
     );
   }
 }
