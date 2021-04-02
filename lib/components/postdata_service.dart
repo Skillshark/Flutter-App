@@ -11,6 +11,7 @@ class PostdataService {
       }).toList(),
       'bio': bio,
       'userid': userid,
+      //'videoUrl': videoUrl,
     });
   }
 

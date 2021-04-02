@@ -1,6 +1,7 @@
-import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'dart:html';
 
 class VidUploader extends StatefulWidget {
   final File file;
@@ -20,28 +21,39 @@ class _VidUploaderState extends State<VidUploader> {
       firebase_storage.FirebaseStorage.instanceFor(
           bucket: 'gs://skillshare-69b1f.appspot.com');
 
-  Future<void> uploadVideo() async {
+  void uploadVideo() async {
     String filePath = '/videos/${widget.postid}.mp4';
     firebase_storage.UploadTask task =
-        storage.ref().child(filePath).putFile(widget.file);
+        storage.ref().child(filePath).putBlob(widget.file);
+
     task.snapshotEvents.listen((firebase_storage.TaskSnapshot snapshot) {
       percentUpload =
           (snapshot.bytesTransferred / snapshot.totalBytes) * 100 ?? 0;
-      print('${snapshot.state}');
     }, onError: (e) {
       print(e.toString());
     });
   }
 
   @override
-  Widget build(BuildContext context) {}
+  Widget build(BuildContext context) {
+    if (taskbool) {
+      return Container(
+        child: CircularProgressIndicator(
+          value: percentUpload,
+        ),
+      );
+    } else {
+      return Container(
+        child: Icon(Icons.edit),
+      );
+    }
+  }
 }
 
 class DPUpload extends StatefulWidget {
-  final File file;
   final String id;
 
-  DPUpload({Key key, this.file, this.id}) : super(key: key);
+  DPUpload({Key key, this.id}) : super(key: key);
 
   @override
   _DPUploadState createState() => _DPUploadState();
@@ -52,38 +64,69 @@ class _DPUploadState extends State<DPUpload> {
       firebase_storage.FirebaseStorage.instanceFor(
           bucket: 'gs://skillshare-69b1f.appspot.com');
 
-  firebase_storage.UploadTask _uploadTask;
+  double percentUpload;
+  bool taskbool = false;
 
-  void _startUpload() {
-    String filePath = '/displaypictures/${widget.id}.jpg';
+  void uploadImg({@required Function(File file) onSelected}) {
+    InputElement uploadinp = FileUploadInputElement()..accept = 'image/*';
+    uploadinp.click();
 
-    setState(() {
-      _uploadTask = storage.ref().child(filePath).putFile(widget.file);
+    uploadinp.onChange.listen((event) {
+      final file = uploadinp.files.first;
+      final reader = FileReader();
+      reader.readAsDataUrl(file);
+      reader.onLoadEnd.listen((event) {
+        onSelected(file);
+      });
+    });
+  }
+
+  void upload() {
+    final datetime = DateTime.now();
+    final path = 'profile_picture/${widget.id}/$datetime.jpg';
+    uploadImg(onSelected: (file) {
+      firebase_storage.UploadTask task =
+          storage.ref().child(path).putBlob(file);
+      task.then((_) async {
+        String url = await firebase_storage.FirebaseStorage.instance
+            .ref(path)
+            .getDownloadURL();
+
+        FirebaseFirestore.instance
+            .collection('users')
+            .doc(widget.id)
+            .update({'dpurl': url});
+      });
+      setState(() {
+        taskbool = task != null ? true : false;
+      });
+      task.snapshotEvents.listen((snapshot) {
+        percentUpload =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100 ?? 0;
+      });
+      task.whenComplete(() {
+        taskbool = false;
+      });
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    if (_uploadTask != null) {
-      return StreamBuilder(
-          stream: _uploadTask.snapshotEvents,
-          builder: (context, snapshot) {
-            var event = snapshot?.data?.snapshot;
-
-            double progresspercent = event != null
-                ? event.bytesTransferred / event.totalByteCount
-                : 0;
-            return Container(
-              child: CircularProgressIndicator(
-                value: progresspercent,
-              ),
-            );
-          });
+    if (taskbool) {
+      return Container(
+        child: CircularProgressIndicator(
+          value: percentUpload,
+        ),
+      );
     } else {
       return InkWell(
-        onTap: _startUpload,
+        onTap: () {
+          upload();
+        },
         child: Container(
-          child: Icon(Icons.edit),
+          child: Icon(
+            Icons.edit,
+          ),
         ),
       );
     }

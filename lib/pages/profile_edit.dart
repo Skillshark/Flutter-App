@@ -1,3 +1,4 @@
+import 'dart:io';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
@@ -5,8 +6,6 @@ import 'package:flutter/rendering.dart';
 import 'package:skillshark/components/profile_preview.dart';
 import 'package:skillshark/components/storage_service.dart';
 import 'package:skillshark/extentions/hover_extentions.dart';
-import 'package:image_picker_web/image_picker_web.dart';
-import 'dart:html';
 
 class profileEditScreen extends StatefulWidget {
   @override
@@ -18,19 +17,6 @@ class _profileEditScreenState extends State<profileEditScreen> {
   var linkedInTextConrtoller = TextEditingController();
   var nameTextController = TextEditingController();
   var gitHubTextConrtoller = TextEditingController();
-  File imgUpload;
-
-  Future<File> imgPicker() async {
-    File imageFile = await ImagePickerWeb.getImage(outputType: ImageType.file);
-
-    if (imageFile != null) {
-      debugPrint(imageFile.name.toString());
-    }
-
-    setState(() {
-      imgUpload = imageFile;
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -152,7 +138,7 @@ class _profileEditScreenState extends State<profileEditScreen> {
                                                   blurRadius: 8,
                                                   spreadRadius: 4),
                                             ]),
-                                        child: DPUpload(),
+                                        child: DPUpload(id: currentUser.uid),
                                       ),
                                     ),
                                   ),

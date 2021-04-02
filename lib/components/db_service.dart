@@ -1,5 +1,4 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:skillshark/components/post.dart';
 import 'models.dart';
 
 class DatabaseService {

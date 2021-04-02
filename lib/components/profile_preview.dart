@@ -1,6 +1,5 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:skillshark/components/db_service.dart';
 import 'package:skillshark/components/models.dart';
 
@@ -12,6 +11,7 @@ class profilePreview extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var currentUser = FirebaseAuth.instance.currentUser;
+    String dpurl;
 
     return StreamBuilder<Usr>(
         stream: DatabaseService().getUser(currentUser.uid),
