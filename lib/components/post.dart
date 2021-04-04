@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 
 class post extends StatefulWidget {
   String title;
@@ -20,7 +19,9 @@ class _postState extends State<post> {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () {},
+      onTap: () {
+        Navigator.pushNamed(context, '/video_player');
+      },
       child: Container(
         padding: EdgeInsets.all(8.0),
         width: 300,

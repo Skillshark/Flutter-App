@@ -5,8 +5,10 @@ import 'package:skillshark/components/authentication_services.dart';
 import 'package:skillshark/pages/dashboard.dart';
 import 'package:skillshark/pages/landing.dart';
 import 'package:skillshark/pages/login.dart';
+import 'package:skillshark/pages/post_edit.dart';
 import 'package:skillshark/pages/profile.dart';
 import 'package:skillshark/pages/profile_edit.dart';
+import 'package:skillshark/pages/videoplayer_page.dart';
 import 'pages/signup.dart';
 import 'package:provider/provider.dart';
 
@@ -41,6 +43,8 @@ class SignUpApp extends StatelessWidget {
           '/landing': (context) => landingScreen(),
           '/profile': (context) => profileScreen(),
           '/profile_edit': (context) => profileEditScreen(),
+          '/video_player': (context) => vidPlayer(),
+          '/post_edit': (context) => postEdit(),
         },
       ),
     );

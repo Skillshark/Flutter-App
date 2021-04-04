@@ -1,8 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostdataService {
-  Future<void> postCreate(
-      String postid, String title, List tags, String bio, String userid) async {
+  Future<void> postCreate(String postid, String title, List tags, String bio,
+      String userid, String videoUrl, String thumbnailUrl) async {
     CollectionReference users = FirebaseFirestore.instance.collection('posts');
     users.doc(postid).set({
       'title': title,
@@ -11,12 +11,13 @@ class PostdataService {
       }).toList(),
       'bio': bio,
       'userid': userid,
-      //'videoUrl': videoUrl,
+      'videourl': videoUrl,
+      'thumbnailurl': thumbnailUrl
     });
   }
 
-  Future<void> postEdit(
-      String postid, String title, List tags, String bio, String userid) async {
+  Future<void> postEdit(String postid, String title, List tags, String bio,
+      String userid, String videoUrl, String thumbnailUrl) async {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     users.doc(postid).update({
       'title': title,
@@ -25,6 +26,8 @@ class PostdataService {
       }).toList(),
       'bio': bio,
       'usderid': userid,
+      'videourl': videoUrl,
+      'thumbnail': thumbnailUrl
     });
   }
 }
