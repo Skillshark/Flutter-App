@@ -95,38 +95,6 @@ class _vidPlayerState extends State<vidPlayer> {
                 ],
               ),
             ),
-            //Container(
-            //width: MediaQuery.of(context).size.width * .25,
-            //height: MediaQuery.of(context).size.height,
-            //child: Column(
-            //mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            //children: [
-            //Text(
-            //'Comments',
-            //style: TextStyle(
-            //fontSize: 20,
-            //fontWeight: FontWeight.bold,
-            //),
-            //),
-            //ListView(
-            //children: [
-            ////comments
-            //],
-            //),
-            //Row(
-            //children: [
-            //TextField(
-            //controller: commentController,
-            //),
-            //IconButton(
-            //onPressed: () {},
-            //icon: Icon(Icons.send),
-            //),
-            //],
-            //)
-            //],
-            //),
-            //),
           ],
         ),
       ),

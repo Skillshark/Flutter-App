@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:flutter/cupertino.dart';
+import 'package:skillshark/components/db_service.dart';
+import 'package:skillshark/components/models.dart';
 
 class UserdataService {
   Future<void> userCreate(String uid, String inpname) async {
@@ -17,13 +20,13 @@ class UserdataService {
   }
 
   Future<void> userEdit(String uid, String inpname, String linkedinlink,
-      String githublink, String dpurl) async {
+      String githublink) async {
     CollectionReference users = FirebaseFirestore.instance.collection('users');
+
     users.doc(uid).update({
       'name': inpname,
       'linkedin': linkedinlink,
-      'githublink': githublink,
-      'dpurl': dpurl,
+      'github': githublink,
     });
   }
 }
