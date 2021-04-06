@@ -19,18 +19,19 @@ class _profileEditScreenState extends State<profileEditScreen> {
   var linkedInTextConrtoller = TextEditingController();
   var nameTextController = TextEditingController();
   var gitHubTextConrtoller = TextEditingController();
-  var currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
+    var currentUser = FirebaseAuth.instance.currentUser;
+
     return StreamBuilder<Usr>(
         stream: DatabaseService().getUser(currentUser.uid),
         builder: (context, snapshot) {
-          gitHubTextConrtoller..text = snapshot.data.gitHub ?? '';
-          linkedInTextConrtoller..text = snapshot.data.linkedIn ?? '';
-          nameTextController..text = snapshot.data.name;
-
-          if (snapshot.hasData) {
+          gitHubTextConrtoller..text = snapshot.data.gitHub.toString() ?? '';
+          linkedInTextConrtoller
+            ..text = snapshot.data.linkedIn.toString() ?? '';
+          nameTextController..text = snapshot.data.name.toString() ?? '';
+          if (snapshot.data != null) {
             return Scaffold(
               body: Container(
                 //decoration: BoxDecoration(
@@ -99,13 +100,7 @@ class _profileEditScreenState extends State<profileEditScreen> {
                                   shrinkWrap: true,
                                   children: [
                                     InkWell(
-                                      onTap: () {
-                                        UserdataService().userEdit(
-                                            currentUser.uid,
-                                            nameTextController.text,
-                                            linkedInTextConrtoller.text,
-                                            gitHubTextConrtoller.text);
-                                      },
+                                      onTap: () {},
                                       child: Container(
                                         child: Text(
                                           'Edit Profile',
@@ -235,7 +230,13 @@ class _profileEditScreenState extends State<profileEditScreen> {
                                       height: 20,
                                     ),
                                     InkWell(
-                                      onTap: () {},
+                                      onTap: () {
+                                        UserdataService().userEdit(
+                                            currentUser.uid,
+                                            nameTextController.text,
+                                            linkedInTextConrtoller.text,
+                                            gitHubTextConrtoller.text);
+                                      },
                                       child: Center(
                                         child: Container(
                                           width: MediaQuery.of(context)

@@ -14,23 +14,54 @@ class VidUploader extends StatefulWidget {
 }
 
 class _VidUploaderState extends State<VidUploader> {
-  double percentUpload;
-  bool taskbool;
-
   firebase_storage.FirebaseStorage storage =
       firebase_storage.FirebaseStorage.instanceFor(
           bucket: 'gs://skillshare-69b1f.appspot.com');
 
-  void uploadVideo() async {
-    String filePath = '/videos/${widget.postid}.mp4';
-    firebase_storage.UploadTask task =
-        storage.ref().child(filePath).putBlob(widget.file);
+  double percentUpload;
+  bool taskbool = false;
 
-    task.snapshotEvents.listen((firebase_storage.TaskSnapshot snapshot) {
-      percentUpload =
-          (snapshot.bytesTransferred / snapshot.totalBytes) * 100 ?? 0;
-    }, onError: (e) {
-      print(e.toString());
+  void uploadVid({@required Function(File file) onSelected}) {
+    InputElement uploadinp = FileUploadInputElement()..accept = 'video/*';
+    uploadinp.click();
+
+    uploadinp.onChange.listen((event) {
+      final file = uploadinp.files.first;
+      final reader = FileReader();
+      reader.readAsDataUrl(file);
+      reader.onLoadEnd.listen((event) {
+        onSelected(file);
+        taskbool = false;
+      });
+    });
+  }
+
+  void upload() {
+    final datetime = DateTime.now();
+    final path = 'post_data/${widget.postid}/$datetime.jpg';
+    uploadVid(onSelected: (file) {
+      firebase_storage.UploadTask task =
+          storage.ref().child(path).putBlob(file);
+      task.then((_) async {
+        String url = await firebase_storage.FirebaseStorage.instance
+            .ref(path)
+            .getDownloadURL();
+
+        FirebaseFirestore.instance
+            .collection('post')
+            .doc(widget.postid)
+            .update({'videourl': url});
+      });
+      setState(() {
+        taskbool = task != null ? true : false;
+      });
+      task.snapshotEvents.listen((snapshot) {
+        percentUpload =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100 ?? 0;
+      });
+      task.whenComplete(() {
+        taskbool = false;
+      });
     });
   }
 
@@ -43,8 +74,21 @@ class _VidUploaderState extends State<VidUploader> {
         ),
       );
     } else {
-      return Container(
-        child: Icon(Icons.edit),
+      return InkWell(
+        onTap: () {
+          upload();
+        },
+        child: Container(
+          child: Row(
+            children: [
+              Text(
+                'Uppload Video',
+                style: TextStyle(fontSize: 12.5),
+              ),
+              Icon(Icons.edit),
+            ],
+          ),
+        ),
       );
     }
   }
@@ -77,6 +121,7 @@ class _DPUploadState extends State<DPUpload> {
       reader.readAsDataUrl(file);
       reader.onLoadEnd.listen((event) {
         onSelected(file);
+        taskbool = false;
       });
     });
   }
@@ -114,6 +159,7 @@ class _DPUploadState extends State<DPUpload> {
   Widget build(BuildContext context) {
     if (taskbool) {
       return Container(
+        padding: EdgeInsets.all(2),
         child: CircularProgressIndicator(
           value: percentUpload,
         ),

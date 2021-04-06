@@ -12,7 +12,7 @@ class UserdataService {
 
     CollectionReference users = FirebaseFirestore.instance.collection('users');
     await users.doc(uid).set({
-      'name': inpname,
+      'name': inpname ?? '',
       'linkedin': '',
       'github': '',
       'dpurl': defaultDPURL,

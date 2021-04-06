@@ -16,8 +16,8 @@ class Usr {
     return Usr(
       uid: doc.id,
       name: data['name'] ?? '',
-      linkedIn: data['linkedIn'] ?? '',
-      gitHub: data['gitHub'] ?? '',
+      linkedIn: data['linkedin'] ?? '',
+      gitHub: data['github'] ?? '',
       dplink: data['dpurl'] ?? '',
     );
   }

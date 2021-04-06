@@ -21,8 +21,8 @@ class AuthenticationService {
         await FirebaseAuth.instance.signInWithPopup(googleProvider);
 
     if (googleCred.additionalUserInfo.isNewUser) {
-      await UserdataService().userCreate(_firebaseAuth.currentUser.uid,
-          googleCred.additionalUserInfo.username);
+      await UserdataService().userCreate(
+          _firebaseAuth.currentUser.uid, googleCred.user.displayName);
     }
     return googleCred.user;
   }
