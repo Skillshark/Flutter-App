@@ -12,16 +12,16 @@ class DatabaseService {
         .map((event) => Usr.fromFirestore(event));
   }
 
-  Stream<Post> getPost(String postid) {
+  Stream<Post> getPost(var postid) {
     return _db
-        .collection('post')
+        .collection('posts')
         .doc(postid)
         .snapshots()
         .map((event) => Post.fromFirestore(event));
   }
 
   Stream<List<Post>> streamPost() {
-    var ref = _db.collection('post');
+    var ref = _db.collection('posts');
 
     return ref
         .snapshots()

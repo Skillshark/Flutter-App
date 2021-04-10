@@ -5,6 +5,7 @@ import 'package:skillshark/components/authentication_services.dart';
 import 'package:skillshark/pages/dashboard.dart';
 import 'package:skillshark/pages/landing.dart';
 import 'package:skillshark/pages/login.dart';
+import 'package:skillshark/pages/post_create.dart';
 import 'package:skillshark/pages/post_edit.dart';
 import 'package:skillshark/pages/profile.dart';
 import 'package:skillshark/pages/profile_edit.dart';
@@ -29,24 +30,24 @@ class SignUpApp extends StatelessWidget {
         ),
       ],
       child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        theme: ThemeData(
-          textTheme:
-              GoogleFonts.sourceSansProTextTheme(Theme.of(context).textTheme),
-          primaryColor: Colors.grey,
-        ),
-        routes: {
-          '/': (context) => authenticationWrapper(),
-          '/signup': (context) => signupScreen(),
-          '/login': (context) => loginScreen(),
-          '/dashbord': (context) => dashboardScreen(),
-          '/landing': (context) => landingScreen(),
-          '/profile': (context) => profileScreen(),
-          '/profile_edit': (context) => profileEditScreen(),
-          '/video_player': (context) => vidPlayer(),
-          '/post_edit': (context) => postEdit(),
-        },
-      ),
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            textTheme:
+                GoogleFonts.sourceSansProTextTheme(Theme.of(context).textTheme),
+            primaryColor: Colors.grey,
+          ),
+          routes: {
+            '/': (context) => authenticationWrapper(),
+            '/signup': (context) => signupScreen(),
+            '/login': (context) => loginScreen(),
+            '/dashbord': (context) => dashboardScreen(),
+            '/landing': (context) => landingScreen(),
+            '/profile': (context) => profileScreen(),
+            '/profile_edit': (context) => profileEditScreen(),
+            '/video_player': (context) => vidPlayer(),
+            '/post_edit': (context) => posteditScreen(),
+            '/post_create': (context) => createPost(),
+          }),
     );
   }
 }

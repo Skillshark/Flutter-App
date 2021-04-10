@@ -4,12 +4,14 @@ class post extends StatefulWidget {
   String title;
   String bio;
   String userid;
+  String thumbnailUrl;
 
   post({
     Key key,
     this.title,
     this.bio,
     this.userid,
+    this.thumbnailUrl,
   }) : super(key: key);
   @override
   _postState createState() => _postState();

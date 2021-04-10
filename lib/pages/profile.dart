@@ -222,8 +222,10 @@ class _profileScreenState extends State<profileScreen> {
                 ],
               );
             } else {
-              return Center(
-                child: CircularProgressIndicator(),
+              return Scaffold(
+                body: Center(
+                  child: CircularProgressIndicator(),
+                ),
               );
             }
           }),

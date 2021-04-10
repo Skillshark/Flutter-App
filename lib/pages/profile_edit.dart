@@ -27,11 +27,11 @@ class _profileEditScreenState extends State<profileEditScreen> {
     return StreamBuilder<Usr>(
         stream: DatabaseService().getUser(currentUser.uid),
         builder: (context, snapshot) {
-          gitHubTextConrtoller..text = snapshot.data.gitHub.toString() ?? '';
-          linkedInTextConrtoller
-            ..text = snapshot.data.linkedIn.toString() ?? '';
-          nameTextController..text = snapshot.data.name.toString() ?? '';
           if (snapshot.data != null) {
+            gitHubTextConrtoller..text = snapshot.data.gitHub.toString() ?? '';
+            linkedInTextConrtoller
+              ..text = snapshot.data.linkedIn.toString() ?? '';
+            nameTextController..text = snapshot.data.name.toString() ?? '';
             return Scaffold(
               body: Container(
                 //decoration: BoxDecoration(

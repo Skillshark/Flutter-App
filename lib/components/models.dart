@@ -26,31 +26,38 @@ class Usr {
 class Post {
   final String postid;
   final String title;
-  final List tags;
+  //final List tags;
   final String bio;
   final String userid;
   final String videoUrl;
   final String thumbnailUrl;
+  //final DateTime timestamp;
+  final int likes;
 
   Post(
       {this.postid,
       this.title,
-      this.tags,
+      //this.tags,
       this.bio,
       this.userid,
       this.videoUrl,
-      this.thumbnailUrl});
+      this.thumbnailUrl,
+      //this.timestamp,
+      this.likes});
 
   factory Post.fromFirestore(DocumentSnapshot doc) {
     Map data = doc.data();
 
     return Post(
-        postid: doc.id,
-        title: data['title'] ?? '',
-        tags: data['tags'] ?? '',
-        bio: data['bio'] ?? '',
-        userid: data['userid'] ?? '',
-        videoUrl: data['videourl'] ?? '',
-        thumbnailUrl: data['thumbnailurl'] ?? '');
+      postid: doc.id,
+      title: data['title'] ?? '',
+      //tags: data['tags'] ?? '',
+      bio: data['bio'] ?? '',
+      userid: data['userid'] ?? '',
+      videoUrl: data['videourl'] ?? '',
+      thumbnailUrl: data['thumbnailurl'] ?? '',
+      //timestamp: data['timestamp'] ?? null,
+      likes: data['likes'] ?? null,
+    );
   }
 }

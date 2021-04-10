@@ -54,7 +54,7 @@ class _dashboardScreenState extends State<dashboardScreen> {
                     children: [
                       InkWell(
                         onTap: () {
-                          Navigator.pushNamed(context, '/post_edit');
+                          Navigator.pushNamed(context, '/post_create');
                         },
                         child: Container(
                           height: 25,

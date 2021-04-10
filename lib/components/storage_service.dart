@@ -4,10 +4,9 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'dart:html';
 
 class VidUploader extends StatefulWidget {
-  final File file;
   final String postid;
 
-  VidUploader({Key key, this.file, this.postid}) : super(key: key);
+  VidUploader({Key key, this.postid}) : super(key: key);
 
   @override
   _VidUploaderState createState() => _VidUploaderState();
@@ -38,7 +37,7 @@ class _VidUploaderState extends State<VidUploader> {
 
   void upload() {
     final datetime = DateTime.now();
-    final path = 'post_data/${widget.postid}/$datetime.jpg';
+    final path = 'post_data/${widget.postid}/$datetime.mp4';
     uploadVid(onSelected: (file) {
       firebase_storage.UploadTask task =
           storage.ref().child(path).putBlob(file);
@@ -85,7 +84,97 @@ class _VidUploaderState extends State<VidUploader> {
                 'Uppload Video',
                 style: TextStyle(fontSize: 12.5),
               ),
-              Icon(Icons.edit),
+              Icon(Icons.upload_file),
+            ],
+          ),
+        ),
+      );
+    }
+  }
+}
+
+class ThumbnailUpload extends StatefulWidget {
+  final String postid;
+
+  ThumbnailUpload({Key key, this.postid}) : super(key: key);
+
+  @override
+  _ThumbnailUploadState createState() => _ThumbnailUploadState();
+}
+
+class _ThumbnailUploadState extends State<ThumbnailUpload> {
+  firebase_storage.FirebaseStorage storage =
+      firebase_storage.FirebaseStorage.instanceFor(
+          bucket: 'gs://skillshare-69b1f.appspot.com');
+
+  double percentUpload;
+  bool taskbool = false;
+
+  void uploadVid({@required Function(File file) onSelected}) {
+    InputElement uploadinp = FileUploadInputElement()..accept = 'image/*';
+    uploadinp.click();
+
+    uploadinp.onChange.listen((event) {
+      final file = uploadinp.files.first;
+      final reader = FileReader();
+      reader.readAsDataUrl(file);
+      reader.onLoadEnd.listen((event) {
+        onSelected(file);
+        taskbool = false;
+      });
+    });
+  }
+
+  void upload() {
+    final datetime = DateTime.now();
+    final path = 'post_data/${widget.postid}/$datetime.jpg';
+    uploadVid(onSelected: (file) {
+      firebase_storage.UploadTask task =
+          storage.ref().child(path).putBlob(file);
+      task.then((_) async {
+        String url = await firebase_storage.FirebaseStorage.instance
+            .ref(path)
+            .getDownloadURL();
+
+        FirebaseFirestore.instance
+            .collection('post')
+            .doc(widget.postid)
+            .update({'thumbnailurl': url});
+      });
+      setState(() {
+        taskbool = task != null ? true : false;
+      });
+      task.snapshotEvents.listen((snapshot) {
+        percentUpload =
+            (snapshot.bytesTransferred / snapshot.totalBytes) * 100 ?? 0;
+      });
+      task.whenComplete(() {
+        taskbool = false;
+      });
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    if (taskbool) {
+      return Container(
+        child: CircularProgressIndicator(
+          value: percentUpload,
+        ),
+      );
+    } else {
+      return InkWell(
+        onTap: () {
+          upload();
+        },
+        child: Container(
+          child: Row(
+            children: [
+              Text(
+                'Uppload Video',
+                style: TextStyle(fontSize: 12.5),
+              ),
+              Icon(Icons.upload_file),
             ],
           ),
         ),
