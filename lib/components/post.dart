@@ -34,9 +34,7 @@ class _postState extends State<post> {
                       height: 200,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(
-                            'https://firebasestorage.googleapis.com/v0/b/skillshare-69b1f.appspot.com/o/defaults%2Fsignup.jpg?alt=media&token=7c44d9eb-9038-4327-a03a-c4df316ebc27',
-                          ),
+                          image: NetworkImage(snapshot.data.thumbnailUrl),
                           fit: BoxFit.cover,
                         ),
                         borderRadius: BorderRadius.circular(8),
@@ -68,7 +66,7 @@ class _postState extends State<post> {
                                       Icons.thumb_up_alt_outlined,
                                       size: 12.5,
                                     ),
-                                    Text('6.6k'),
+                                    Text(snapshot.data.likes.toString()),
                                     SizedBox(
                                       width: 1,
                                     ),
