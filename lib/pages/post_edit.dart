@@ -27,9 +27,8 @@ class _posteditScreenState extends State<posteditScreen> {
     return StreamBuilder<Post>(
         stream: DatabaseService().getPost(widget.postid),
         builder: (context, snapshot) {
-          print(snapshot.data);
-          print(widget.postid);
           if (snapshot.hasData) {
+            titleController..text = snapshot.data.title;
             return Scaffold(
               floatingActionButton: FloatingActionButton.extended(
                 onPressed: () {
@@ -38,6 +37,7 @@ class _posteditScreenState extends State<posteditScreen> {
                       titleController.text,
                       tagController.text.split(","),
                       bioController.text);
+                  Navigator.pushNamed(context, '/');
                 },
                 icon: Icon(Icons.upload_outlined),
                 label: Text('Upload'),

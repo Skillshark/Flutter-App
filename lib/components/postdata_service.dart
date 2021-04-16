@@ -5,19 +5,17 @@ class PostdataService {
     CollectionReference post = FirebaseFirestore.instance.collection('posts');
     post.doc(postid).set({
       'title': title,
-      //'tags': [],
-      'bio': '',
       'userid': userid,
       'videourl': '',
       'thumbnailurl': '',
-      //'timestamp': DateTime.now(),
+      'timestamp': FieldValue.serverTimestamp(),
       'likes': 0,
     });
   }
 
   Future<void> postEdit(
       String postid, String title, List tags, String bio) async {
-    CollectionReference post = FirebaseFirestore.instance.collection('users');
+    CollectionReference post = FirebaseFirestore.instance.collection('posts');
     post.doc(postid).update({
       'title': title,
       'tags': tags.map((e) {

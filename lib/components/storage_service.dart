@@ -30,7 +30,6 @@ class _VidUploaderState extends State<VidUploader> {
       reader.readAsDataUrl(file);
       reader.onLoadEnd.listen((event) {
         onSelected(file);
-        taskbool = false;
       });
     });
   }
@@ -47,19 +46,16 @@ class _VidUploaderState extends State<VidUploader> {
             .getDownloadURL();
 
         FirebaseFirestore.instance
-            .collection('post')
+            .collection('posts')
             .doc(widget.postid)
             .update({'videourl': url});
-      });
-      setState(() {
-        taskbool = task != null ? true : false;
       });
       task.snapshotEvents.listen((snapshot) {
         percentUpload =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100 ?? 0;
       });
       task.whenComplete(() {
-        taskbool = false;
+        taskbool = !taskbool;
       });
     });
   }
@@ -77,11 +73,11 @@ class _VidUploaderState extends State<VidUploader> {
         onTap: () {
           upload();
         },
-        child: Container(
+        child: Center(
           child: Row(
             children: [
               Text(
-                'Uppload Video',
+                'Upload Video',
                 style: TextStyle(fontSize: 12.5),
               ),
               Icon(Icons.upload_file),
@@ -120,7 +116,6 @@ class _ThumbnailUploadState extends State<ThumbnailUpload> {
       reader.readAsDataUrl(file);
       reader.onLoadEnd.listen((event) {
         onSelected(file);
-        taskbool = false;
       });
     });
   }
@@ -137,12 +132,9 @@ class _ThumbnailUploadState extends State<ThumbnailUpload> {
             .getDownloadURL();
 
         FirebaseFirestore.instance
-            .collection('post')
+            .collection('posts')
             .doc(widget.postid)
             .update({'thumbnailurl': url});
-      });
-      setState(() {
-        taskbool = task != null ? true : false;
       });
       task.snapshotEvents.listen((snapshot) {
         percentUpload =
@@ -167,11 +159,11 @@ class _ThumbnailUploadState extends State<ThumbnailUpload> {
         onTap: () {
           upload();
         },
-        child: Container(
+        child: Center(
           child: Row(
             children: [
               Text(
-                'Uppload Video',
+                'Upload Thumbnail',
                 style: TextStyle(fontSize: 12.5),
               ),
               Icon(Icons.upload_file),
@@ -210,14 +202,12 @@ class _DPUploadState extends State<DPUpload> {
       reader.readAsDataUrl(file);
       reader.onLoadEnd.listen((event) {
         onSelected(file);
-        taskbool = false;
       });
     });
   }
 
   void upload() {
-    final datetime = DateTime.now();
-    final path = 'profile_picture/${widget.id}/$datetime.jpg';
+    final path = 'profile_picture/${widget.id}/dp.jpg';
     uploadImg(onSelected: (file) {
       firebase_storage.UploadTask task =
           storage.ref().child(path).putBlob(file);
@@ -231,15 +221,12 @@ class _DPUploadState extends State<DPUpload> {
             .doc(widget.id)
             .update({'dpurl': url});
       });
-      setState(() {
-        taskbool = task != null ? true : false;
-      });
       task.snapshotEvents.listen((snapshot) {
         percentUpload =
             (snapshot.bytesTransferred / snapshot.totalBytes) * 100 ?? 0;
       });
       task.whenComplete(() {
-        taskbool = false;
+        taskbool = !taskbool;
       });
     });
   }
@@ -248,7 +235,7 @@ class _DPUploadState extends State<DPUpload> {
   Widget build(BuildContext context) {
     if (taskbool) {
       return Container(
-        padding: EdgeInsets.all(2),
+        padding: EdgeInsets.all(5),
         child: CircularProgressIndicator(
           value: percentUpload,
         ),
