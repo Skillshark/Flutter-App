@@ -24,4 +24,16 @@ class PostdataService {
       'bio': bio,
     });
   }
+
+  Future<void> createComment(String postid, String commentTxt, String userid) {
+    CollectionReference comment = FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postid)
+        .collection('comments');
+    comment.add({
+      'userid': userid,
+      'commentTxt': commentTxt,
+      'timestamp': FieldValue.serverTimestamp(),
+    });
+  }
 }

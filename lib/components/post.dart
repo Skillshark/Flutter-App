@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:skillshark/components/db_service.dart';
 import 'package:skillshark/components/models.dart';
+import 'package:skillshark/pages/videoplayer_page.dart';
 
 class post extends StatefulWidget {
   String postid;
@@ -22,7 +23,12 @@ class _postState extends State<post> {
           if (snapshot.hasData) {
             return InkWell(
               onTap: () {
-                Navigator.pushNamed(context, '/video_player');
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => vidPlayer(postid: widget.postid),
+                  ),
+                );
               },
               child: Container(
                 padding: EdgeInsets.all(8.0),
@@ -34,7 +40,9 @@ class _postState extends State<post> {
                       height: 200,
                       decoration: BoxDecoration(
                         image: DecorationImage(
-                          image: NetworkImage(snapshot.data.thumbnailUrl),
+                          image: NetworkImage(snapshot.data.thumbnailUrl != ''
+                              ? snapshot.data.thumbnailUrl
+                              : 'https://firebasestorage.googleapis.com/v0/b/skillshare-69b1f.appspot.com/o/defaults%2Fdownload.png?alt=media&token=442cd51b-fd5a-477a-aebd-8af3599ae9a9'),
                           fit: BoxFit.cover,
                         ),
                         borderRadius: BorderRadius.circular(8),
@@ -49,10 +57,20 @@ class _postState extends State<post> {
                             children: [
                               //add profile
                               Container(
-                                child: Text(
-                                  'Saswat Nayak',
-                                  style: TextStyle(fontWeight: FontWeight.w900),
-                                ),
+                                child: StreamBuilder<Usr>(
+                                    stream: DatabaseService()
+                                        .getUser(snapshot.data.userid),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        return Text(
+                                          snapshot.data.name,
+                                          style: TextStyle(
+                                              fontWeight: FontWeight.w900),
+                                        );
+                                      } else {
+                                        return Text('');
+                                      }
+                                    }),
                               ),
                             ],
                           ),
@@ -97,11 +115,11 @@ class _postState extends State<post> {
                     padding: EdgeInsets.all(8.0),
                     height: 200,
                     decoration: BoxDecoration(
-                      image: DecorationImage(
-                        image: AssetImage('images/download.png'),
-                        fit: BoxFit.cover,
-                      ),
+                      color: Colors.grey,
                       borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Center(
+                      child: Icon(Icons.image_not_supported),
                     ),
                   ),
                   Container(

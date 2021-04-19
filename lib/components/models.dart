@@ -54,9 +54,11 @@ class Post {
       tags: data['tags'] ?? null,
       bio: data['bio'] ?? '',
       userid: data['userid'] ?? '',
-      videoUrl: data['videourl'] ?? '',
-      thumbnailUrl: data['thumbnailurl'] ?? '',
-      timestamp: data['timestamp'].toDate(),
+      videoUrl: data['videourl'] ??
+          'https://firebasestorage.googleapis.com/v0/b/skillshare-69b1f.appspot.com/o/defaults%2Fvideo.mp4?alt=media&token=102033f6-b5b8-4578-acb6-18103b2bae42',
+      thumbnailUrl: data['thumbnailurl'] ??
+          'https://firebasestorage.googleapis.com/v0/b/skillshare-69b1f.appspot.com/o/defaults%2Fdownload.png?alt=media&token=442cd51b-fd5a-477a-aebd-8af3599ae9a9',
+      timestamp: data['timestamp'].toDate() ?? DateTime.now(),
       likes: data['likes'] ?? 0,
     );
   }

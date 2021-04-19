@@ -40,6 +40,7 @@ class _VidUploaderState extends State<VidUploader> {
     uploadVid(onSelected: (file) {
       firebase_storage.UploadTask task =
           storage.ref().child(path).putBlob(file);
+
       task.then((_) async {
         String url = await firebase_storage.FirebaseStorage.instance
             .ref(path)
@@ -75,6 +76,7 @@ class _VidUploaderState extends State<VidUploader> {
         },
         child: Center(
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 'Upload Video',
@@ -161,6 +163,7 @@ class _ThumbnailUploadState extends State<ThumbnailUpload> {
         },
         child: Center(
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text(
                 'Upload Thumbnail',

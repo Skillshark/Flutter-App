@@ -32,12 +32,9 @@ class _posteditScreenState extends State<posteditScreen> {
             return Scaffold(
               floatingActionButton: FloatingActionButton.extended(
                 onPressed: () {
-                  PostdataService().postEdit(
-                      widget.postid,
-                      titleController.text,
-                      tagController.text.split(","),
-                      bioController.text);
-                  Navigator.pushNamed(context, '/');
+                  List taglist = tagController.text.split(',');
+                  PostdataService().postEdit(widget.postid,
+                      titleController.text, taglist, bioController.text);
                 },
                 icon: Icon(Icons.upload_outlined),
                 label: Text('Upload'),
