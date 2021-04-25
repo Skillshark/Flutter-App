@@ -32,7 +32,7 @@ class Post {
   final String videoUrl;
   final String thumbnailUrl;
   DateTime timestamp;
-  final int likes;
+  final int upvote;
 
   Post(
       {this.postid,
@@ -43,7 +43,7 @@ class Post {
       this.videoUrl,
       this.thumbnailUrl,
       this.timestamp,
-      this.likes});
+      this.upvote});
 
   factory Post.fromFirestore(DocumentSnapshot doc) {
     Map data = doc.data();
@@ -59,7 +59,36 @@ class Post {
       thumbnailUrl: data['thumbnailurl'] ??
           'https://firebasestorage.googleapis.com/v0/b/skillshare-69b1f.appspot.com/o/defaults%2Fdownload.png?alt=media&token=442cd51b-fd5a-477a-aebd-8af3599ae9a9',
       timestamp: data['timestamp'].toDate() ?? DateTime.now(),
-      likes: data['likes'] ?? 0,
+      upvote: data['upvote'] ?? 0,
     );
+  }
+}
+
+class Comment {
+  final commentid;
+  final String userid;
+  final String commentTxt;
+  final DateTime time;
+  final int upvote;
+  final int downvote;
+
+  Comment(
+      {this.commentid,
+      this.commentTxt,
+      this.userid,
+      this.time,
+      this.upvote,
+      this.downvote});
+
+  factory Comment.fromFirestore(DocumentSnapshot doc) {
+    Map data = doc.data();
+
+    return Comment(
+        commentid: doc.id,
+        userid: data['userid'] ?? '',
+        commentTxt: data['commentTxt'] ?? '',
+        time: data['time'] ?? DateTime.now(),
+        upvote: data['upvote'] ?? 0,
+        downvote: data['downvote']);
   }
 }

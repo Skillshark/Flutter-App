@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 class PostdataService {
   Future<void> postCreate(String postid, String title, String userid) async {
+    List empty = [];
     CollectionReference post = FirebaseFirestore.instance.collection('posts');
     post.doc(postid).set({
       'title': title,
@@ -9,7 +10,11 @@ class PostdataService {
       'videourl': '',
       'thumbnailurl': '',
       'timestamp': FieldValue.serverTimestamp(),
-      'likes': 0,
+      'tags': empty.map((e) {
+        return e.toMap();
+      }).toList(),
+      'bio': '',
+      'upvotes': 0,
     });
   }
 

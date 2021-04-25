@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:skillshark/components/db_service.dart';
 import 'package:skillshark/components/models.dart';
+import 'package:skillshark/components/postdata_service.dart';
 import 'package:skillshark/components/profile_preview.dart';
 import 'package:skillshark/components/video_player.dart';
 
@@ -15,6 +19,7 @@ class vidPlayer extends StatefulWidget {
 class _vidPlayerState extends State<vidPlayer> {
   var commentController = TextEditingController();
   var searchTextController = TextEditingController();
+  var currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -155,8 +160,7 @@ class _vidPlayerState extends State<vidPlayer> {
                                         ],
                                       ),
                                     ),
-                                    Text(
-                                        'This will be the bio of the video given above')
+                                    Text(snapshot.data.bio ?? ''),
                                   ],
                                 ),
                               )
@@ -189,14 +193,25 @@ class _vidPlayerState extends State<vidPlayer> {
                                 ),
                               ),
                               Container(
-                                height: 15,
+                                height: 25,
                                 child: TextField(
                                   controller: commentController,
                                   decoration: InputDecoration(
                                     hintText: 'Write your comment here',
                                     hintStyle: TextStyle(
-                                        fontSize: 15, color: Colors.grey),
+                                      fontSize: 15,
+                                      color: Colors.grey,
+                                    ),
                                     labelText: 'Comment',
+                                    suffixIcon: IconButton(
+                                      icon: Icon(Icons.send),
+                                      onPressed: () {
+                                        PostdataService().createComment(
+                                            snapshot.data.postid,
+                                            commentController.text,
+                                            currentUser.uid);
+                                      },
+                                    ),
                                   ),
                                 ),
                               )

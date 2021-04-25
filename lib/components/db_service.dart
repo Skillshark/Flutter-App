@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:skillshark/components/post.dart';
 import 'models.dart';
 
 class DatabaseService {
@@ -25,5 +26,22 @@ class DatabaseService {
 
     return ref.snapshots().map(
         (list) => list.docs.map((doc) => Post.fromFirestore(doc)).toList());
+  }
+
+  Stream<Comment> getComment(var postid, var commentid) {
+    return _db
+        .collection('posts')
+        .doc(postid)
+        .collection('comments')
+        .doc(commentid)
+        .snapshots()
+        .map((event) => Comment.fromFirestore(event));
+  }
+
+  Stream<List<Comment>> streamComment(var postid) {
+    var ref = _db.collection('posts').doc(postid).collection('comments');
+
+    return ref.snapshots().map(
+        (list) => list.docs.map((doc) => Comment.fromFirestore(doc)).toList());
   }
 }

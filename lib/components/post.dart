@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:skillshark/components/db_service.dart';
 import 'package:skillshark/components/models.dart';
@@ -15,6 +16,8 @@ class post extends StatefulWidget {
 }
 
 class _postState extends State<post> {
+  var currentUser = FirebaseAuth.instance.currentUser;
+
   @override
   Widget build(BuildContext context) {
     return StreamBuilder<Post>(
@@ -23,12 +26,16 @@ class _postState extends State<post> {
           if (snapshot.hasData) {
             return InkWell(
               onTap: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => vidPlayer(postid: widget.postid),
-                  ),
-                );
+                if (currentUser != null) {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => vidPlayer(postid: widget.postid),
+                    ),
+                  );
+                } else {
+                  Navigator.pushNamed(context, '/login');
+                }
               },
               child: Container(
                 padding: EdgeInsets.all(8.0),
@@ -84,7 +91,7 @@ class _postState extends State<post> {
                                       Icons.thumb_up_alt_outlined,
                                       size: 12.5,
                                     ),
-                                    Text(snapshot.data.likes.toString()),
+                                    Text(snapshot.data.upvote.toString()),
                                     SizedBox(
                                       width: 1,
                                     ),
