@@ -1,5 +1,6 @@
 import 'dart:html';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:skillshark/components/db_service.dart';
 import 'package:skillshark/components/models.dart';
@@ -21,6 +22,7 @@ class _posteditScreenState extends State<posteditScreen> {
   var bioController = TextEditingController();
   var tagController = TextEditingController();
   var searchTextController = TextEditingController();
+  var currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -116,7 +118,7 @@ class _posteditScreenState extends State<posteditScreen> {
                                   child: Container(
                                     height: 30,
                                     width: 30,
-                                    child: profilePreview(15),
+                                    child: profilePreview(15, currentUser.uid),
                                   ),
                                 ),
                               ],

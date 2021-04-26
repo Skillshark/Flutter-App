@@ -17,6 +17,7 @@ class profileScreen extends StatefulWidget {
 class _profileScreenState extends State<profileScreen> {
   var searchTextController = TextEditingController();
   final db = FirebaseFirestore.instance;
+  var currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -126,6 +127,7 @@ class _profileScreenState extends State<profileScreen> {
                                   padding: EdgeInsets.all(8),
                                   child: profilePreview(
                                     MediaQuery.of(context).size.width * .2 / 2,
+                                    currentUser.uid,
                                   ),
                                 ),
                               ),

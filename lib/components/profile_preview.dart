@@ -4,24 +4,25 @@ import 'package:skillshark/components/db_service.dart';
 import 'package:skillshark/components/models.dart';
 
 class profilePreview extends StatelessWidget {
-  profilePreview(this.radius);
+  profilePreview(this.radius, this.userid);
 
   double radius;
+  String userid;
 
   @override
   Widget build(BuildContext context) {
-    var currentUser = FirebaseAuth.instance.currentUser;
-    String dpurl;
-
     return StreamBuilder<Usr>(
-        stream: DatabaseService().getUser(currentUser.uid),
+        stream: DatabaseService().getUser(userid),
         builder: (context, snapshot) {
           if (snapshot.hasData) {
             return CircleAvatar(
               radius: radius,
-              child: ClipOval(
-                child: Image(
-                  image: NetworkImage(snapshot.data.dplink),
+              child: Container(
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                      image: NetworkImage(snapshot.data.dplink),
+                      fit: BoxFit.contain),
                 ),
               ),
             );

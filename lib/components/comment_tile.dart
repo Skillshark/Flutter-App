@@ -6,8 +6,10 @@ import 'package:skillshark/components/profile_preview.dart';
 class CommentTile extends StatefulWidget {
   String commentid;
   String postid;
+  double width;
 
-  CommentTile({Key key, this.commentid, this.postid}) : super(key: key);
+  CommentTile({Key key, this.commentid, this.postid, this.width})
+      : super(key: key);
 
   @override
   _CommentTileState createState() => _CommentTileState();
@@ -16,44 +18,51 @@ class CommentTile extends StatefulWidget {
 class _CommentTileState extends State<CommentTile> {
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder<Comment>(
-        stream: DatabaseService().getComment(widget.postid, widget.commentid),
-        builder: (context, snapshot) {
-          return Container(
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
+    return Container(
+      width: widget.width,
+      child: StreamBuilder<Comment>(
+          stream: DatabaseService().getComment(widget.postid, widget.commentid),
+          builder: (context, snapshot) {
+            if (snapshot.hasData) {
+              return Container(
+                child: Column(
                   children: [
-                    profilePreview(10),
                     StreamBuilder<Usr>(
                         stream: DatabaseService().getUser(snapshot.data.userid),
                         builder: (context, snapshot) {
-                          return Text(snapshot.data.name ?? '');
+                          return Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(snapshot.data.name ?? ''),
+                              profilePreview(10, snapshot.data.uid),
+                            ],
+                          );
                         }),
+                    Expanded(
+                      child: Text(snapshot.data.commentTxt),
+                    ),
+                    Container(
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.arrow_upward_rounded),
+                          ),
+                          IconButton(
+                            onPressed: () {},
+                            icon: Icon(Icons.arrow_upward_rounded),
+                          ),
+                        ],
+                      ),
+                    )
                   ],
                 ),
-                Expanded(
-                  child: Text(snapshot.data.commentTxt),
-                ),
-                Container(
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.arrow_upward_rounded),
-                      ),
-                      IconButton(
-                        onPressed: () {},
-                        icon: Icon(Icons.arrow_upward_rounded),
-                      ),
-                    ],
-                  ),
-                )
-              ],
-            ),
-          );
-        });
+              );
+            } else {
+              return CircularProgressIndicator();
+            }
+          }),
+    );
   }
 }

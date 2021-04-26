@@ -1,3 +1,4 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:skillshark/components/db_service.dart';
 import 'package:skillshark/components/models.dart';
@@ -15,6 +16,7 @@ class dashboardScreen extends StatefulWidget {
 
 class _dashboardScreenState extends State<dashboardScreen> {
   var searchTextController = TextEditingController();
+  var currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -98,7 +100,7 @@ class _dashboardScreenState extends State<dashboardScreen> {
                                 child: Container(
                                   height: 30,
                                   width: 30,
-                                  child: profilePreview(15),
+                                  child: profilePreview(15, currentUser.uid),
                                 ),
                               ),
                             ],

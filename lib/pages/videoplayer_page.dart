@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:skillshark/components/comment_tile.dart';
 import 'package:skillshark/components/db_service.dart';
 import 'package:skillshark/components/models.dart';
 import 'package:skillshark/components/postdata_service.dart';
@@ -99,7 +100,7 @@ class _vidPlayerState extends State<vidPlayer> {
                         child: Container(
                           height: 30,
                           width: 30,
-                          child: profilePreview(15),
+                          child: profilePreview(15, currentUser.uid),
                         ),
                       ),
                     ],
@@ -112,6 +113,8 @@ class _vidPlayerState extends State<vidPlayer> {
               stream: DatabaseService().getPost(widget.postid),
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
+                  var postid = snapshot.data.postid;
+
                   return Container(
                     height: MediaQuery.of(context).size.height - 40,
                     child: Row(
@@ -149,13 +152,17 @@ class _vidPlayerState extends State<vidPlayer> {
                                               stream: DatabaseService().getUser(
                                                   snapshot.data.userid),
                                               builder: (context, snapshot) {
-                                                return Text(
-                                                  snapshot.data.name ?? '',
-                                                  style: TextStyle(
-                                                      fontSize: 20,
-                                                      fontWeight:
-                                                          FontWeight.w500),
-                                                );
+                                                if (snapshot.hasData) {
+                                                  return Text(
+                                                    snapshot.data.name ?? '',
+                                                    style: TextStyle(
+                                                        fontSize: 20,
+                                                        fontWeight:
+                                                            FontWeight.w500),
+                                                  );
+                                                } else {
+                                                  return Text('');
+                                                }
                                               })
                                         ],
                                       ),
@@ -186,11 +193,31 @@ class _vidPlayerState extends State<vidPlayer> {
                               Container(
                                 height:
                                     MediaQuery.of(context).size.height * .50,
-                                child: ListView(
-                                  children: [
-                                    //commentstiles
-                                  ],
-                                ),
+                                child: StreamBuilder<List<Comment>>(
+                                    stream: DatabaseService()
+                                        .streamComment(snapshot.data.postid),
+                                    builder: (context, snapshot) {
+                                      if (snapshot.hasData) {
+                                        if (snapshot.data.length == 0) {
+                                          return ListView.builder(
+                                            itemCount: snapshot.data.length,
+                                            itemBuilder: (BuildContext context,
+                                                int index) {
+                                              return CommentTile(
+                                                postid: postid,
+                                                commentid: snapshot.data
+                                                    .elementAt(index)
+                                                    .commentid,
+                                              );
+                                            },
+                                          );
+                                        } else {
+                                          return Text('No comments');
+                                        }
+                                      } else {
+                                        return CircularProgressIndicator();
+                                      }
+                                    }),
                               ),
                               Container(
                                 height: 25,
@@ -206,6 +233,7 @@ class _vidPlayerState extends State<vidPlayer> {
                                     suffixIcon: IconButton(
                                       icon: Icon(Icons.send),
                                       onPressed: () {
+                                        commentController..text = '';
                                         PostdataService().createComment(
                                             snapshot.data.postid,
                                             commentController.text,

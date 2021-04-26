@@ -19,6 +19,7 @@ class _profileEditScreenState extends State<profileEditScreen> {
   var linkedInTextConrtoller = TextEditingController();
   var nameTextController = TextEditingController();
   var gitHubTextConrtoller = TextEditingController();
+  var currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -138,6 +139,7 @@ class _profileEditScreenState extends State<profileEditScreen> {
                                                         .width *
                                                     .2 /
                                                     2,
+                                                currentUser.uid,
                                               ),
                                             ),
                                           ),

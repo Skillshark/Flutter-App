@@ -102,7 +102,7 @@ class createPost extends StatelessWidget {
                           child: Container(
                             height: 30,
                             width: 30,
-                            child: profilePreview(15),
+                            child: profilePreview(15, currentUser.uid),
                           ),
                         ),
                       ],
