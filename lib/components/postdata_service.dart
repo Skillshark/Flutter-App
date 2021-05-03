@@ -52,7 +52,49 @@ class PostdataService {
 
     FirebaseFirestore.instance.runTransaction((transaction) async {
       DocumentSnapshot snap = await transaction.get(comment);
-      await transaction.update(comment, {
+      transaction.update(comment, {
+        'upvotes': snap['upvotes'] + 1,
+      });
+    });
+  }
+
+  Future<void> commentUpvote(var postid, var commentid) {
+    DocumentReference comment = FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postid)
+        .collection('comments')
+        .doc(commentid);
+
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      DocumentSnapshot snap = await transaction.get(comment);
+      transaction.update(comment, {
+        'upvote': snap['upvote'] + 1,
+      });
+    });
+  }
+
+  Future<void> commentDownvote(var postid, var commentid) {
+    DocumentReference comment = FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postid)
+        .collection('comments')
+        .doc(commentid);
+
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      DocumentSnapshot snap = await transaction.get(comment);
+      transaction.update(comment, {
+        'downvote': snap['downvote'] + 1,
+      });
+    });
+  }
+
+  Future<void> postLike(var postid) {
+    DocumentReference comment =
+        FirebaseFirestore.instance.collection('posts').doc(postid);
+
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      DocumentSnapshot snap = await transaction.get(comment);
+      transaction.update(comment, {
         'upvotes': snap['upvotes'] + 1,
       });
     });
