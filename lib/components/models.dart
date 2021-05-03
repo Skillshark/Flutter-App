@@ -89,6 +89,6 @@ class Comment {
         commentTxt: data['commentTxt'] ?? '',
         time: data['time'] ?? DateTime.now(),
         upvote: data['upvote'] ?? 0,
-        downvote: data['downvote']);
+        downvote: data['downvote'] ?? 0);
   }
 }

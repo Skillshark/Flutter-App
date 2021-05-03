@@ -1,8 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
 
 class PostdataService {
   Future<void> postCreate(String postid, String title, String userid) async {
-    List empty = [];
+    List<String> empty = [];
     CollectionReference post = FirebaseFirestore.instance.collection('posts');
     post.doc(postid).set({
       'title': title,
@@ -10,9 +11,7 @@ class PostdataService {
       'videourl': '',
       'thumbnailurl': '',
       'timestamp': FieldValue.serverTimestamp(),
-      'tags': empty.map((e) {
-        return e.toMap();
-      }).toList(),
+      'tags': empty.toList(),
       'bio': '',
       'upvotes': 0,
     });
@@ -39,6 +38,23 @@ class PostdataService {
       'userid': userid,
       'commentTxt': commentTxt,
       'timestamp': FieldValue.serverTimestamp(),
+      'upvote': 0,
+      'downvote': 0,
+    });
+  }
+
+  Future<void> commentLike(var postid, var commentid) {
+    DocumentReference comment = FirebaseFirestore.instance
+        .collection('posts')
+        .doc(postid)
+        .collection('comments')
+        .doc(commentid);
+
+    FirebaseFirestore.instance.runTransaction((transaction) async {
+      DocumentSnapshot snap = await transaction.get(comment);
+      await transaction.update(comment, {
+        'upvotes': snap['upvotes'] + 1,
+      });
     });
   }
 }

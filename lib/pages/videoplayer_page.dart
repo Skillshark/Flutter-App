@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -21,6 +23,7 @@ class _vidPlayerState extends State<vidPlayer> {
   var commentController = TextEditingController();
   var searchTextController = TextEditingController();
   var currentUser = FirebaseAuth.instance.currentUser;
+  bool postlike;
 
   @override
   Widget build(BuildContext context) {
@@ -135,38 +138,67 @@ class _vidPlayerState extends State<vidPlayer> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
-                                    Text(
-                                      snapshot.data.title,
-                                      style: TextStyle(
-                                        fontSize: 30,
-                                        fontWeight: FontWeight.bold,
-                                      ),
+                                    Column(
+                                      children: [
+                                        Text(
+                                          snapshot.data.title,
+                                          style: TextStyle(
+                                            fontSize: 30,
+                                            fontWeight: FontWeight.bold,
+                                          ),
+                                        ),
+                                      ],
                                     ),
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        Text(
+                                          snapshot.data.timestamp
+                                              .toIso8601String(),
+                                          style: TextStyle(
+                                            fontSize: 20,
+                                            fontWeight: FontWeight.w300,
+                                          ),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {},
+                                          icon:
+                                              Icon(Icons.arrow_upward_rounded),
+                                        ),
+                                      ],
+                                    ),
+                                    Divider(),
                                     Container(
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.start,
-                                        children: [
-                                          //profilePreview(20),
-                                          StreamBuilder<Usr>(
-                                              stream: DatabaseService().getUser(
-                                                  snapshot.data.userid),
-                                              builder: (context, snapshot) {
-                                                if (snapshot.hasData) {
-                                                  return Text(
+                                      child: StreamBuilder<Usr>(
+                                          stream: DatabaseService()
+                                              .getUser(snapshot.data.userid),
+                                          builder: (context, snapshot) {
+                                            if (snapshot.hasData) {
+                                              return Row(
+                                                mainAxisAlignment:
+                                                    MainAxisAlignment.start,
+                                                children: [
+                                                  profilePreview(
+                                                      20, snapshot.data.uid),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text(
                                                     snapshot.data.name ?? '',
                                                     style: TextStyle(
                                                         fontSize: 20,
                                                         fontWeight:
                                                             FontWeight.w500),
-                                                  );
-                                                } else {
-                                                  return Text('');
-                                                }
-                                              })
-                                        ],
-                                      ),
+                                                  ),
+                                                ],
+                                              );
+                                            } else {
+                                              return Text('');
+                                            }
+                                          }),
                                     ),
+                                    Divider(),
                                     Text(snapshot.data.bio ?? ''),
                                   ],
                                 ),
@@ -198,12 +230,18 @@ class _vidPlayerState extends State<vidPlayer> {
                                         .streamComment(snapshot.data.postid),
                                     builder: (context, snapshot) {
                                       if (snapshot.hasData) {
-                                        if (snapshot.data.length == 0) {
+                                        if (snapshot.data.length != 0) {
                                           return ListView.builder(
+                                            shrinkWrap: true,
                                             itemCount: snapshot.data.length,
                                             itemBuilder: (BuildContext context,
                                                 int index) {
                                               return CommentTile(
+                                                width: MediaQuery.of(context)
+                                                            .size
+                                                            .width *
+                                                        .25 -
+                                                    1,
                                                 postid: postid,
                                                 commentid: snapshot.data
                                                     .elementAt(index)
@@ -215,13 +253,16 @@ class _vidPlayerState extends State<vidPlayer> {
                                           return Text('No comments');
                                         }
                                       } else {
-                                        return CircularProgressIndicator();
+                                        return Center(
+                                          child: CircularProgressIndicator(),
+                                        );
                                       }
                                     }),
                               ),
                               Container(
                                 height: 25,
                                 child: TextField(
+                                  selectionHeightStyle: BoxHeightStyle.max,
                                   controller: commentController,
                                   decoration: InputDecoration(
                                     hintText: 'Write your comment here',
@@ -230,14 +271,15 @@ class _vidPlayerState extends State<vidPlayer> {
                                       color: Colors.grey,
                                     ),
                                     labelText: 'Comment',
+                                    border: OutlineInputBorder(),
                                     suffixIcon: IconButton(
                                       icon: Icon(Icons.send),
                                       onPressed: () {
-                                        commentController..text = '';
                                         PostdataService().createComment(
                                             snapshot.data.postid,
                                             commentController.text,
                                             currentUser.uid);
+                                        commentController..text = '';
                                       },
                                     ),
                                   ),

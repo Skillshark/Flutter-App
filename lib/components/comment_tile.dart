@@ -16,53 +16,73 @@ class CommentTile extends StatefulWidget {
 }
 
 class _CommentTileState extends State<CommentTile> {
+  bool commentupvote = false;
+  bool commentdownvote = false;
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: widget.width,
-      child: StreamBuilder<Comment>(
-          stream: DatabaseService().getComment(widget.postid, widget.commentid),
-          builder: (context, snapshot) {
-            if (snapshot.hasData) {
-              return Container(
-                child: Column(
-                  children: [
-                    StreamBuilder<Usr>(
-                        stream: DatabaseService().getUser(snapshot.data.userid),
-                        builder: (context, snapshot) {
-                          return Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Text(snapshot.data.name ?? ''),
-                              profilePreview(10, snapshot.data.uid),
-                            ],
-                          );
-                        }),
-                    Expanded(
-                      child: Text(snapshot.data.commentTxt),
-                    ),
-                    Container(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.end,
+      child: Card(
+        child: Column(
+          children: <Widget>[
+            StreamBuilder<Comment>(
+                stream: DatabaseService()
+                    .getComment(widget.postid, widget.commentid),
+                builder: (context, snapshot) {
+                  if (snapshot.hasData) {
+                    return Container(
+                      child: Column(
                         children: [
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.arrow_upward_rounded),
+                          StreamBuilder<Usr>(
+                              stream: DatabaseService()
+                                  .getUser(snapshot.data.userid),
+                              builder: (context, snapshot) {
+                                if (snapshot.hasData) {
+                                  return Container(
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.start,
+                                      children: [
+                                        Text(snapshot.data.name ?? ''),
+                                        profilePreview(10, snapshot.data.uid),
+                                      ],
+                                    ),
+                                  );
+                                } else {
+                                  return Container(
+                                    child: Text('User'),
+                                  );
+                                }
+                              }),
+                          Container(
+                            child: Text(snapshot.data.commentTxt),
                           ),
-                          IconButton(
-                            onPressed: () {},
-                            icon: Icon(Icons.arrow_upward_rounded),
-                          ),
+                          Container(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.arrow_upward_rounded),
+                                ),
+                                IconButton(
+                                  onPressed: () {},
+                                  icon: Icon(Icons.arrow_downward_rounded),
+                                ),
+                              ],
+                            ),
+                          )
                         ],
                       ),
-                    )
-                  ],
-                ),
-              );
-            } else {
-              return CircularProgressIndicator();
-            }
-          }),
+                    );
+                  } else {
+                    return Center(child: CircularProgressIndicator());
+                  }
+                }),
+          ],
+        ),
+      ),
     );
   }
 }
