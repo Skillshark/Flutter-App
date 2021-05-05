@@ -11,25 +11,26 @@ class PostdataService {
       'videourl': '',
       'thumbnailurl': '',
       'timestamp': FieldValue.serverTimestamp(),
-      'tags': empty.toList(),
+      'tags': empty,
       'bio': '',
       'upvotes': 0,
     });
   }
 
   Future<void> postEdit(
-      String postid, String title, List tags, String bio) async {
+      String postid, String title, List<String> tags, String bio) async {
     CollectionReference post = FirebaseFirestore.instance.collection('posts');
     post.doc(postid).update({
       'title': title,
-      'tags': tags.map((e) {
-        return e.toMap();
-      }).toList(),
+      'tags': tags,
       'bio': bio,
     });
   }
 
   Future<void> createComment(String postid, String commentTxt, String userid) {
+    List<String> upvoteUsers = [];
+    List<String> downvoteUsers = [];
+
     CollectionReference comment = FirebaseFirestore.instance
         .collection('posts')
         .doc(postid)
@@ -40,6 +41,8 @@ class PostdataService {
       'timestamp': FieldValue.serverTimestamp(),
       'upvote': 0,
       'downvote': 0,
+      'upvoteeser': upvoteUsers,
+      'downvoteusers': downvoteUsers,
     });
   }
 

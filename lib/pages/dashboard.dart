@@ -93,15 +93,10 @@ class _dashboardScreenState extends State<dashboardScreen> {
                                 icon: Icon(Icons.notifications_none_outlined),
                                 onPressed: () {},
                               ),
-                              InkWell(
-                                onTap: () {
-                                  Navigator.pushNamed(context, '/profile');
-                                },
-                                child: Container(
-                                  height: 30,
-                                  width: 30,
-                                  child: profilePreview(15, currentUser.uid),
-                                ),
+                              Container(
+                                height: 30,
+                                width: 30,
+                                child: profilePreview(15, currentUser.uid),
                               ),
                             ],
                           ),

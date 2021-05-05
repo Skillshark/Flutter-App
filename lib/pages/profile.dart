@@ -10,6 +10,9 @@ import 'package:skillshark/components/profile_preview.dart';
 import 'package:skillshark/components/userdata_service.dart';
 
 class profileScreen extends StatefulWidget {
+  String userid;
+
+  profileScreen({Key key, this.userid}) : super(key: key);
   @override
   _profileScreenState createState() => _profileScreenState();
 }
@@ -21,11 +24,9 @@ class _profileScreenState extends State<profileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var currentUser = FirebaseAuth.instance.currentUser;
-
     return Scaffold(
       body: StreamBuilder<Usr>(
-          stream: DatabaseService().getUser(currentUser.uid),
+          stream: DatabaseService().getUser(widget.userid),
           builder: (context, snapshot) {
             if (snapshot.hasData) {
               return Column(
@@ -127,7 +128,7 @@ class _profileScreenState extends State<profileScreen> {
                                   padding: EdgeInsets.all(8),
                                   child: profilePreview(
                                     MediaQuery.of(context).size.width * .2 / 2,
-                                    currentUser.uid,
+                                    snapshot.data.uid,
                                   ),
                                 ),
                               ),
@@ -150,23 +151,27 @@ class _profileScreenState extends State<profileScreen> {
                                 height: 20,
                               ),
                               Container(
-                                child: InkWell(
-                                  onTap: () {
-                                    Navigator.pushNamed(
-                                        context, '/profile_edit');
-                                  },
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      borderRadius: BorderRadius.circular(5),
-                                      color: Colors.black87,
-                                    ),
-                                    child: Text(
-                                      'Edit Profile',
-                                      textAlign: TextAlign.center,
-                                      style: TextStyle(color: Colors.white),
-                                    ),
-                                  ),
-                                ),
+                                child: currentUser.uid == widget.userid
+                                    ? InkWell(
+                                        onTap: () {
+                                          Navigator.pushNamed(
+                                              context, '/profile_edit');
+                                        },
+                                        child: Container(
+                                          decoration: BoxDecoration(
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                            color: Colors.black87,
+                                          ),
+                                          child: Text(
+                                            'Edit Profile',
+                                            textAlign: TextAlign.center,
+                                            style:
+                                                TextStyle(color: Colors.white),
+                                          ),
+                                        ),
+                                      )
+                                    : SizedBox(),
                               ),
                               SizedBox(
                                 height: 20,
@@ -188,36 +193,46 @@ class _profileScreenState extends State<profileScreen> {
                             ],
                           ),
                         ),
-                        Container(
-                          width: MediaQuery.of(context).size.width * .75,
-                          child: CustomScrollView(
-                            slivers: [
-                              SliverAppBar(
-                                title: Text('Your Posts'),
-                                foregroundColor: Colors.white,
-                              ),
-                              SliverGrid.extent(
-                                maxCrossAxisExtent: 300,
-                                mainAxisSpacing: 10,
-                                crossAxisSpacing: 10,
-                                children: [
-                                  post(),
-                                  post(),
-                                  post(),
-                                  post(),
-                                  post(),
-                                  post(),
-                                  post(),
-                                  post(),
-                                  post(),
-                                  post(),
-                                  post(),
-                                  post(),
-                                ],
-                              )
-                            ],
-                          ),
-                        ),
+                        StreamBuilder<List<Post>>(
+                            stream: DatabaseService()
+                                .streamProfilePost(snapshot.data.uid),
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return Container(
+                                  width:
+                                      MediaQuery.of(context).size.width * .75,
+                                  child: CustomScrollView(
+                                    slivers: [
+                                      SliverAppBar(
+                                        title: Text('Your Posts'),
+                                        foregroundColor: Colors.white,
+                                      ),
+                                      SliverGrid(
+                                        delegate: SliverChildBuilderDelegate(
+                                            (BuildContext context, int index) {
+                                          return Center(
+                                            child: post(
+                                                postid: snapshot.data
+                                                    .elementAt(index)
+                                                    .postid),
+                                          );
+                                        }, childCount: snapshot.data.length),
+                                        gridDelegate:
+                                            SliverGridDelegateWithMaxCrossAxisExtent(
+                                          maxCrossAxisExtent: 300,
+                                          mainAxisSpacing: 10,
+                                          crossAxisSpacing: 10,
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              } else {
+                                return Center(
+                                  child: CircularProgressIndicator(),
+                                );
+                              }
+                            }),
                       ],
                     ),
                   )

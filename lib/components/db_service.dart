@@ -28,6 +28,13 @@ class DatabaseService {
         (list) => list.docs.map((doc) => Post.fromFirestore(doc)).toList());
   }
 
+  Stream<List<Post>> streamProfilePost(var userid) {
+    var ref = _db.collection('posts');
+
+    return ref.where('userid', isEqualTo: userid).snapshots().map(
+        (list) => list.docs.map((doc) => Post.fromFirestore(doc)).toList());
+  }
+
   Stream<Comment> getComment(var postid, var commentid) {
     return _db
         .collection('posts')
