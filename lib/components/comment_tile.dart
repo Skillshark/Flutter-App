@@ -1,6 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:skillshark/components/db_service.dart';
 import 'package:skillshark/components/models.dart';
+import 'package:skillshark/components/postdata_service.dart';
 import 'package:skillshark/components/profile_preview.dart';
 
 class CommentTile extends StatefulWidget {
@@ -18,6 +20,7 @@ class CommentTile extends StatefulWidget {
 class _CommentTileState extends State<CommentTile> {
   bool commentupvote = false;
   bool commentdownvote = false;
+  var currentUser = FirebaseAuth.instance.currentUser;
 
   @override
   Widget build(BuildContext context) {
@@ -63,12 +66,40 @@ class _CommentTileState extends State<CommentTile> {
                               mainAxisAlignment: MainAxisAlignment.end,
                               children: [
                                 IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.arrow_upward_rounded),
+                                  onPressed: () {
+                                    setState(() {
+                                      commentupvote = !commentupvote;
+                                    });
+                                    PostdataService().commentUpvote(
+                                        widget.postid,
+                                        widget.commentid,
+                                        commentupvote,
+                                        currentUser.uid);
+                                  },
+                                  icon: Icon(
+                                    Icons.arrow_upward_rounded,
+                                    color: commentupvote
+                                        ? Colors.blue
+                                        : Colors.black,
+                                  ),
                                 ),
                                 IconButton(
-                                  onPressed: () {},
-                                  icon: Icon(Icons.arrow_downward_rounded),
+                                  onPressed: () {
+                                    setState(() {
+                                      commentdownvote = !commentdownvote;
+                                    });
+                                    PostdataService().commentDownvote(
+                                        widget.postid,
+                                        widget.commentid,
+                                        commentdownvote,
+                                        currentUser.uid);
+                                  },
+                                  icon: Icon(
+                                    Icons.arrow_downward_rounded,
+                                    color: commentdownvote
+                                        ? Colors.blue
+                                        : Colors.black,
+                                  ),
                                 ),
                               ],
                             ),

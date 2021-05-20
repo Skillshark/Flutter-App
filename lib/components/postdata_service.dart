@@ -14,6 +14,7 @@ class PostdataService {
       'tags': empty,
       'bio': '',
       'upvotes': 0,
+      'likedby': empty,
     });
   }
 
@@ -41,65 +42,91 @@ class PostdataService {
       'timestamp': FieldValue.serverTimestamp(),
       'upvote': 0,
       'downvote': 0,
-      'upvoteeser': upvoteUsers,
+      'upvoteusers': upvoteUsers,
       'downvoteusers': downvoteUsers,
     });
   }
 
-  Future<void> commentLike(var postid, var commentid) {
+  Future<void> commentUpvote(
+      var postid, var commentid, bool selected, var userid) {
     DocumentReference comment = FirebaseFirestore.instance
         .collection('posts')
         .doc(postid)
         .collection('comments')
         .doc(commentid);
 
-    FirebaseFirestore.instance.runTransaction((transaction) async {
-      DocumentSnapshot snap = await transaction.get(comment);
-      transaction.update(comment, {
-        'upvotes': snap['upvotes'] + 1,
+    List<String> user = [userid];
+
+    if (selected) {
+      FirebaseFirestore.instance.runTransaction((transaction) async {
+        DocumentSnapshot snap = await transaction.get(comment);
+        transaction.update(comment, {
+          'upvote': snap['upvote'] + 1,
+        });
       });
-    });
+      comment.update({'upvoteusers': FieldValue.arrayUnion(user)});
+    } else {
+      FirebaseFirestore.instance.runTransaction((transaction) async {
+        DocumentSnapshot snap = await transaction.get(comment);
+        transaction.update(comment, {
+          'upvote': snap['upvote'] - 1,
+        });
+      });
+      comment.update({'upvoteusers': FieldValue.arrayRemove(user)});
+    }
   }
 
-  Future<void> commentUpvote(var postid, var commentid) {
+  Future<void> commentDownvote(
+      var postid, var commentid, bool selected, var userid) {
     DocumentReference comment = FirebaseFirestore.instance
         .collection('posts')
         .doc(postid)
         .collection('comments')
         .doc(commentid);
 
-    FirebaseFirestore.instance.runTransaction((transaction) async {
-      DocumentSnapshot snap = await transaction.get(comment);
-      transaction.update(comment, {
-        'upvote': snap['upvote'] + 1,
+    List<String> user = [userid];
+
+    if (selected) {
+      FirebaseFirestore.instance.runTransaction((transaction) async {
+        DocumentSnapshot snap = await transaction.get(comment);
+        transaction.update(comment, {
+          'downvote': snap['downvote'] + 1,
+        });
       });
-    });
+      comment.update({'downvoteusers': FieldValue.arrayUnion(user)});
+    } else {
+      FirebaseFirestore.instance.runTransaction((transaction) async {
+        DocumentSnapshot snap = await transaction.get(comment);
+        transaction.update(comment, {
+          'downvote': snap['downvote'] - 1,
+        });
+      });
+      comment.update({'downvoteusers': FieldValue.arrayRemove(user)});
+    }
   }
 
-  Future<void> commentDownvote(var postid, var commentid) {
-    DocumentReference comment = FirebaseFirestore.instance
-        .collection('posts')
-        .doc(postid)
-        .collection('comments')
-        .doc(commentid);
-
-    FirebaseFirestore.instance.runTransaction((transaction) async {
-      DocumentSnapshot snap = await transaction.get(comment);
-      transaction.update(comment, {
-        'downvote': snap['downvote'] + 1,
-      });
-    });
-  }
-
-  Future<void> postLike(var postid) {
+  Future<void> postLike(var postid, bool selected, var userid) {
     DocumentReference comment =
         FirebaseFirestore.instance.collection('posts').doc(postid);
 
-    FirebaseFirestore.instance.runTransaction((transaction) async {
-      DocumentSnapshot snap = await transaction.get(comment);
-      transaction.update(comment, {
-        'upvotes': snap['upvotes'] + 1,
+    List<String> user = [userid];
+
+    if (selected) {
+      FirebaseFirestore.instance.runTransaction((transaction) async {
+        DocumentSnapshot snap = await transaction.get(comment);
+        transaction.update(comment, {
+          'likes': snap['likes'] + 1,
+        });
       });
-    });
+      comment.update({'downvoteusers': FieldValue.arrayUnion(user)});
+    } else {
+      FirebaseFirestore.instance.runTransaction((transaction) async {
+        DocumentSnapshot snap = await transaction.get(comment);
+        transaction.update(comment, {
+          'likes': snap['likes'] - 1,
+        });
+      });
+      comment.update({'downvoteusers': FieldValue.arrayRemove(user)});
+    }
   }
 }

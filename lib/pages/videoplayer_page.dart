@@ -23,7 +23,7 @@ class _vidPlayerState extends State<vidPlayer> {
   var commentController = TextEditingController();
   var searchTextController = TextEditingController();
   var currentUser = FirebaseAuth.instance.currentUser;
-  bool postlike;
+  bool postlike = false;
 
   @override
   Widget build(BuildContext context) {
@@ -162,9 +162,19 @@ class _vidPlayerState extends State<vidPlayer> {
                                           ),
                                         ),
                                         IconButton(
-                                          onPressed: () {},
-                                          icon:
-                                              Icon(Icons.arrow_upward_rounded),
+                                          onPressed: () {
+                                            setState(() {
+                                              postlike = !postlike;
+                                            });
+                                            PostdataService().postLike(postid,
+                                                postlike, currentUser.uid);
+                                          },
+                                          icon: Icon(
+                                            Icons.arrow_upward_rounded,
+                                            color: postlike
+                                                ? Colors.blue
+                                                : Colors.black,
+                                          ),
                                         ),
                                       ],
                                     ),
