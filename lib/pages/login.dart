@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_brand_icons/flutter_brand_icons.dart';
 import 'package:skillshark/components/authentication_services.dart';
-import 'package:skillshark/extentions/hover_extentions.dart';
 import 'package:skillshark/pages/signup.dart';
 import 'package:provider/provider.dart';
 
@@ -173,7 +172,7 @@ class _loginScreenState extends State<loginScreen> {
                                   ),
                                 ),
                               ),
-                            ).moveUpOnHover,
+                            ),
                             SizedBox(
                               height: 30,
                             ),
@@ -234,7 +233,7 @@ class _loginScreenState extends State<loginScreen> {
                                   ),
                                 ),
                               ),
-                            ).moveUpOnHover,
+                            ),
                             SizedBox(
                               height: 50,
                             ),
@@ -282,7 +281,7 @@ class _loginScreenState extends State<loginScreen> {
                                   ),
                                 ),
                               ),
-                            ).moveUpOnHover,
+                            ),
                           ],
                         ),
                       ),

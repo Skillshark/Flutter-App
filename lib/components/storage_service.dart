@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'dart:html';
@@ -255,5 +256,40 @@ class _DPUploadState extends State<DPUpload> {
         ),
       );
     }
+  }
+}
+
+class LogoUploader {
+  double percentage;
+  String path;
+  UploadTask task;
+
+  Future<void> uploadTask(File file, String bizaccid) async {
+    path = 'BizAcc/$bizaccid/logo.png';
+    task = FirebaseStorage.instance.ref(path).putBlob(file);
+
+    task.snapshotEvents.listen((event) async {
+      try {
+        await task;
+        print('upload done');
+
+        task.then((_) async {
+          String url = await FirebaseStorage.instance
+              .ref(path)
+              .getDownloadURL()
+              .toString();
+          FirebaseFirestore.instance
+              .collection('bizacc')
+              .doc(bizaccid)
+              .update({'logourl': url});
+        });
+      } on FirebaseException catch (e) {
+        print(e.toString());
+      }
+    });
+  }
+
+  Stream<dynamic> uploadStream() {
+    return task.snapshotEvents;
   }
 }

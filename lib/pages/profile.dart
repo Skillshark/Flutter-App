@@ -205,7 +205,6 @@ class _profileScreenState extends State<profileScreen> {
                                     slivers: [
                                       SliverAppBar(
                                         title: Text('Your Posts'),
-                                        foregroundColor: Colors.white,
                                       ),
                                       SliverGrid(
                                         delegate: SliverChildBuilderDelegate(

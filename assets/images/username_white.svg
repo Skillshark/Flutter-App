@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="18" height="20" viewBox="0 0 18 20">
+  <defs>
+    <clipPath id="clip-username_white">
+      <rect width="18" height="20"/>
+    </clipPath>
+  </defs>
+  <g id="username_white" clip-path="url(#clip-username_white)">
+    <rect width="18" height="20" fill="rgba(255,255,255,0)"/>
+    <path id="user" d="M8.079,9.233A4.617,4.617,0,1,0,3.462,4.617,4.616,4.616,0,0,0,8.079,9.233Zm3.232,1.154h-.6a6.278,6.278,0,0,1-5.259,0h-.6A4.849,4.849,0,0,0,0,15.235v1.5a1.732,1.732,0,0,0,1.731,1.731h12.7a1.732,1.732,0,0,0,1.731-1.731v-1.5A4.849,4.849,0,0,0,11.311,10.387Z" transform="translate(0.921 0.767)" fill="#fff"/>
+  </g>
+</svg>

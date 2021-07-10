@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="17" height="22" viewBox="0 0 17 22">
+  <defs>
+    <clipPath id="clip-save_selected">
+      <rect width="17" height="22"/>
+    </clipPath>
+  </defs>
+  <g id="save_selected" clip-path="url(#clip-save_selected)">
+    <rect width="17" height="22" fill="rgba(255,255,255,0)"/>
+    <path id="bookmark" d="M39.66,0H27.831a1.807,1.807,0,0,0-1.809,1.731v17.5a1.341,1.341,0,0,0,.228.778.885.885,0,0,0,.731.38,1.319,1.319,0,0,0,.838-.353l5.292-4.493a1.048,1.048,0,0,1,1.285,0l5.275,4.492a1.273,1.273,0,0,0,.818.354c.464,0,.917-.358.917-1.158V1.731A1.75,1.75,0,0,0,39.66,0Z" transform="translate(-25.214 0.806)" fill="#2ea5ff"/>
+  </g>
+</svg>

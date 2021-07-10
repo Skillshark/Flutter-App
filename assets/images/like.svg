@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="25" height="25" viewBox="0 0 25 25">
+  <defs>
+    <clipPath id="clip-like">
+      <rect width="25" height="25"/>
+    </clipPath>
+  </defs>
+  <g id="like" clip-path="url(#clip-like)">
+    <rect width="25" height="25" fill="rgba(255,255,255,0)"/>
+    <g id="Group_5866" data-name="Group 5866" transform="translate(-355.183 -980.276)">
+      <g id="like-2" data-name="like" transform="translate(355.971 970.885)">
+        <g id="Group_22" data-name="Group 22" transform="translate(0 20.427)">
+          <g id="Group_21" data-name="Group 21">
+            <path id="Path_544" data-name="Path 544" d="M2.44,224A2.443,2.443,0,0,0,0,226.44v7.808a2.443,2.443,0,0,0,2.44,2.44H5.368a2.422,2.422,0,0,0,1.464-.494V224Z" transform="translate(0 -224)" fill="#777"/>
+          </g>
+        </g>
+        <g id="Group_24" data-name="Group 24" transform="translate(7.808 10.667)">
+          <g id="Group_23" data-name="Group 23" transform="translate(0 0)">
+            <path id="Path_545" data-name="Path 545" d="M186.283,24.087a2.164,2.164,0,0,0-.635-1.536,2.423,2.423,0,0,0,.625-1.863,2.523,2.523,0,0,0-2.545-2.213H177.7a14.033,14.033,0,0,0,.777-3.9c0-2.117-1.8-3.9-2.928-3.9a3.07,3.07,0,0,0-1.769.594.49.49,0,0,0-.183.382v3.31l-2.811,6.089-.117.06V31.562a6.4,6.4,0,0,0,2.44.577h8.959a2.245,2.245,0,0,0,2.212-1.705,2.2,2.2,0,0,0-.177-1.466,2.186,2.186,0,0,0,.977-2.929A2.185,2.185,0,0,0,186.283,24.087Z" transform="translate(-170.667 -10.667)" fill="#777"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

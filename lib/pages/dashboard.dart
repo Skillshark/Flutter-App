@@ -112,7 +112,6 @@ class _dashboardScreenState extends State<dashboardScreen> {
                       slivers: [
                         SliverAppBar(
                           title: Text('Your Feed'),
-                          foregroundColor: Colors.white,
                         ),
                         SliverGrid(
                           delegate: SliverChildBuilderDelegate(

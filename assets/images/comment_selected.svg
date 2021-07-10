@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="23" height="20" viewBox="0 0 23 20">
+  <defs>
+    <clipPath id="clip-comment_1">
+      <rect width="23" height="20"/>
+    </clipPath>
+  </defs>
+  <g id="comment_1" data-name="comment – 1" clip-path="url(#clip-comment_1)">
+    <rect width="23" height="20" fill="rgba(255,255,255,0)"/>
+    <g id="noun_comments_2144083" transform="translate(-75.168 -96.423)">
+      <path id="Path_2453" data-name="Path 2453" d="M95.558,97H77.778A1.8,1.8,0,0,0,76,98.8v10.8a1.809,1.809,0,0,0,1.778,1.808h3.26v3.852a.6.6,0,0,0,.314.522.613.613,0,0,0,.284.071.6.6,0,0,0,.32-.077L88.8,111.4h6.756a1.8,1.8,0,0,0,1.778-1.808V98.79A1.793,1.793,0,0,0,95.558,97Z" fill="#2ea5ff"/>
+    </g>
+  </g>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="64" height="64" viewBox="0 0 64 64">
+  <defs>
+    <clipPath id="clip-video">
+      <rect width="64" height="64"/>
+    </clipPath>
+  </defs>
+  <g id="video" clip-path="url(#clip-video)">
+    <rect width="64" height="64" fill="rgba(255,255,255,0)"/>
+    <g id="noun_player_3747334" transform="translate(2.253 2.253)">
+      <path id="Path_2419" data-name="Path 2419" d="M41.2,11.45a29.723,29.723,0,1,0,21.041,8.706A29.747,29.747,0,0,0,41.2,11.45Zm13.89,32.639-21,12.112a2.892,2.892,0,0,1-4.29-2.512V28.706a2.892,2.892,0,0,1,4.29-2.512L55.205,39.04a2.892,2.892,0,0,1-.119,5.049Z" transform="translate(-11.45 -11.45)" fill="rgba(255,255,255,0.74)"/>
+    </g>
+  </g>
+</svg>

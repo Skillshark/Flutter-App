@@ -32,7 +32,11 @@ class profilePreview extends StatelessWidget {
                   decoration: BoxDecoration(
                     shape: BoxShape.circle,
                     image: DecorationImage(
-                      image: NetworkImage(snapshot.data.dplink),
+                      image: NetworkImage(
+                        snapshot.data.dplink == ''
+                            ? 'https://firebasestorage.googleapis.com/v0/b/skillshare-69b1f.appspot.com/o/defaults%2Fdefalt.jpg?alt=media&token=b8edcc95-2606-49a2-ab02-caae996b3aa9'
+                            : snapshot.data.dplink.toString(),
+                      ),
                       fit: BoxFit.contain,
                     ),
                   ),

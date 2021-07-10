@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="21" height="21" viewBox="0 0 21 21">
+  <defs>
+    <clipPath id="clip-blogs">
+      <rect width="21" height="21"/>
+    </clipPath>
+  </defs>
+  <g id="blogs" clip-path="url(#clip-blogs)">
+    <rect width="21" height="21" fill="rgba(255,255,255,0)"/>
+    <g id="Group_5861" data-name="Group 5861" transform="translate(-516.135 -30)">
+      <g id="noun_Blog_3302887" transform="translate(517.127 30.992)">
+        <g id="Group_17" data-name="Group 17">
+          <g id="Group_16" data-name="Group 16">
+            <path id="Path_534" data-name="Path 534" d="M3931.169,4386h12.678a3.169,3.169,0,0,1,3.169,3.169v12.679a3.169,3.169,0,0,1-3.169,3.169h-12.678a3.169,3.169,0,0,1-3.169-3.169v-12.679A3.169,3.169,0,0,1,3931.169,4386Zm9.9,1.642a.713.713,0,1,0,.713.714A.714.714,0,0,0,3941.074,4387.642Zm2.324,0a.713.713,0,1,0,.713.714A.714.714,0,0,0,3943.4,4387.642Zm-13.855,14.485a1.138,1.138,0,0,0,1.138,1.138h13.656a1.138,1.138,0,0,0,1.138-1.138v-11.876h-15.932Zm1.215-10.042h8.557v9.7h-8.557Zm9.888-.095h3.613v2.377h-3.613Zm0,3.613h3.613v2h-3.613Zm0,3.232h3.613v2.853h-3.613Z" transform="translate(-3928 -4386)" fill="#777"/>
+          </g>
+        </g>
+      </g>
+    </g>
+  </g>
+</svg>

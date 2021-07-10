@@ -7,7 +7,6 @@ import 'package:skillshark/components/models.dart';
 import 'package:skillshark/components/profile_preview.dart';
 import 'package:skillshark/components/storage_service.dart';
 import 'package:skillshark/components/userdata_service.dart';
-import 'package:skillshark/extentions/hover_extentions.dart';
 
 class profileEditScreen extends StatefulWidget {
   @override
@@ -265,7 +264,7 @@ class _profileEditScreenState extends State<profileEditScreen> {
                                           ),
                                         ),
                                       ),
-                                    ).moveUpOnHover,
+                                    ),
                                   ],
                                 ),
                               ),

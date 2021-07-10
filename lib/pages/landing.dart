@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:skillshark/components/db_service.dart';
 import 'package:skillshark/components/models.dart';
 import 'package:skillshark/components/post.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class landingScreen extends StatefulWidget {
   @override
@@ -22,7 +23,7 @@ class _landingScreenState extends State<landingScreen> {
                 children: [
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 5),
-                    height: 40,
+                    height: 60,
                     width: MediaQuery.of(context).size.width,
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -119,13 +120,16 @@ class _landingScreenState extends State<landingScreen> {
                   ),
                   Container(
                     width: MediaQuery.of(context).size.width,
-                    height: MediaQuery.of(context).size.height - 40,
+                    height: MediaQuery.of(context).size.height - 60,
                     padding: EdgeInsets.symmetric(vertical: 20),
                     child: CustomScrollView(
                       slivers: [
-                        SliverAppBar(
-                          title: Text('Your Feed'),
-                          foregroundColor: Colors.white,
+                        SliverList(
+                          delegate: SliverChildListDelegate([
+                            Container(
+                              height: 200,
+                            )
+                          ]),
                         ),
                         SliverGrid(
                           delegate: SliverChildBuilderDelegate(

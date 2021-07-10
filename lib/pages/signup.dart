@@ -2,10 +2,11 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:flutter_brand_icons/flutter_brand_icons.dart';
+import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 import 'package:skillshark/components/authentication_services.dart';
-import 'package:skillshark/extentions/hover_extentions.dart';
 import 'package:skillshark/pages/login.dart';
 import 'package:provider/provider.dart';
+import 'package:flutter_rounded_date_picker/flutter_rounded_date_picker.dart';
 
 class signupScreen extends StatefulWidget {
   @override
@@ -15,7 +16,7 @@ class signupScreen extends StatefulWidget {
 class _signupScreenState extends State<signupScreen> {
   final emailTextConrtoller = TextEditingController();
   final passTextConrtoller = TextEditingController();
-  var nameTextController = TextEditingController();
+  final nameTextController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -198,7 +199,7 @@ class _signupScreenState extends State<signupScreen> {
                                   ),
                                 ),
                               ),
-                            ).moveUpOnHover,
+                            ),
                             SizedBox(
                               height: 30,
                             ),
@@ -259,7 +260,7 @@ class _signupScreenState extends State<signupScreen> {
                                   ),
                                 ),
                               ),
-                            ).moveUpOnHover,
+                            ),
                             SizedBox(
                               height: 50,
                             ),
@@ -307,7 +308,7 @@ class _signupScreenState extends State<signupScreen> {
                                   ),
                                 ),
                               ),
-                            ).moveUpOnHover,
+                            ),
                             Divider(
                               height: 30,
                             ),
