@@ -51,11 +51,11 @@ class BiDataService {
 
   Future<void> createBizAcc(
     String bizaccid,
-  ) {
+  ) async {
     CollectionReference bizAcc =
         FirebaseFirestore.instance.collection('bizacc');
 
-    bizAcc.doc(bizaccid).set({
+    await bizAcc.doc(bizaccid).set({
       'logourl':
           'https://firebasestorage.googleapis.com/v0/b/skillshare-69b1f.appspot.com/o/defaults%2Fdownload.png?alt=media&token=442cd51b-fd5a-477a-aebd-8af3599ae9a9',
       'name': '',

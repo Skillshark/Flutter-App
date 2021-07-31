@@ -5,15 +5,19 @@ import 'package:flutter_feather_icons/flutter_feather_icons.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:skillshark/addproject/addp.dart';
 import 'package:skillshark/auth/regcompany.dart';
 import 'package:skillshark/auth/signup.dart';
+import 'package:skillshark/components/bi_client_service.dart';
 import 'package:skillshark/components/profile_preview.dart';
 import 'package:skillshark/controller/authcontroller.dart';
+import 'package:skillshark/controller/pagecon.dart';
 import 'package:skillshark/job/postjob.dart';
 import 'package:skillshark/page/body.dart';
 import 'package:skillshark/page/job.dart';
 import 'package:skillshark/project/project.dart';
 import 'package:provider/provider.dart';
+import 'package:uuid/uuid.dart';
 
 List page = [Project(), Body(), Body(), Job(), Body()];
 
@@ -27,9 +31,11 @@ class _HomeState extends State<Home> {
   int currentindex = 0;
   List hover = [false, false, false, false, false];
   final Controller c = Get.put(Controller());
+  Pagecontrol pp;
 
   @override
   Widget build(BuildContext context) {
+    pp = Provider.of<Pagecontrol>(context);
     final firebaseUser = context.watch<User>();
     size = MediaQuery.of(context).size;
     return Scaffold(
@@ -139,7 +145,9 @@ class _HomeState extends State<Home> {
                                 Icons.add_circle,
                                 color: Colors.blue,
                               ),
-                              onPressed: () {},
+                              onPressed: () {
+                                pp.setadd(1);
+                              },
                               label: Text(
                                 'Add project',
                                 style:
@@ -186,7 +194,9 @@ class _HomeState extends State<Home> {
             ),
           ),
           Expanded(
-            child: Container(height: size.height, child: page[currentindex]),
+            child: Container(
+                height: size.height,
+                child: pp.add == 1 ? Ap() : page[currentindex]),
           ),
         ],
       )),
@@ -244,7 +254,19 @@ class _HomeState extends State<Home> {
   Widget notif(BuildContext context, Icon icon, int i) {
     return InkWell(
       onTap: () {
-        Regc(context, size).dia();
+        var uuid = Uuid().v1().toString();
+
+        BiDataService().createBizAcc(uuid).then(
+              (value) => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => Regc(
+                    size: size,
+                    uuid: uuid,
+                  ),
+                ),
+              ),
+            );
       },
       child: Container(
         width: 27,

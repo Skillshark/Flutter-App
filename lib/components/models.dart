@@ -3,6 +3,7 @@ import 'dart:html';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/gestures.dart';
+import 'package:flutter/cupertino.dart';
 
 class Usr {
   final String uid;
@@ -176,18 +177,123 @@ class BizAcc {
 
     return BizAcc(
       accid: doc.id,
-      logoUrl: ['logourl'] ??
+      logoUrl: data['logourl'] ??
           'https://firebasestorage.googleapis.com/v0/b/skillshare-69b1f.appspot.com/o/defaults%2Fdownload.png?alt=media&token=442cd51b-fd5a-477a-aebd-8af3599ae9a9',
-      name: doc['name'] ?? '',
-      companyMailID: doc['mailid'] ?? '',
-      location: doc['location'] ?? '',
-      desciption: doc['description'] ?? '',
-      fbLink: doc['fblink'] ?? '',
-      instaLink: doc['instalink'] ?? '',
-      linkedinLink: doc['inLink'] ?? '',
-      twitterLink: doc['twitterlink'] ?? '',
-      webURL: doc['weburl'] ?? '',
-      userid: doc['userid'] ?? '',
+      name: data['name'] ?? '',
+      companyMailID: data['mailid'] ?? '',
+      location: data['location'] ?? '',
+      desciption: data['description'] ?? '',
+      fbLink: data['fblink'] ?? '',
+      instaLink: data['instalink'] ?? '',
+      linkedinLink: data['inLink'] ?? '',
+      twitterLink: data['twitterlink'] ?? '',
+      webURL: data['weburl'] ?? '',
+      userid: data['userid'] ?? '',
     );
   }
+}
+
+class Mproject {
+  String assest;
+  String tite;
+  String Author;
+  String avatar;
+  List list;
+  int like;
+  int comment;
+  bool islike;
+  bool isvideo;
+
+  Mproject(this.assest, this.tite, this.Author, this.avatar, this.list,
+      this.like, this.comment, this.islike, this.isvideo);
+}
+
+List<Mproject> p = [
+  Mproject(
+      'assets/vidoe_3.png',
+      'Future technology of GPS and Motion Sensors with easy tutorial explanations',
+      'John Wick',
+      'assets/profile 6.png',
+      ['Robotics', 'Electric'],
+      100,
+      20,
+      false,
+      false),
+  Mproject(
+      'assets/vidoe_3.png',
+      'Future technology of GPS and Motion Sensors with easy tutorial explanations',
+      'John Wick',
+      'assets/profile 6.png',
+      ['Robotics', 'Electric'],
+      100,
+      20,
+      true,
+      false),
+  Mproject(
+      'assets/vidoe_3.png',
+      'Falcon Project with various alloys',
+      'John Wick',
+      'assets/profile 6.png',
+      ['Robotics', 'Electric'],
+      100,
+      20,
+      false,
+      false),
+  Mproject(
+      'assets/vidoe_3.png',
+      'Falcon Project with various alloys',
+      'John Wick',
+      'assets/profile 6.png',
+      ['Robotics', 'Electric'],
+      100,
+      20,
+      true,
+      true),
+  Mproject(
+      'assets/vidoe_3.png',
+      'Falcon Project with various alloys',
+      'John Wick',
+      'assets/profile 6.png',
+      ['Robotics', 'Electric'],
+      500,
+      20,
+      false,
+      false),
+  Mproject(
+      'assets/vidoe_3.png',
+      'Falcon Project with various alloys',
+      'John Wick',
+      'assets/profile 6.png',
+      ['Robotics', 'Electric'],
+      10,
+      20,
+      false,
+      false),
+  Mproject(
+      'assets/vidoe_3.png',
+      'Falcon Project with various alloys',
+      'John Wick',
+      'assets/profile 6.png',
+      ['Robotics', 'Electric'],
+      100,
+      20,
+      true,
+      true),
+  Mproject(
+      'assets/vidoe_3.png',
+      'Falcon Project with various alloys',
+      'John Wick',
+      'assets/profile 6.png',
+      ['Robotics', 'Electric'],
+      100,
+      20,
+      false,
+      true),
+];
+
+class Docu {
+  String name;
+  Icon icon;
+
+  Docu(this.name, this.icon);
 }

@@ -6,25 +6,48 @@ class PostdataService {
     List<String> empty = [];
     CollectionReference post = FirebaseFirestore.instance.collection('posts');
     post.doc(postid).set({
-      'title': title,
+      'title': '',
       'userid': userid,
       'videourl': '',
       'thumbnailurl': '',
       'timestamp': FieldValue.serverTimestamp(),
       'tags': empty,
-      'bio': '',
+      'about': '',
       'upvotes': 0,
       'likedby': empty,
+      'markdowntxt': '',
+      'tools': empty,
+      'catagory': empty
     });
   }
 
-  Future<void> postEdit(
-      String postid, String title, List<String> tags, String bio) async {
+  Future<void> postEdit1(
+    String postid,
+    String title,
+    String about,
+  ) async {
     CollectionReference post = FirebaseFirestore.instance.collection('posts');
     post.doc(postid).update({
       'title': title,
+      'about': about,
+    });
+  }
+
+  Future<void> postEdit2(String postid, String markdowntext) async {
+    CollectionReference post = FirebaseFirestore.instance.collection('posts');
+    post.doc(postid).update({
+      'markdowntext': markdowntext,
+    });
+  }
+
+  Future<void> postEdit3(String postid, List<String> tags, String about,
+      List<String> tools, List<String> catagory) async {
+    CollectionReference post = FirebaseFirestore.instance.collection('posts');
+    post.doc(postid).update({
       'tags': tags,
-      'bio': bio,
+      'about': about,
+      'tools': tools,
+      'catagory': catagory,
     });
   }
 

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:skillshark/components/db_service.dart';
 import 'package:skillshark/components/models.dart';
 import 'package:skillshark/pages/profile.dart';
+import 'package:skillshark/profile/profile.dart';
 
 class profilePreview extends StatelessWidget {
   profilePreview(this.radius, this.userid);
@@ -21,9 +22,10 @@ class profilePreview extends StatelessWidget {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                      builder: (context) => profileScreen(
-                            userid: userid,
-                          )),
+                    builder: (context) => Profile(
+                      userid: userid,
+                    ),
+                  ),
                 );
               },
               child: CircleAvatar(

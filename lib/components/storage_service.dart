@@ -1,8 +1,12 @@
+import 'dart:typed_data';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'dart:html';
+
+import 'package:flutter_conditional_rendering/conditional_switch.dart';
 
 class VidUploader extends StatefulWidget {
   final String postid;
@@ -259,37 +263,92 @@ class _DPUploadState extends State<DPUpload> {
   }
 }
 
-class LogoUploader {
+class LogoUploader extends StatefulWidget {
+  final String bizaccid;
+
+  const LogoUploader({Key key, this.bizaccid}) : super(key: key);
+
+  @override
+  _LogoUploaderState createState() => _LogoUploaderState();
+}
+
+class _LogoUploaderState extends State<LogoUploader> {
   double percentage;
   String path;
   UploadTask task;
+  TaskSnapshot snapshot;
 
-  Future<void> uploadTask(File file, String bizaccid) async {
-    path = 'BizAcc/$bizaccid/logo.png';
-    task = FirebaseStorage.instance.ref(path).putBlob(file);
+  uploadLogo(String bizaccid) async {
+    InputElement uploadInput = FileUploadInputElement();
+    uploadInput.click();
 
-    task.snapshotEvents.listen((event) async {
-      try {
-        await task;
-        print('upload done');
+    uploadInput.onChange.listen((event) {
+      final file = uploadInput.files.first;
+      final reader = FileReader();
 
-        task.then((_) async {
-          String url = await FirebaseStorage.instance
-              .ref(path)
-              .getDownloadURL()
-              .toString();
-          FirebaseFirestore.instance
-              .collection('bizacc')
-              .doc(bizaccid)
-              .update({'logourl': url});
-        });
-      } on FirebaseException catch (e) {
-        print(e.toString());
-      }
+      reader.readAsDataUrl(file);
+      reader.onLoadEnd.listen((event) async {
+        uploadToFirebase(file, bizaccid);
+      });
     });
   }
 
-  Stream<dynamic> uploadStream() {
-    return task.snapshotEvents;
+  uploadToFirebase(File imageFile, String bizaccid) async {
+    final filePath = 'BizAcc/$bizaccid/logo.png';
+    task = FirebaseStorage.instance.ref().child(filePath).putBlob(imageFile);
+    task.snapshotEvents.listen((event) {
+      percentage = event.bytesTransferred / event.bytesTransferred * 100;
+    });
+    task.then((_) async {
+      String url =
+          await FirebaseStorage.instance.ref().child(filePath).getDownloadURL();
+      FirebaseFirestore.instance
+          .collection('bizacc')
+          .doc(bizaccid)
+          .update({'logourl': url});
+    });
+    snapshot = await task;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          FlatButton(
+            onPressed: () {
+              uploadLogo(widget.bizaccid);
+            },
+            color: Colors.grey[200],
+            child: Padding(
+              padding: const EdgeInsets.all(3.0),
+              child: Text('Choose File'),
+            ),
+          ),
+          Container(
+            height: 8,
+            child: task != null
+                ? ConditionalSwitch.single(
+                    context: context,
+                    valueBuilder: (BuildContext context) => snapshot.state,
+                    caseBuilders: {
+                      TaskState.running: (BuildContext context) =>
+                          LinearProgressIndicator(
+                            value: percentage,
+                          ),
+                      TaskState.success: (BuildContext context) =>
+                          Text('Upload done'),
+                      TaskState.error: (BuildContext context) => Text('error'),
+                    },
+                    fallbackBuilder: (BuildContext context) =>
+                        SizedBox.shrink(),
+                  )
+                : SizedBox(
+                    height: 8,
+                  ),
+          ),
+        ],
+      ),
+    );
   }
 }

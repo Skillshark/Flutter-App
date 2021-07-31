@@ -343,7 +343,6 @@ class Box {
                 GestureDetector(
                     onTap: () {
                       Navigator.pop(context);
-                      Regc(context, size).dia();
                     },
                     child: Text(
                       'Register Now',

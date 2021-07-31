@@ -2,12 +2,12 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skillshark/components/authentication_services.dart';
+import 'package:skillshark/controller/pagecon.dart';
 import 'package:skillshark/page/home.dart';
 import 'package:skillshark/pages/dashboard.dart';
 import 'package:skillshark/pages/landing.dart';
 import 'package:skillshark/pages/login.dart';
 import 'package:skillshark/pages/post_create.dart';
-import 'package:skillshark/pages/post_edit.dart';
 import 'package:skillshark/pages/profile.dart';
 import 'package:skillshark/pages/profile_edit.dart';
 import 'package:skillshark/pages/videoplayer_page.dart';
@@ -29,6 +29,9 @@ class SignUpApp extends StatelessWidget {
               context.read<AuthenticationService>().authStateChanges,
           initialData: null,
         ),
+        ChangeNotifierProvider<Pagecontrol>.value(
+          value: Pagecontrol(),
+        ),
       ],
       child: MaterialApp(
           debugShowCheckedModeBanner: false,
@@ -46,7 +49,6 @@ class SignUpApp extends StatelessWidget {
             '/profile': (context) => profileScreen(),
             '/profile_edit': (context) => profileEditScreen(),
             '/video_player': (context) => vidPlayer(),
-            '/post_edit': (context) => posteditScreen(),
             '/post_create': (context) => createPost(),
           }),
     );

@@ -1,8 +1,9 @@
 import 'dart:html';
-
+import 'dart:typed_data';
 import 'package:auto_size_text/auto_size_text.dart';
 import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -13,55 +14,17 @@ import 'package:skillshark/components/models.dart';
 import 'package:skillshark/components/storage_service.dart';
 import 'package:uuid/uuid.dart';
 
-class LogoSelect extends StatefulWidget {
-  final String bizaccid;
-  const LogoSelect({
-    Key key,
-    this.bizaccid,
-  }) : super(key: key);
+class Regc extends StatefulWidget {
+  final Size size;
+  final String uuid;
+
+  Regc({Key key, this.size, this.uuid}) : super(key: key);
 
   @override
-  _LogoSelectState createState() => _LogoSelectState();
+  _RegcState createState() => _RegcState();
 }
 
-class _LogoSelectState extends State<LogoSelect> {
-  File file;
-
-  Future<void> _pickImage() async {
-    FilePickerResult result =
-        await FilePicker.platform.pickFiles(type: FileType.image);
-    var size = result.files.first.bytes;
-
-    setState(() {
-      file = File(size, result.files.single.path);
-      LogoUploader().uploadTask(file, widget.bizaccid);
-    });
-  }
-
-  void _clear() {
-    setState(() {
-      file = null;
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return FlatButton(
-      onPressed: () async {
-        await _pickImage();
-      },
-      color: Colors.grey[200],
-      child: Padding(
-        padding: const EdgeInsets.all(3.0),
-        child: Text('Choose File'),
-      ),
-    );
-  }
-}
-
-class Regc {
-  BuildContext context;
-  Size size;
+class _RegcState extends State<Regc> {
   var name = TextEditingController();
   var mailId = TextEditingController();
   var cLocation = TextEditingController();
@@ -72,76 +35,62 @@ class Regc {
   var cInsta = TextEditingController();
   var cLinkedin = TextEditingController();
   var user = FirebaseAuth.instance.currentUser;
-  var uuid = Uuid().v1().toString();
 
-  Regc(this.context, this.size);
-
-  dia() {
-    BiDataService().createBizAcc(uuid);
-    showDialog(
-        context: context,
-        builder: (context) {
-          return StatefulBuilder(builder: (context, setState) {
-            return StreamBuilder<BizAcc>(
-                stream: DatabaseService().streamBizAcc(uuid),
-                builder: (context, snapshot) {
-                  return SimpleDialog(
-                    backgroundColor: Colors.white,
-                    contentPadding: EdgeInsets.only(left: 20, right: 20),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(20)),
+  @override
+  Widget build(BuildContext context) {
+    return SimpleDialog(
+      backgroundColor: Colors.white,
+      contentPadding: EdgeInsets.all(8.0),
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+      children: [
+        Container(
+          height: widget.size.height - 100,
+          width: widget.size.width - widget.size.width / 5,
+          child: Row(
+            children: [
+              Expanded(
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        height: size.height - 100,
-                        width: size.width - size.width / 5,
-                        child: Row(
-                          children: [
-                            Expanded(
-                              child: Container(
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    SizedBox(
-                                      height: 40,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(left: 20),
-                                      child: SizedBox(
-                                        height: 70,
-                                        child: Image.asset(
-                                          'assets/images/login_page_logo.png',
-                                          fit: BoxFit.contain,
-                                        ),
-                                      ),
-                                    ),
-                                    Expanded(flex: 1, child: Container()),
-                                    pic(),
-                                    Expanded(flex: 2, child: Container()),
-                                  ],
-                                ),
-                              ),
-                            ),
-                            Row(
-                              children: [],
-                            ),
-                            Expanded(
-                              child: Container(
-                                child: form(),
-                              ),
-                            ),
-                            Expanded(
-                              child: Container(
-                                child: form2(),
-                              ),
-                            ),
-                          ],
+                      SizedBox(
+                        height: 40,
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: SizedBox(
+                          height: 70,
+                          child: Image.asset(
+                            'assets/images/login_page_logo.png',
+                            fit: BoxFit.contain,
+                          ),
                         ),
-                      )
+                      ),
+                      Expanded(flex: 1, child: Container()),
+                      pic(),
+                      Expanded(flex: 2, child: Container()),
                     ],
-                  );
-                });
-          });
-        });
+                  ),
+                ),
+              ),
+              Row(
+                children: [],
+              ),
+              Expanded(
+                child: Container(
+                  child: form(),
+                ),
+              ),
+              Expanded(
+                child: Container(
+                  child: form2(),
+                ),
+              ),
+            ],
+          ),
+        )
+      ],
+    );
   }
 
   pic() {
@@ -159,12 +108,13 @@ class Regc {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             StreamBuilder<BizAcc>(
-                stream: DatabaseService().streamBizAcc(uuid),
+                stream: DatabaseService().getBizAcc(widget.uuid),
                 builder: (context, snapshot) {
+                  print(widget.uuid);
                   if (snapshot.hasData) {
                     return Container(
                       height: 80,
-                      width: 70,
+                      width: 90,
                       decoration: BoxDecoration(
                         image: DecorationImage(
                           image: NetworkImage(snapshot.data.logoUrl),
@@ -173,15 +123,18 @@ class Regc {
                       ),
                     );
                   } else {
+                    //return Container(
+                    //height: 80,
+                    //width: 70,
+                    //color: Colors.grey[200],
+                    //child: Icon(
+                    //Icons.photo_size_select_actual_outlined,
+                    //size: 27,
+                    //color: Colors.grey[400],
+                    //),
+                    //);
                     return Container(
-                      height: 80,
-                      width: 70,
-                      color: Colors.grey[200],
-                      child: Icon(
-                        Icons.photo_size_select_actual_outlined,
-                        size: 27,
-                        color: Colors.grey[400],
-                      ),
+                      child: CircularProgressIndicator(),
                     );
                   }
                 }),
@@ -193,8 +146,8 @@ class Regc {
               children: [
                 Row(
                   children: [
-                    LogoSelect(
-                      bizaccid: uuid,
+                    LogoUploader(
+                      bizaccid: widget.uuid,
                     ),
                     Text('  (or) Drag and Drop'),
                   ],
@@ -313,18 +266,20 @@ class Regc {
           ),
           ElevatedButton(
             onPressed: () {
-              BiDataService().editBizAcc(
-                  uuid,
-                  name.text,
-                  mailId.text,
-                  cLocation.text,
-                  cDesc.text,
-                  cFb.text,
-                  cInsta.text,
-                  cLinkedin.text,
-                  cTwitter.text,
-                  cWebURL.text,
-                  '');
+              BiDataService()
+                  .editBizAcc(
+                      widget.uuid,
+                      name.text,
+                      mailId.text,
+                      cLocation.text,
+                      cDesc.text,
+                      cFb.text,
+                      cInsta.text,
+                      cLinkedin.text,
+                      cTwitter.text,
+                      cWebURL.text,
+                      user.uid)
+                  .then((value) => Navigator.of(context).pop());
             },
             child: Text('Get Started'),
           )

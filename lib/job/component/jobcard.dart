@@ -9,10 +9,18 @@ Widget jobcard(Size size, Jobm e, BuildContext context) {
   return PhysicalModel(
     color: Colors.black,
     elevation: 5,
+    borderRadius: BorderRadius.all(
+      Radius.circular(15),
+    ),
     child: Container(
-      decoration: BoxDecoration(color: Colors.white),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.all(
+          Radius.circular(15),
+        ),
+      ),
       child: Padding(
-        padding: const EdgeInsets.all(9.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

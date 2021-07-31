@@ -2,7 +2,6 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:skillshark/components/postdata_service.dart';
 import 'package:skillshark/components/profile_preview.dart';
-import 'package:skillshark/pages/post_edit.dart';
 import 'package:uuid/uuid.dart';
 
 class createPost extends StatelessWidget {
@@ -17,10 +16,6 @@ class createPost extends StatelessWidget {
         onPressed: () {
           PostdataService()
               .postCreate(postid, titleController.text, currentUser.uid);
-          Navigator.push(
-              context,
-              MaterialPageRoute(
-                  builder: (context) => posteditScreen(postid: postid)));
         },
         label: Text('Upload Content'),
         icon: Icon(Icons.arrow_forward_ios_outlined),
