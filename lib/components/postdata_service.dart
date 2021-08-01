@@ -129,27 +129,27 @@ class PostdataService {
   }
 
   Future<void> postLike(var postid, bool selected, var userid) {
-    DocumentReference comment =
+    DocumentReference post =
         FirebaseFirestore.instance.collection('posts').doc(postid);
 
     List<String> user = [userid];
 
     if (selected) {
       FirebaseFirestore.instance.runTransaction((transaction) async {
-        DocumentSnapshot snap = await transaction.get(comment);
-        transaction.update(comment, {
+        DocumentSnapshot snap = await transaction.get(post);
+        transaction.update(post, {
           'likes': snap['likes'] + 1,
         });
       });
-      comment.update({'downvoteusers': FieldValue.arrayUnion(user)});
+      post.update({'downvoteusers': FieldValue.arrayUnion(user)});
     } else {
       FirebaseFirestore.instance.runTransaction((transaction) async {
-        DocumentSnapshot snap = await transaction.get(comment);
-        transaction.update(comment, {
+        DocumentSnapshot snap = await transaction.get(post);
+        transaction.update(post, {
           'likes': snap['likes'] - 1,
         });
       });
-      comment.update({'downvoteusers': FieldValue.arrayRemove(user)});
+      post.update({'downvoteusers': FieldValue.arrayRemove(user)});
     }
   }
 }

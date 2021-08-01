@@ -46,7 +46,7 @@ Widget pcard2(Size size, String uid) {
                   height: 0,
                 ),
                 Text(
-                  'Tony Stark',
+                  snapshot.data.name ?? '',
                   style: GoogleFonts.roboto(
                       fontSize: 17,
                       fontWeight: FontWeight.bold,

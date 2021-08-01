@@ -2,8 +2,14 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skillshark/addproject/wid.dart';
+import 'package:skillshark/components/db_service.dart';
+import 'package:skillshark/components/models.dart';
 
 class About extends StatefulWidget {
+  final String postid;
+
+  About({Key key, this.postid}) : super(key: key);
+
   @override
   _AboutState createState() => _AboutState();
 }
@@ -14,58 +20,76 @@ class _AboutState extends State<About> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(
-          height: 20,
-        ),
-        Container(
-            child: attr(
-                'Future technology of GPS and Motion Sensors with easy tutorial explanations')),
-        SizedBox(
-          height: 6,
-        ),
-        row('Project Done By : ', 'Maxwell Jonas'),
-        SizedBox(
-          height: 6,
-        ),
-        row('Assistance : ', 'Henry Williams'),
-        SizedBox(
-          height: 6,
-        ),
-        row('Studio : ', 'Explorica Labs and Research Center'),
-        SizedBox(
-          height: 6,
-        ),
-        Text('Other Project Links :'),
-        SizedBox(
-          height: 6,
-        ),
-        link('www.exploricaprojects/gps.com'),
-        SizedBox(
-          height: 6,
-        ),
-        link('www.exploricaprojects/standardtechnologyongps.com'),
-        SizedBox(
-          height: 8,
-        ),
-        Container(
-          child: Text(long),
-        ),
-        SizedBox(
-          height: 8,
-        ),
-        a('Visit our company website'),
-        SizedBox(
-          height: 5,
-        ),
-        link('www.company.com'),
-        SizedBox(
-          height: 20,
-        ),
-      ],
-    );
+    return StreamBuilder<Post>(
+        stream: DatabaseService().getPost(widget.postid),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            return Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 20,
+                ),
+                Container(
+                  child: attr(
+                      'Future technology of GPS and Motion Sensors with easy tutorial explanations'),
+                ),
+                SizedBox(
+                  height: 6,
+                ),
+                row('Project Done By : ', 'Someone'),
+                SizedBox(
+                  height: 6,
+                ),
+                row('Assistance : ', 'Henry Williams'),
+                SizedBox(
+                  height: 6,
+                ),
+                row('Studio : ', 'Explorica Labs and Research Center'),
+                SizedBox(
+                  height: 6,
+                ),
+                Text('Other Project Links :'),
+                SizedBox(
+                  height: 6,
+                ),
+                link('www.exploricaprojects/gps.com'),
+                SizedBox(
+                  height: 6,
+                ),
+                link('www.exploricaprojects/standardtechnologyongps.com'),
+                SizedBox(
+                  height: 8,
+                ),
+                Container(
+                  height: 150,
+                  child: Text(
+                    snapshot.data.bio,
+                    style: GoogleFonts.roboto(
+                        color: Colors.black,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15),
+                  ),
+                ),
+                SizedBox(
+                  height: 8,
+                ),
+                a('Visit our company website'),
+                SizedBox(
+                  height: 5,
+                ),
+                link('www.company.com'),
+                SizedBox(
+                  height: 20,
+                ),
+              ],
+            );
+          } else {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+        });
   }
 
   Widget row(String g, String f) {

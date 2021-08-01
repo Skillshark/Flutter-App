@@ -3,6 +3,10 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class Discover extends StatefulWidget {
+  final String postid;
+
+  Discover({Key key, this.postid}) : super(key: key);
+
   @override
   _DiscoverState createState() => _DiscoverState();
 }
