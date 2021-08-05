@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:skillshark/project/documentary.dart';
 
 class Discover extends StatefulWidget {
   final String postid;
@@ -47,15 +48,25 @@ class _DiscoverState extends State<Discover> {
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Container(
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(14),
-                color: Colors.blue.withOpacity(0.2),
-              ),
-              child: Padding(
-                padding: const EdgeInsets.all(7.0),
-                child: Text('Click to View More',
-                    style: GoogleFonts.roboto(color: Colors.blue[300])),
+            InkWell(
+              onTap: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => Documentary(),
+                  ),
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(14),
+                  color: Colors.blue.withOpacity(0.2),
+                ),
+                child: Padding(
+                  padding: const EdgeInsets.all(7.0),
+                  child: Text('Click to View More',
+                      style: GoogleFonts.roboto(color: Colors.blue[300])),
+                ),
               ),
             ),
           ],

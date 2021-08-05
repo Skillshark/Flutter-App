@@ -1,7 +1,12 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
+import 'package:skillshark/addproject/addp.dart';
+import 'package:skillshark/components/postdata_service.dart';
 import 'package:skillshark/controller/pagecon.dart';
+import 'package:uuid/uuid.dart';
 
 class Publish extends StatefulWidget {
   @override
@@ -10,8 +15,11 @@ class Publish extends StatefulWidget {
 
 class _PublishState extends State<Publish> {
   Pagecontrol pp;
+  String postid;
+
   @override
   Widget build(BuildContext context) {
+    var firebaseUser = context.watch<User>();
     pp = Provider.of<Pagecontrol>(context);
     return Scaffold(
       body: Column(
@@ -32,9 +40,10 @@ class _PublishState extends State<Publish> {
             height: 30,
           ),
           CircleAvatar(
-              radius: 30,
-              backgroundColor: Colors.white,
-              child: Image.asset('img/success.png')),
+            radius: 30,
+            backgroundColor: Colors.white,
+            child: SvgPicture.asset('assets/images/success.svg'),
+          ),
           SizedBox(
             height: 20,
           ),
@@ -46,7 +55,21 @@ class _PublishState extends State<Publish> {
             height: 30,
           ),
           RaisedButton(
-            onPressed: () {},
+            onPressed: () {
+              postid = Uuid().v1().toString();
+              print(postid);
+              Navigator.pop(context);
+              PostdataService().postCreate(postid, firebaseUser.uid).then(
+                    (value) => Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => Ap(
+                          postid: postid,
+                        ),
+                      ),
+                    ),
+                  );
+            },
             color: Colors.lightBlue,
             child: Padding(
               padding: const EdgeInsets.only(left: 25, right: 25),
@@ -61,7 +84,7 @@ class _PublishState extends State<Publish> {
           ),
           InkWell(
             onTap: () {
-              pp.setadd(0);
+              Navigator.pop(context);
             },
             child: Text(
               'Back to Projects page',

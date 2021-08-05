@@ -28,9 +28,17 @@ Widget fieldicon(String s) {
   );
 }
 
-Widget fields(String s) {
+Widget fields(String s, var control) {
   return Container(
-    child: TextField(
+    child: TextFormField(
+      validator: (value) {
+        if (value == null || value.isEmpty) {
+          return 'please enter some text';
+        } else {
+          return null;
+        }
+      },
+      controller: control,
       decoration: InputDecoration(
           border: InputBorder.none,
           filled: true,

@@ -4,7 +4,10 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:skillshark/addproject/wid.dart';
 import 'package:skillshark/component/wid.dart';
 import 'package:skillshark/components/db_service.dart';
+import 'package:skillshark/components/models.dart';
 import 'package:skillshark/components/postdata_service.dart';
+import 'package:skillshark/components/storage_service.dart';
+import 'package:skillshark/components/video_player.dart';
 import 'package:skillshark/model/learn.dart';
 
 class Content extends StatefulWidget {
@@ -13,10 +16,10 @@ class Content extends StatefulWidget {
   Content({Key key, this.postid}) : super(key: key);
 
   @override
-  _ContentState createState() => _ContentState();
+  ContentState createState() => ContentState();
 }
 
-class _ContentState extends State<Content> {
+class ContentState extends State<Content> {
   List n = [1, 2];
   Size size;
   var title = TextEditingController();
@@ -99,77 +102,106 @@ class _ContentState extends State<Content> {
                                     physics: BouncingScrollPhysics(),
                                     children: n.map((e) {
                                       return e == 1
-                                          ? Padding(
-                                              padding: const EdgeInsets.only(
-                                                  left: 10, right: 8),
-                                              child: DottedBorder(
-                                                color: Colors.grey[600],
-                                                strokeWidth: 1,
-                                                child: Container(
-                                                  height: 250,
-                                                  width: 300,
-                                                  decoration: BoxDecoration(
-                                                    color: Colors.grey[200],
-                                                    borderRadius:
-                                                        BorderRadius.circular(
-                                                            5),
-                                                  ),
-                                                  child: Column(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .center,
-                                                    children: [
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Icon(
-                                                            Icons
-                                                                .image_outlined,
-                                                            size: 60,
-                                                            color: Colors
-                                                                .grey[400],
-                                                          ),
-                                                          SizedBox(
-                                                            width: 10,
-                                                          ),
-                                                          Icon(
-                                                            Icons
-                                                                .videocam_rounded,
-                                                            size: 60,
-                                                            color: Colors
-                                                                .grey[400],
-                                                          ),
-                                                        ],
+                                          ? StreamBuilder<Post>(
+                                              stream: DatabaseService()
+                                                  .getPost(widget.postid),
+                                              builder: (context, snapshot) {
+                                                if (snapshot.hasData) {
+                                                  return Padding(
+                                                    padding:
+                                                        EdgeInsets.all(8.0),
+                                                    child: DottedBorder(
+                                                      color: Colors.grey[600],
+                                                      strokeWidth: 1,
+                                                      child: VideoApp(
+                                                        videoUrl: snapshot
+                                                            .data.videoUrl,
                                                       ),
-                                                      SizedBox(
-                                                        height: 5,
+                                                    ),
+                                                  );
+                                                } else {
+                                                  return Padding(
+                                                    padding:
+                                                        const EdgeInsets.only(
+                                                            left: 10, right: 8),
+                                                    child: DottedBorder(
+                                                      color: Colors.grey[600],
+                                                      strokeWidth: 1,
+                                                      child: Container(
+                                                        height: 250,
+                                                        width: 300,
+                                                        decoration:
+                                                            BoxDecoration(
+                                                          color:
+                                                              Colors.grey[200],
+                                                          borderRadius:
+                                                              BorderRadius
+                                                                  .circular(5),
+                                                        ),
+                                                        child: Column(
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .center,
+                                                          children: [
+                                                            Row(
+                                                              mainAxisAlignment:
+                                                                  MainAxisAlignment
+                                                                      .center,
+                                                              children: [
+                                                                Icon(
+                                                                  Icons
+                                                                      .image_outlined,
+                                                                  size: 60,
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      400],
+                                                                ),
+                                                                SizedBox(
+                                                                  width: 10,
+                                                                ),
+                                                                Icon(
+                                                                  Icons
+                                                                      .videocam_rounded,
+                                                                  size: 60,
+                                                                  color: Colors
+                                                                          .grey[
+                                                                      400],
+                                                                ),
+                                                              ],
+                                                            ),
+                                                            SizedBox(
+                                                              height: 5,
+                                                            ),
+                                                            Text(
+                                                              'Add Photos or Videos.',
+                                                              style: GoogleFonts
+                                                                  .roboto(
+                                                                      fontSize:
+                                                                          12,
+                                                                      color: Colors
+                                                                              .grey[
+                                                                          400]),
+                                                            ),
+                                                            SizedBox(
+                                                              height: 5,
+                                                            ),
+                                                            Text(
+                                                              'You can add more than one multimedia file',
+                                                              style: GoogleFonts
+                                                                  .roboto(
+                                                                      fontSize:
+                                                                          12,
+                                                                      color: Colors
+                                                                              .grey[
+                                                                          400]),
+                                                            ),
+                                                          ],
+                                                        ),
                                                       ),
-                                                      Text(
-                                                        'Add Photos or Videos.',
-                                                        style:
-                                                            GoogleFonts.roboto(
-                                                                fontSize: 12,
-                                                                color: Colors
-                                                                    .grey[400]),
-                                                      ),
-                                                      SizedBox(
-                                                        height: 5,
-                                                      ),
-                                                      Text(
-                                                        'You can add more than one multimedia file',
-                                                        style:
-                                                            GoogleFonts.roboto(
-                                                                fontSize: 12,
-                                                                color: Colors
-                                                                    .grey[400]),
-                                                      ),
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            )
+                                                    ),
+                                                  );
+                                                }
+                                              })
                                           : Padding(
                                               padding: const EdgeInsets.only(
                                                   left: 10, right: 8),
@@ -182,7 +214,8 @@ class _ContentState extends State<Content> {
                                                   decoration: BoxDecoration(
                                                     borderRadius:
                                                         BorderRadius.circular(
-                                                            5),
+                                                      5,
+                                                    ),
                                                     color: Colors.grey[200],
                                                   ),
                                                 ),
@@ -198,25 +231,7 @@ class _ContentState extends State<Content> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            n.add(n.length + 1);
-                                          });
-                                        },
-                                        child: Icon(
-                                          Icons.add_circle,
-                                          size: 50,
-                                          color: Colors.blue,
-                                        )),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      'Add More',
-                                      style: GoogleFonts.roboto(
-                                          fontSize: 12, color: Colors.blue),
-                                    ),
+                                    VideoUploader(postid: widget.postid)
                                   ],
                                 ),
                               )

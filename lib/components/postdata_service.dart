@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 
 class PostdataService {
-  Future<void> postCreate(String postid, String title, String userid) async {
+  Future<void> postCreate(String postid, String userid) async {
     List<String> empty = [];
     CollectionReference post = FirebaseFirestore.instance.collection('posts');
     post.doc(postid).set({
@@ -15,7 +15,7 @@ class PostdataService {
       'about': '',
       'upvotes': 0,
       'likedby': empty,
-      'markdowntxt': '',
+      'markdowntext': '',
       'tools': empty,
       'catagory': empty
     });
@@ -40,12 +40,11 @@ class PostdataService {
     });
   }
 
-  Future<void> postEdit3(String postid, List<String> tags, String about,
-      List<String> tools, List<String> catagory) async {
+  Future<void> postEdit3(String postid, List<String> tags, List<String> tools,
+      List<String> catagory) async {
     CollectionReference post = FirebaseFirestore.instance.collection('posts');
     post.doc(postid).update({
       'tags': tags,
-      'about': about,
       'tools': tools,
       'catagory': catagory,
     });

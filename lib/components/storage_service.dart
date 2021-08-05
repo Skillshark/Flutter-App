@@ -1,12 +1,15 @@
 import 'dart:typed_data';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:dotted_border/dotted_border.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'dart:html';
 
 import 'package:flutter_conditional_rendering/conditional_switch.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:skillshark/addproject/wid.dart';
 
 class VidUploader extends StatefulWidget {
   final String postid;
@@ -348,6 +351,232 @@ class _LogoUploaderState extends State<LogoUploader> {
                   ),
           ),
         ],
+      ),
+    );
+  }
+}
+
+class VideoUploader extends StatefulWidget {
+  final String postid;
+
+  VideoUploader({Key key, this.postid}) : super(key: key);
+
+  @override
+  _VideoUploaderState createState() => _VideoUploaderState();
+}
+
+class _VideoUploaderState extends State<VideoUploader> {
+  double percentage;
+  String path;
+  UploadTask task;
+  TaskSnapshot snapshot;
+
+  uploadVid(String postid) async {
+    InputElement uploadInput = FileUploadInputElement();
+    uploadInput.click();
+
+    uploadInput.onChange.listen((event) {
+      final file = uploadInput.files.first;
+      final reader = FileReader();
+
+      reader.readAsDataUrl(file);
+      reader.onLoadEnd.listen((event) async {
+        uploadToFirebase(file, postid);
+      });
+    });
+  }
+
+  uploadToFirebase(File vidFile, String postid) async {
+    final filePath = 'post_data/$postid/vid.mp4';
+    task = FirebaseStorage.instance.ref().child(filePath).putBlob(vidFile);
+    task.snapshotEvents.listen((event) {
+      percentage = event.bytesTransferred / event.bytesTransferred * 100;
+    });
+    task.then((_) async {
+      String url =
+          await FirebaseStorage.instance.ref().child(filePath).getDownloadURL();
+      FirebaseFirestore.instance
+          .collection('posts')
+          .doc(postid)
+          .update({'videourl': url});
+    });
+    snapshot = await task;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      child: Column(
+        children: [
+          InkWell(
+            onTap: () {
+              uploadVid(widget.postid);
+            },
+            child: task == null
+                ? Icon(
+                    Icons.add_circle,
+                    size: 50,
+                    color: Colors.blue,
+                  )
+                : Center(
+                    child: CircularProgressIndicator(
+                      value: percentage,
+                    ),
+                  ),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Text(
+            'Add More',
+            style: GoogleFonts.roboto(fontSize: 12, color: Colors.blue),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class ThumbnailUploader extends StatefulWidget {
+  final String postid;
+  const ThumbnailUploader({Key key, this.postid}) : super(key: key);
+
+  @override
+  _ThumbnailUploaderState createState() => _ThumbnailUploaderState();
+}
+
+class _ThumbnailUploaderState extends State<ThumbnailUploader> {
+  double percentage;
+  String path;
+  UploadTask task;
+  TaskSnapshot snapshot;
+
+  uploadImg(String postid) async {
+    InputElement uploadInput = FileUploadInputElement();
+    uploadInput.click();
+
+    uploadInput.onChange.listen((event) {
+      final file = uploadInput.files.first;
+      final reader = FileReader();
+
+      reader.readAsDataUrl(file);
+      reader.onLoadEnd.listen((event) async {
+        uploadToFirebase(file, postid);
+      });
+    });
+  }
+
+  uploadToFirebase(File imgFile, String postid) async {
+    final filePath = 'post_data/$postid/vid.png';
+    task = FirebaseStorage.instance.ref().child(filePath).putBlob(imgFile);
+    task.snapshotEvents.listen((event) {
+      percentage = event.bytesTransferred / event.bytesTransferred * 100;
+    });
+    task.then((_) async {
+      String url =
+          await FirebaseStorage.instance.ref().child(filePath).getDownloadURL();
+      FirebaseFirestore.instance
+          .collection('posts')
+          .doc(postid)
+          .update({'thumbnailurl': url});
+    });
+    snapshot = await task;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        uploadImg(widget.postid);
+      },
+      child: Expanded(
+        child: Container(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              text('Category'),
+              SizedBox(
+                height: 15,
+              ),
+              Text(
+                'Project Cover Image',
+                style: GoogleFonts.roboto(
+                    fontSize: 18, fontWeight: FontWeight.w600),
+              ),
+              SizedBox(
+                height: 15,
+              ),
+              Padding(
+                padding: const EdgeInsets.only(left: 10, right: 8),
+                child: DottedBorder(
+                  color: Colors.grey[600],
+                  strokeWidth: 1,
+                  child: Container(
+                    height: 220,
+                    width: 250,
+                    decoration: BoxDecoration(
+                      color: Colors.grey[200],
+                      borderRadius: BorderRadius.circular(5),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.image_outlined,
+                              size: 60,
+                              color: Colors.grey[400],
+                            ),
+                            SizedBox(
+                              width: 10,
+                            ),
+                            Icon(
+                              Icons.videocam_rounded,
+                              size: 60,
+                              color: Colors.grey[400],
+                            ),
+                          ],
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          'Image or GIF',
+                          style: GoogleFonts.roboto(
+                            fontSize: 12,
+                            color: Colors.grey[400],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          'Minimum size 808 by 632 px',
+                          style: GoogleFonts.roboto(
+                            fontSize: 12,
+                            color: Colors.grey[400],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 30,
+              ),
+              Text(
+                'Add Team and Team Members',
+                style: GoogleFonts.roboto(
+                  fontSize: 14,
+                  color: Colors.blue,
+                ),
+              )
+            ],
+          ),
+        ),
       ),
     );
   }

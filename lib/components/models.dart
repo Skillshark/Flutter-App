@@ -297,3 +297,12 @@ class Docu {
 
   Docu(this.name, this.icon);
 }
+
+class AddProjectForm {
+  String title = '';
+  String about = '';
+  String markdowntext = '';
+  String tags = '';
+  String tools = '';
+  String catagory = '';
+}

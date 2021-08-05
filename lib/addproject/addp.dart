@@ -8,6 +8,10 @@ import 'package:skillshark/addproject/poblish.dart';
 import 'package:skillshark/controller/pagecon.dart';
 
 class Ap extends StatefulWidget {
+  final String postid;
+
+  Ap({Key key, this.postid}) : super(key: key);
+
   @override
   _AddPState createState() => _AddPState();
 }
@@ -16,6 +20,9 @@ class _AddPState extends State<Ap> {
   int index = 0;
   Size size;
   Pagecontrol pp;
+  final contentformKey = GlobalKey<ContentState>();
+  final docformKey = GlobalKey<DocState>();
+  final cartformKey = GlobalKey<CartState>();
 
   @override
   Widget build(BuildContext context) {
@@ -66,14 +73,23 @@ class _AddPState extends State<Ap> {
                               }
                             },
                             onStepContinue: () {
-                              if (index < 2) {
+                              if (index < 3) {
                                 setState(() {
                                   index = index + 1;
-                                  //switch (index) {
-                                  //case 1:
-                                  //break;
-                                  //default:
-                                  //}
+                                  switch (index - 1) {
+                                    case 0:
+                                      contentformKey.currentState.submit();
+                                      break;
+                                    case 1:
+                                      docformKey.currentState.submit();
+                                      break;
+                                    case 2:
+                                      cartformKey.currentState.submit();
+                                      break;
+                                    default:
+                                      print('nope');
+                                      break;
+                                  }
                                 });
                               }
                             },
@@ -88,7 +104,10 @@ class _AddPState extends State<Ap> {
                                   content: Container(
                                     height: 1050,
                                     width: size.width,
-                                    child: Content(),
+                                    child: Content(
+                                      key: contentformKey,
+                                      postid: widget.postid,
+                                    ),
                                   ),
                                   isActive: index == 0 ? true : false),
                               Step(
@@ -96,7 +115,10 @@ class _AddPState extends State<Ap> {
                                   content: Container(
                                     height: size.height - 300,
                                     width: size.width,
-                                    child: Doc(),
+                                    child: Doc(
+                                      key: docformKey,
+                                      postid: widget.postid,
+                                    ),
                                   ),
                                   isActive: index == 1 ? true : false),
                               Step(
@@ -104,7 +126,10 @@ class _AddPState extends State<Ap> {
                                   content: Container(
                                     height: size.height,
                                     width: size.width,
-                                    child: Cart(),
+                                    child: Cart(
+                                      key: cartformKey,
+                                      postid: widget.postid,
+                                    ),
                                   ),
                                   isActive: index == 2 ? true : false),
                               Step(

@@ -13,10 +13,7 @@ class createPost extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          PostdataService()
-              .postCreate(postid, titleController.text, currentUser.uid);
-        },
+        onPressed: () {},
         label: Text('Upload Content'),
         icon: Icon(Icons.arrow_forward_ios_outlined),
       ),

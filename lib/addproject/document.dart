@@ -3,15 +3,19 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:skillshark/addproject/dialog/embed.dart';
 import 'package:skillshark/addproject/dialog/style.dart';
 import 'package:skillshark/components/models.dart';
-import 'package:flutter_markdown/flutter_markdown.dart';
-import 'package:markdown_editable_textinput/markdown_text_input.dart';
+import 'package:skillshark/components/postdata_service.dart';
+import 'package:markdowneditor/markdowneditor.dart';
 
 class Doc extends StatefulWidget {
+  final String postid;
+
+  Doc({Key key, this.postid}) : super(key: key);
+
   @override
-  _DocState createState() => _DocState();
+  DocState createState() => DocState();
 }
 
-class _DocState extends State<Doc> {
+class DocState extends State<Doc> {
   List<Docu> dd = [
     Docu('Image', Icon(Icons.image_outlined)),
     Docu('Video', Icon(Icons.videocam_rounded)),
@@ -19,9 +23,25 @@ class _DocState extends State<Doc> {
     Docu('Embed', Icon(Icons.accessibility)),
     Docu('Styles', Icon(Icons.color_lens_outlined))
   ];
-  String dec = '';
+  var markdowncontroller = TextEditingController();
+  Size size;
+
+  submit() {
+    if (markdowncontroller.text != null) {
+      try {
+        PostdataService().postEdit2(widget.postid, markdowncontroller.text);
+      } finally {
+        print('error');
+      }
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
+    size = MediaQuery.of(context).size;
     return Scaffold(
       body: ListView(
         children: [
@@ -117,13 +137,12 @@ class _DocState extends State<Doc> {
           SizedBox(
             height: 15,
           ),
-          MarkdownTextInput(
-            (String value) => setState(() {
-              dec = value;
-            }),
-            dec,
-            label: 'Description',
-            maxLines: 9,
+          Container(
+            height: 400,
+            child: Markeditor(
+              controller: markdowncontroller,
+              size: size,
+            ),
           ),
           SizedBox(
             height: 15,

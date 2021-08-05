@@ -9,6 +9,7 @@ import 'package:skillshark/addproject/addp.dart';
 import 'package:skillshark/auth/regcompany.dart';
 import 'package:skillshark/auth/signup.dart';
 import 'package:skillshark/components/bi_client_service.dart';
+import 'package:skillshark/components/postdata_service.dart';
 import 'package:skillshark/components/profile_preview.dart';
 import 'package:skillshark/controller/authcontroller.dart';
 import 'package:skillshark/controller/pagecon.dart';
@@ -32,6 +33,7 @@ class _HomeState extends State<Home> {
   List hover = [false, false, false, false, false];
   final Controller c = Get.put(Controller());
   Pagecontrol pp;
+  var postid;
 
   @override
   Widget build(BuildContext context) {
@@ -146,7 +148,20 @@ class _HomeState extends State<Home> {
                                 color: Colors.blue,
                               ),
                               onPressed: () {
-                                pp.setadd(1);
+                                postid = Uuid().v1().toString();
+                                print(postid);
+                                PostdataService()
+                                    .postCreate(postid, firebaseUser.uid)
+                                    .then(
+                                      (value) => Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => Ap(
+                                            postid: postid,
+                                          ),
+                                        ),
+                                      ),
+                                    );
                               },
                               label: Text(
                                 'Add project',
@@ -195,8 +210,9 @@ class _HomeState extends State<Home> {
           ),
           Expanded(
             child: Container(
-                height: size.height,
-                child: pp.add == 1 ? Ap() : page[currentindex]),
+              height: size.height,
+              child: page[currentindex],
+            ),
           ),
         ],
       )),
