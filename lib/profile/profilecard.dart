@@ -23,10 +23,12 @@ Widget pcard(Size size) {
             height: 100,
             width: 150,
             decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                image: DecorationImage(
-                    image: AssetImage('assets/upcoming 4.png'),
-                    fit: BoxFit.contain)),
+              shape: BoxShape.circle,
+              image: DecorationImage(
+                image: AssetImage('assets/upcoming 4.png'),
+                fit: BoxFit.contain,
+              ),
+            ),
           ),
           Positioned(
             bottom: 10,

@@ -1,6 +1,7 @@
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:skillshark/addproject/addp.dart';
 import 'package:skillshark/addproject/wid.dart';
 import 'package:skillshark/component/wid.dart';
 import 'package:skillshark/components/db_service.dart';
@@ -113,9 +114,14 @@ class ContentState extends State<Content> {
                                                     child: DottedBorder(
                                                       color: Colors.grey[600],
                                                       strokeWidth: 1,
-                                                      child: VideoApp(
-                                                        videoUrl: snapshot
-                                                            .data.videoUrl,
+                                                      child: Container(
+                                                        height: 250,
+                                                        width: 300,
+                                                        child: VideoApp(
+                                                          key: UniqueKey(),
+                                                          videoUrl: snapshot
+                                                              .data.videoUrl,
+                                                        ),
                                                       ),
                                                     ),
                                                   );
@@ -231,7 +237,7 @@ class ContentState extends State<Content> {
                                 child: Column(
                                   mainAxisAlignment: MainAxisAlignment.center,
                                   children: [
-                                    VideoUploader(postid: widget.postid)
+                                    VideoUploader(postid: widget.postid),
                                   ],
                                 ),
                               )

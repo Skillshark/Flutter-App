@@ -75,16 +75,18 @@ class _AddPState extends State<Ap> {
                             onStepContinue: () {
                               if (index < 3) {
                                 setState(() {
-                                  index = index + 1;
-                                  switch (index - 1) {
+                                  switch (index) {
                                     case 0:
                                       contentformKey.currentState.submit();
+                                      index = index + 1;
                                       break;
                                     case 1:
                                       docformKey.currentState.submit();
+                                      index = index + 1;
                                       break;
                                     case 2:
                                       cartformKey.currentState.submit();
+                                      index = index + 1;
                                       break;
                                     default:
                                       print('nope');

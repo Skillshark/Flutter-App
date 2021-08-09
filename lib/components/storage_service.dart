@@ -366,7 +366,6 @@ class VideoUploader extends StatefulWidget {
 }
 
 class _VideoUploaderState extends State<VideoUploader> {
-  double percentage;
   String path;
   UploadTask task;
   TaskSnapshot snapshot;
@@ -389,9 +388,8 @@ class _VideoUploaderState extends State<VideoUploader> {
   uploadToFirebase(File vidFile, String postid) async {
     final filePath = 'post_data/$postid/vid.mp4';
     task = FirebaseStorage.instance.ref().child(filePath).putBlob(vidFile);
-    task.snapshotEvents.listen((event) {
-      percentage = event.bytesTransferred / event.bytesTransferred * 100;
-    });
+    setState(() {});
+
     task.then((_) async {
       String url =
           await FirebaseStorage.instance.ref().child(filePath).getDownloadURL();
@@ -399,8 +397,9 @@ class _VideoUploaderState extends State<VideoUploader> {
           .collection('posts')
           .doc(postid)
           .update({'videourl': url});
+
+      task = null;
     });
-    snapshot = await task;
   }
 
   @override
@@ -418,11 +417,27 @@ class _VideoUploaderState extends State<VideoUploader> {
                     size: 50,
                     color: Colors.blue,
                   )
-                : Center(
-                    child: CircularProgressIndicator(
-                      value: percentage,
-                    ),
-                  ),
+                : StreamBuilder<TaskSnapshot>(
+                    stream: task.snapshotEvents,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            value: snapshot.data.bytesTransferred /
+                                snapshot.data.totalBytes,
+                            backgroundColor: Colors.transparent,
+                            color: Colors.green,
+                          ),
+                        );
+                      } else {
+                        return Center(
+                          child: CircularProgressIndicator(
+                            backgroundColor: Colors.transparent,
+                            color: Colors.green,
+                          ),
+                        );
+                      }
+                    }),
           ),
           SizedBox(
             height: 5,
@@ -485,99 +500,12 @@ class _ThumbnailUploaderState extends State<ThumbnailUploader> {
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: () {
+    return RaisedButton(
+      onPressed: () {
         uploadImg(widget.postid);
       },
-      child: Expanded(
-        child: Container(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              text('Category'),
-              SizedBox(
-                height: 15,
-              ),
-              Text(
-                'Project Cover Image',
-                style: GoogleFonts.roboto(
-                    fontSize: 18, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(
-                height: 15,
-              ),
-              Padding(
-                padding: const EdgeInsets.only(left: 10, right: 8),
-                child: DottedBorder(
-                  color: Colors.grey[600],
-                  strokeWidth: 1,
-                  child: Container(
-                    height: 220,
-                    width: 250,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(5),
-                    ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(
-                              Icons.image_outlined,
-                              size: 60,
-                              color: Colors.grey[400],
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Icon(
-                              Icons.videocam_rounded,
-                              size: 60,
-                              color: Colors.grey[400],
-                            ),
-                          ],
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          'Image or GIF',
-                          style: GoogleFonts.roboto(
-                            fontSize: 12,
-                            color: Colors.grey[400],
-                          ),
-                        ),
-                        SizedBox(
-                          height: 5,
-                        ),
-                        Text(
-                          'Minimum size 808 by 632 px',
-                          style: GoogleFonts.roboto(
-                            fontSize: 12,
-                            color: Colors.grey[400],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(
-                height: 30,
-              ),
-              Text(
-                'Add Team and Team Members',
-                style: GoogleFonts.roboto(
-                  fontSize: 14,
-                  color: Colors.blue,
-                ),
-              )
-            ],
-          ),
-        ),
-      ),
+      color: Colors.grey[400],
+      child: Text('Choose File'),
     );
   }
 }

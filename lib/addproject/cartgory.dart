@@ -47,32 +47,147 @@ class CartState extends State<Cart> {
         children: [
           Row(
             children: [
-              Stack(
-                children: [
-                  Container(
-                    child: StreamBuilder<Post>(
-                        stream: DatabaseService().getPost(widget.postid),
-                        builder: (context, snapshot) {
-                          if (snapshot.hasData) {
-                            return Container(
-                              decoration: BoxDecoration(
-                                image: DecorationImage(
-                                  image:
-                                      NetworkImage(snapshot.data.thumbnailUrl),
+              Expanded(
+                child: Container(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      text('Category'),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Text(
+                        'Project Cover Image',
+                        style: GoogleFonts.roboto(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                      SizedBox(
+                        height: 15,
+                      ),
+                      Stack(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(left: 10, right: 8),
+                            child: DottedBorder(
+                              color: Colors.grey[600],
+                              strokeWidth: 1,
+                              child: Container(
+                                height: 220,
+                                width: 250,
+                                decoration: BoxDecoration(
+                                  color: Colors.grey[200],
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        Icon(
+                                          Icons.image_outlined,
+                                          size: 60,
+                                          color: Colors.grey[400],
+                                        ),
+                                        SizedBox(
+                                          width: 10,
+                                        ),
+                                        Icon(
+                                          Icons.videocam_rounded,
+                                          size: 60,
+                                          color: Colors.grey[400],
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    SizedBox(
+                                      height: 25,
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      'Image or GIF',
+                                      style: GoogleFonts.roboto(
+                                        fontSize: 12,
+                                        color: Colors.grey[400],
+                                      ),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
+                                    ),
+                                    Text(
+                                      'Minimum size 808 by 632 px',
+                                      style: GoogleFonts.roboto(
+                                        fontSize: 12,
+                                        color: Colors.grey[400],
+                                      ),
+                                    ),
+                                  ],
                                 ),
                               ),
-                            );
-                          } else {
-                            return Center(
-                              child: SizedBox.shrink(),
-                            );
-                          }
-                        }),
+                            ),
+                          ),
+                          Padding(
+                            padding: EdgeInsets.only(left: 10, right: 8),
+                            child: StreamBuilder<Post>(
+                                stream:
+                                    DatabaseService().getPost(widget.postid),
+                                builder: (context, snapshot) {
+                                  if (snapshot.hasData &&
+                                      snapshot.data.thumbnailUrl != null) {
+                                    return Container(
+                                      height: 220,
+                                      width: 250,
+                                      decoration: BoxDecoration(
+                                        image: DecorationImage(
+                                            image: NetworkImage(
+                                                snapshot.data.thumbnailUrl),
+                                            fit: BoxFit.cover),
+                                      ),
+                                    );
+                                  } else {
+                                    return Container(
+                                      height: 220,
+                                      width: 250,
+                                      color: Colors.transparent,
+                                    );
+                                  }
+                                }),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(
+                              left: 10,
+                              right: 8,
+                            ),
+                            child: Container(
+                              height: 220,
+                              width: 250,
+                              child: Center(
+                                child: ThumbnailUploader(
+                                  postid: widget.postid,
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      SizedBox(
+                        height: 30,
+                      ),
+                      Text(
+                        'Add Team and Team Members',
+                        style: GoogleFonts.roboto(
+                          fontSize: 14,
+                          color: Colors.blue,
+                        ),
+                      )
+                    ],
                   ),
-                  ThumbnailUploader(
-                    postid: widget.postid,
-                  ),
-                ],
+                ),
               ),
               SizedBox(
                 width: 20,
