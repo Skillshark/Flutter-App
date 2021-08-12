@@ -31,23 +31,31 @@ class Post {
   final String postid;
   final String title;
   final List tags;
-  final String bio;
+  final String about;
   final String userid;
   final String videoUrl;
   final String thumbnailUrl;
   DateTime timestamp;
   final int upvote;
+  final String markdowntext;
+  final List tools;
+  final List category;
+  final List likedby;
 
   Post(
       {this.postid,
       this.title,
       this.tags,
-      this.bio,
+      this.about,
       this.userid,
       this.videoUrl,
       this.thumbnailUrl,
       this.timestamp,
-      this.upvote});
+      this.upvote,
+      this.markdowntext,
+      this.category,
+      this.likedby,
+      this.tools});
 
   factory Post.fromFirestore(DocumentSnapshot doc) {
     Map data = doc.data();
@@ -56,7 +64,7 @@ class Post {
       postid: doc.id,
       title: data['title'] ?? '',
       tags: data['tags'] ?? null,
-      bio: data['bio'] ?? '',
+      about: data['about'] ?? '',
       userid: data['userid'] ?? '',
       videoUrl: data['videourl'] ??
           'https://firebasestorage.googleapis.com/v0/b/skillshare-69b1f.appspot.com/o/defaults%2Fvideo.mp4?alt=media&token=102033f6-b5b8-4578-acb6-18103b2bae42',
@@ -64,6 +72,10 @@ class Post {
           'https://firebasestorage.googleapis.com/v0/b/skillshare-69b1f.appspot.com/o/defaults%2Fdownload.png?alt=media&token=442cd51b-fd5a-477a-aebd-8af3599ae9a9',
       timestamp: data['timestamp'].toDate() ?? DateTime.now(),
       upvote: data['upvote'] ?? 0,
+      markdowntext: data['markdowntext'] ?? '',
+      tools: data['tools'] ?? '',
+      category: data['category'] ?? '',
+      likedby: data['likedby'] ?? '',
     );
   }
 }
@@ -136,7 +148,7 @@ class Job {
       jobDescLink: data['jobdesclink'] ?? '',
       webURL: data['weburl'] ?? '',
       jLocation: data['jlocation'],
-      catagory: data['catagory'] ?? '',
+      catagory: data['category'] ?? '',
       tags: data['tags'],
       time: data['time'],
     );

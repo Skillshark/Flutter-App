@@ -209,7 +209,6 @@ class _vidPlayerState extends State<vidPlayer> {
                                           }),
                                     ),
                                     Divider(),
-                                    Text(snapshot.data.bio ?? ''),
                                   ],
                                 ),
                               )

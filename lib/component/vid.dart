@@ -17,10 +17,12 @@ Widget vd(video v, Size size) {
           Expanded(
               child: Container(
             decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                image: DecorationImage(
-                    image: AssetImage('assets/' + v.assest),
-                    fit: BoxFit.cover)),
+              borderRadius: BorderRadius.circular(20),
+              image: DecorationImage(
+                image: AssetImage(v.assest),
+                fit: BoxFit.cover,
+              ),
+            ),
           )),
           SizedBox(
             width: 20,
@@ -57,10 +59,10 @@ Widget vd(video v, Size size) {
                       'Author :',
                       style: TextStyle(color: Colors.grey),
                     ),
-                    CircleAvatar(
-                      radius: 10,
-                      backgroundImage: AssetImage('assets/' + v.avatar),
-                    ),
+                    //CircleAvatar(
+                    //radius: 10,
+                    //backgroundImage: AssetImage(v.avatar),
+                    //),
                     SizedBox(
                       width: 5,
                     ),

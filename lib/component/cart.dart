@@ -45,9 +45,14 @@ Widget Cart(Size size, BuildContext context) {
                       height: 50,
                       width: 190,
                       decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(10),
-                          image: DecorationImage(
-                              image: AssetImage(e.assest), fit: BoxFit.cover)),
+                        borderRadius: BorderRadius.circular(10),
+                        image: DecorationImage(
+                          image: AssetImage(e.assest),
+                          fit: BoxFit.cover,
+                          colorFilter: ColorFilter.mode(
+                              Colors.black.withOpacity(0.3), BlendMode.darken),
+                        ),
+                      ),
                       child: Center(
                         child: AutoSizeText(
                           e.cat,

@@ -53,7 +53,9 @@ class _DiscoverState extends State<Discover> {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => Documentary(),
+                    builder: (context) => Documentary(
+                      postid: widget.postid,
+                    ),
                   ),
                 );
               },
@@ -64,8 +66,12 @@ class _DiscoverState extends State<Discover> {
                 ),
                 child: Padding(
                   padding: const EdgeInsets.all(7.0),
-                  child: Text('Click to View More',
-                      style: GoogleFonts.roboto(color: Colors.blue[300])),
+                  child: Text(
+                    'Click to View More',
+                    style: GoogleFonts.roboto(
+                      color: Colors.blue[300],
+                    ),
+                  ),
                 ),
               ),
             ),

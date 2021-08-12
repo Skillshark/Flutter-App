@@ -17,7 +17,7 @@ class PostdataService {
       'likedby': empty,
       'markdowntext': '',
       'tools': empty,
-      'catagory': empty
+      'category': empty
     });
   }
 
@@ -41,12 +41,12 @@ class PostdataService {
   }
 
   Future<void> postEdit3(String postid, List<String> tags, List<String> tools,
-      List<String> catagory) async {
+      List<String> category) async {
     CollectionReference post = FirebaseFirestore.instance.collection('posts');
     post.doc(postid).update({
       'tags': tags,
       'tools': tools,
-      'catagory': catagory,
+      'category': category,
     });
   }
 

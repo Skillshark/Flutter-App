@@ -1,11 +1,13 @@
 import 'dart:ui';
 
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:skillshark/components/db_service.dart';
 import 'package:skillshark/components/models.dart';
 import 'package:skillshark/controller/pagecon.dart';
+import 'package:skillshark/profile/profilecard.dart';
 import 'package:skillshark/profile/profilecard2.dart';
 import 'package:skillshark/profile/tabs/livetab.dart';
 import 'package:skillshark/profile/tabs/pproject.dart';
@@ -25,8 +27,10 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
   List h = [false, false, false];
   TabController tabController;
   Pagecontrol pp;
+
   @override
   Widget build(BuildContext context) {
+    final firebaseUser = context.watch<User>();
     size = MediaQuery.of(context).size;
     pp = Provider.of<Pagecontrol>(context);
     List t = [
@@ -69,14 +73,20 @@ class _ProfileState extends State<Profile> with SingleTickerProviderStateMixin {
                                   elevation: 3,
                                   borderRadius: BorderRadius.circular(10),
                                   color: Colors.grey,
-                                  child: Container(
-                                    height: 680,
-                                    width: 300,
-                                    decoration: BoxDecoration(
-                                      color: Colors.white,
-                                      borderRadius: BorderRadius.circular(10),
+                                  child: ConstrainedBox(
+                                    constraints: BoxConstraints(
+                                      maxHeight: 680,
+                                      maxWidth: 300,
                                     ),
-                                    child: pcard2(size, widget.userid),
+                                    child: Container(
+                                      decoration: BoxDecoration(
+                                        color: Colors.white,
+                                        borderRadius: BorderRadius.circular(10),
+                                      ),
+                                      child: widget.userid == firebaseUser.uid
+                                          ? pcard(size, widget.userid)
+                                          : pcard2(size, widget.userid),
+                                    ),
                                   ),
                                 ),
                               ),

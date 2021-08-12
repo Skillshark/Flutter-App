@@ -60,8 +60,9 @@ class DatabaseService {
         .map((event) => BizAcc.fromFirestore(event));
   }
 
-  Stream<List<BizAcc>> streamBizAcc () {
+  Stream<List<BizAcc>> streamBizAcc() {
     var ref = _db.collection('bizacc');
-    return ref.snapshots().map((list) => list.docs.map((doc) => BizAcc.fromFirestore(doc)).toList());
+    return ref.snapshots().map(
+        (list) => list.docs.map((doc) => BizAcc.fromFirestore(doc)).toList());
   }
 }

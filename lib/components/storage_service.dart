@@ -509,3 +509,108 @@ class _ThumbnailUploaderState extends State<ThumbnailUploader> {
     );
   }
 }
+
+class MarkdownUploader {
+  UploadTask task;
+
+  uploadToFirebase(String mkdown, String postid) async {
+    final filePath = 'post_data/$postid/document.md';
+    task = FirebaseStorage.instance.ref().child(filePath).putString(mkdown);
+
+    task.then((_) async {
+      String url =
+          await FirebaseStorage.instance.ref().child(filePath).getDownloadURL();
+      FirebaseFirestore.instance
+          .collection('posts')
+          .doc(postid)
+          .update({'thumbnailurl': url});
+    });
+  }
+}
+
+class DPUploader extends StatefulWidget {
+  final String userid;
+
+  const DPUploader({Key key, this.userid}) : super(key: key);
+
+  @override
+  _DPUploaderState createState() => _DPUploaderState();
+}
+
+class _DPUploaderState extends State<DPUploader> {
+  double percentage;
+  String path;
+  UploadTask task;
+  TaskSnapshot snapshot;
+
+  uploadImg(String userid) async {
+    InputElement uploadInput = FileUploadInputElement();
+    uploadInput.click();
+
+    uploadInput.onChange.listen((event) {
+      final file = uploadInput.files.first;
+      final reader = FileReader();
+
+      reader.readAsDataUrl(file);
+      reader.onLoadEnd.listen((event) async {
+        uploadToFirebase(file, userid);
+      });
+    });
+  }
+
+  uploadToFirebase(File imgFile, String userid) async {
+    final filePath = 'profile_picture/$userid/dp.png';
+    task = FirebaseStorage.instance.ref().child(filePath).putBlob(imgFile);
+    task.snapshotEvents.listen((event) {
+      percentage = event.bytesTransferred / event.bytesTransferred * 100;
+    });
+    task.then((_) async {
+      String url =
+          await FirebaseStorage.instance.ref().child(filePath).getDownloadURL();
+      FirebaseFirestore.instance
+          .collection('users')
+          .doc(userid)
+          .update({'dpurl': url});
+    });
+    snapshot = await task;
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      alignment: Alignment.centerLeft,
+      height: 50,
+      width: 200,
+      child: Column(
+        children: [
+          RaisedButton(
+            onPressed: () {
+              uploadImg(widget.userid);
+            },
+            color: Colors.grey[400],
+            child: Text('Change Photo'),
+          ),
+          SizedBox(
+            height: 5,
+          ),
+          Container(
+            child: task == null
+                ? SizedBox()
+                : StreamBuilder<TaskSnapshot>(
+                    stream: task.snapshotEvents,
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        return LinearProgressIndicator(
+                          value: snapshot.data.totalBytes /
+                              snapshot.data.bytesTransferred,
+                        );
+                      } else {
+                        return SizedBox();
+                      }
+                    }),
+          ),
+        ],
+      ),
+    );
+  }
+}

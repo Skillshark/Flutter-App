@@ -147,7 +147,6 @@ class DocState extends State<Doc> {
           SizedBox(
             height: 15,
           ),
-          // Markdown(data: )
         ],
       ),
     );

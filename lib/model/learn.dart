@@ -6,13 +6,13 @@ class Learnc {
 }
 
 List<Learnc> l = [
-  Learnc('images/cards/music.png', 'Music'),
-  Learnc('images/cards/gaming.png', 'Gaming'),
-  Learnc('images/cards/automobile.png', 'Automobile'),
-  Learnc('images/cards/mechanical.png', 'Mechanic'),
-  Learnc('images/cards/electricals.png', 'Electricals'),
-  Learnc('images/cards/machines.png', 'Machines'),
-  Learnc('images/cards/robotics.png', 'Robotics'),
+  Learnc('assets/images/cards/music.png', 'Sound'),
+  Learnc('assets/images/cards/gaming.png', 'DIY'),
+  Learnc('assets/images/cards/automobile.png', 'Automobile'),
+  Learnc('assets/images/cards/mechanical.png', 'Mechanic'),
+  Learnc('assets/images/cards/electricals.png', 'Electricals'),
+  Learnc('assets/images/cards/machines.png', 'Machines'),
+  Learnc('assets/images/cards/robotics.png', 'Robotics'),
 ];
 List t = ['Automobile', 'New Classes', 'Car Motor'];
 List tt = ['Mechanical', 'New Projects', 'Robotics'];

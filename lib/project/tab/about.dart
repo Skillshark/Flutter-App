@@ -64,7 +64,7 @@ class _AboutState extends State<About> {
                 Container(
                   height: 150,
                   child: Text(
-                    snapshot.data.bio,
+                    snapshot.data.about == null ? '' : snapshot.data.about,
                     style: GoogleFonts.roboto(
                         color: Colors.black,
                         fontWeight: FontWeight.bold,
