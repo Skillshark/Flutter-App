@@ -43,111 +43,114 @@ class DocState extends State<Doc> {
   Widget build(BuildContext context) {
     size = MediaQuery.of(context).size;
     return Scaffold(
-      body: ListView(
-        children: [
-          SizedBox(
-            height: 20,
-          ),
-          Row(
-            children: [
-              Container(
-                width: 120,
-                height: 70,
-                child: Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: InkWell(
-                    onTap: () {},
-                    child: Container(
-                      width: 120,
-                      height: 70,
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(5),
-                          boxShadow: [
-                            BoxShadow(color: Colors.black, blurRadius: 1)
-                          ]),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          CircleAvatar(
-                              radius: 14,
-                              child: Text(
-                                'T',
-                                style: GoogleFonts.italiana(
-                                    color: Colors.white,
-                                    fontWeight: FontWeight.bold,
-                                    fontSize: 18),
-                              )),
-                          SizedBox(
-                            width: 4,
-                          ),
-                          Text(
-                            'Text',
-                            style: GoogleFonts.roboto(
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.blue),
-                          )
-                        ],
+      body: Scrollbar(
+        isAlwaysShown: true,
+        child: ListView(
+          children: [
+            SizedBox(
+              height: 20,
+            ),
+            Row(
+              children: [
+                Container(
+                  width: 120,
+                  height: 70,
+                  child: Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: InkWell(
+                      onTap: () {},
+                      child: Container(
+                        width: 120,
+                        height: 70,
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(5),
+                            boxShadow: [
+                              BoxShadow(color: Colors.black, blurRadius: 1)
+                            ]),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            CircleAvatar(
+                                radius: 14,
+                                child: Text(
+                                  'T',
+                                  style: GoogleFonts.italiana(
+                                      color: Colors.white,
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 18),
+                                )),
+                            SizedBox(
+                              width: 4,
+                            ),
+                            Text(
+                              'Text',
+                              style: GoogleFonts.roboto(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.blue),
+                            )
+                          ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-              SizedBox(
-                width: 10,
-              ),
-              Expanded(
-                child: Container(
-                  height: 70,
-                  child: ListView(
-                    scrollDirection: Axis.horizontal,
-                    children: dd.map((e) {
-                      return Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: InkWell(
-                          onTap: () {
-                            dia(context, e);
-                          },
-                          child: Container(
-                            width: 120,
-                            height: 70,
-                            decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(5),
-                                color: Colors.grey[300]),
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.center,
-                              children: [
-                                e.icon,
-                                SizedBox(
-                                  width: 4,
-                                ),
-                                Text(e.name)
-                              ],
+                SizedBox(
+                  width: 10,
+                ),
+                Expanded(
+                  child: Container(
+                    height: 70,
+                    child: ListView(
+                      scrollDirection: Axis.horizontal,
+                      children: dd.map((e) {
+                        return Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: InkWell(
+                            onTap: () {
+                              dia(context, e);
+                            },
+                            child: Container(
+                              width: 120,
+                              height: 70,
+                              decoration: BoxDecoration(
+                                  borderRadius: BorderRadius.circular(5),
+                                  color: Colors.grey[300]),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  e.icon,
+                                  SizedBox(
+                                    width: 4,
+                                  ),
+                                  Text(e.name)
+                                ],
+                              ),
                             ),
                           ),
-                        ),
-                      );
-                    }).toList(),
+                        );
+                      }).toList(),
+                    ),
                   ),
                 ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: 15,
-          ),
-          Container(
-            height: 400,
-            child: Markeditor(
-              controller: markdowncontroller,
-              size: size,
+              ],
             ),
-          ),
-          SizedBox(
-            height: 15,
-          ),
-        ],
+            SizedBox(
+              height: 15,
+            ),
+            Container(
+              height: 400,
+              child: Markeditor(
+                controller: markdowncontroller,
+                size: size,
+              ),
+            ),
+            SizedBox(
+              height: 15,
+            ),
+          ],
+        ),
       ),
     );
   }

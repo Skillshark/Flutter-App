@@ -8,7 +8,73 @@ import 'package:skillshark/components/models.dart';
 import 'package:skillshark/components/profile_preview.dart';
 import 'package:skillshark/project/projectpage.dart';
 
-Widget Pcard(Size size, String postid) {
+enum CardOption { viewLater, save }
+
+enum CardOptionUser { save, edit, delete }
+
+List option = <PopupMenuItem>[
+  PopupMenuItem<CardOption>(
+    value: CardOption.save,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Icon(Icons.save),
+        Text('Save'),
+      ],
+    ),
+  ),
+  PopupMenuItem<CardOption>(
+    value: CardOption.viewLater,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Icon(Icons.watch_later),
+        Text('Watch Later'),
+      ],
+    ),
+  ),
+];
+
+List optionUser = <PopupMenuItem>[
+  PopupMenuItem<CardOptionUser>(
+    value: CardOptionUser.save,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Icon(Icons.save),
+        Text('Save'),
+      ],
+    ),
+  ),
+  PopupMenuItem<CardOptionUser>(
+    value: CardOptionUser.edit,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Icon(Icons.edit),
+        Text('Edit'),
+      ],
+    ),
+  ),
+  PopupMenuItem<CardOptionUser>(
+    value: CardOptionUser.delete,
+    child: Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Icon(
+          Icons.delete,
+          color: Colors.red,
+        ),
+        Text(
+          'Delete',
+          style: TextStyle(color: Colors.red),
+        ),
+      ],
+    ),
+  ),
+];
+
+Widget Pcard(Size size, String postid, bool user) {
   return StreamBuilder<Post>(
       stream: DatabaseService().getPost(postid),
       builder: (context, snapshot) {
@@ -58,24 +124,25 @@ Widget Pcard(Size size, String postid) {
                                   child: Stack(
                                     children: [
                                       Positioned(
-                                          top: 5,
-                                          right: 5,
-                                          child: snapshot.data.videoUrl != ''
-                                              ? Icon(
-                                                  Icons.video_call_outlined,
-                                                  color: Colors.white,
-                                                )
-                                              : SizedBox()),
+                                        top: 5,
+                                        right: 5,
+                                        child: snapshot.data.videoUrl != ''
+                                            ? Icon(
+                                                Icons.video_call_outlined,
+                                                color: Colors.white,
+                                              )
+                                            : SizedBox(),
+                                      ),
                                       Align(
-                                          alignment: Alignment.center,
-                                          child: snapshot.data.videoUrl != ''
-                                              ? Icon(
-                                                  Icons
-                                                      .play_circle_fill_rounded,
-                                                  size: 40,
-                                                  color: Colors.white,
-                                                )
-                                              : SizedBox())
+                                        alignment: Alignment.center,
+                                        child: snapshot.data.videoUrl != ''
+                                            ? Icon(
+                                                Icons.play_circle_fill_rounded,
+                                                size: 40,
+                                                color: Colors.white,
+                                              )
+                                            : SizedBox(),
+                                      )
                                     ],
                                   ),
                                 ),
@@ -92,16 +159,38 @@ Widget Pcard(Size size, String postid) {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                AutoSizeText(
-                                  snapshot.data.title == null
-                                      ? ''
-                                      : snapshot.data.title.toString(),
-                                  style: GoogleFonts.lato(
-                                      fontSize: 15,
-                                      color: Colors.black,
-                                      fontWeight: FontWeight.bold),
-                                  maxLines: 2,
-                                  overflow: TextOverflow.clip,
+                                Row(
+                                  mainAxisAlignment:
+                                      MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Expanded(
+                                      flex: 9,
+                                      child: AutoSizeText(
+                                        snapshot.data.title == null
+                                            ? ''
+                                            : snapshot.data.title.toString(),
+                                        style: GoogleFonts.lato(
+                                            fontSize: 15,
+                                            color: Colors.black,
+                                            fontWeight: FontWeight.bold),
+                                        maxLines: 2,
+                                        overflow: TextOverflow.clip,
+                                      ),
+                                    ),
+                                    Expanded(
+                                      flex: 1,
+                                      child: PopupMenuButton(
+                                        icon: Icon(Icons.more_vert),
+                                        itemBuilder: (BuildContext context) {
+                                          if (user) {
+                                            return optionUser;
+                                          } else {
+                                            return option;
+                                          }
+                                        },
+                                      ),
+                                    ),
+                                  ],
                                 ),
                                 SizedBox(
                                   height: 2,

@@ -91,6 +91,7 @@ class _ProjectState extends State<Project> {
             StreamBuilder<List<Post>>(
                 stream: DatabaseService().streamPost(),
                 builder: (context, snapshot) {
+                  print(snapshot.error.toString());
                   if (snapshot.hasData) {
                     return GridView.builder(
                       gridDelegate: SliverGridDelegateWithMaxCrossAxisExtent(
@@ -104,7 +105,10 @@ class _ProjectState extends State<Project> {
                       physics: NeverScrollableScrollPhysics(),
                       itemBuilder: (BuildContext context, int index) {
                         return Pcard(
-                            size, snapshot.data.elementAt(index).postid);
+                          size,
+                          snapshot.data.elementAt(index).postid,
+                          false,
+                        );
                       },
                     );
                   } else {

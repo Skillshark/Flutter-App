@@ -72,12 +72,18 @@ class _ProdocState extends State<Prodoc> {
                                     crossAxisAlignment:
                                         CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        pp.project.Author,
-                                        style: GoogleFonts.roboto(
-                                            fontSize: 14,
-                                            color: Colors.blue[900]),
-                                      ),
+                                      StreamBuilder<Usr>(
+                                          stream: DatabaseService()
+                                              .getUser(snapshot.data.userid),
+                                          builder: (context, snapshot) {
+                                            return Text(
+                                              snapshot.data.name,
+                                              style: GoogleFonts.roboto(
+                                                fontSize: 14,
+                                                color: Colors.blue[900],
+                                              ),
+                                            );
+                                          }),
                                       SizedBox(
                                         height: 2,
                                       ),

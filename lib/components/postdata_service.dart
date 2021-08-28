@@ -8,6 +8,7 @@ class PostdataService {
     post.doc(postid).set({
       'title': '',
       'userid': userid,
+      'shortdesc': '',
       'videourl': '',
       'thumbnailurl': '',
       'timestamp': FieldValue.serverTimestamp(),
@@ -17,19 +18,18 @@ class PostdataService {
       'likedby': empty,
       'markdowntext': '',
       'tools': empty,
-      'category': empty
+      'category': empty,
+      'isdraft': true,
     });
   }
 
   Future<void> postEdit1(
-    String postid,
-    String title,
-    String about,
-  ) async {
+      String postid, String title, String about, String shortDesc) async {
     CollectionReference post = FirebaseFirestore.instance.collection('posts');
     post.doc(postid).update({
       'title': title,
       'about': about,
+      'shortdesc': shortDesc,
     });
   }
 
@@ -48,6 +48,18 @@ class PostdataService {
       'tools': tools,
       'category': category,
     });
+  }
+
+  Future<void> postEditDraft(String postid) async {
+    CollectionReference post = FirebaseFirestore.instance.collection('posts');
+    post.doc(postid).update({
+      'isdraft': false,
+    });
+  }
+
+  Future<void> postDelete(String postid) {
+    CollectionReference post = FirebaseFirestore.instance.collection('posts');
+    post.doc(postid).delete();
   }
 
   Future<void> createComment(String postid, String commentTxt, String userid) {

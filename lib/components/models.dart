@@ -30,6 +30,7 @@ class Usr {
 class Post {
   final String postid;
   final String title;
+  final String shortdesc;
   final List tags;
   final String about;
   final String userid;
@@ -41,10 +42,12 @@ class Post {
   final List tools;
   final List category;
   final List likedby;
+  final bool isDraft;
 
   Post(
       {this.postid,
       this.title,
+      this.shortdesc,
       this.tags,
       this.about,
       this.userid,
@@ -55,7 +58,8 @@ class Post {
       this.markdowntext,
       this.category,
       this.likedby,
-      this.tools});
+      this.tools,
+      this.isDraft});
 
   factory Post.fromFirestore(DocumentSnapshot doc) {
     Map data = doc.data();
@@ -63,6 +67,7 @@ class Post {
     return Post(
       postid: doc.id,
       title: data['title'] ?? '',
+      shortdesc: data['shortdesc'] ?? '',
       tags: data['tags'] ?? null,
       about: data['about'] ?? '',
       userid: data['userid'] ?? '',
@@ -71,11 +76,12 @@ class Post {
       thumbnailUrl: data['thumbnailurl'] ??
           'https://firebasestorage.googleapis.com/v0/b/skillshare-69b1f.appspot.com/o/defaults%2Fdownload.png?alt=media&token=442cd51b-fd5a-477a-aebd-8af3599ae9a9',
       timestamp: data['timestamp'].toDate() ?? DateTime.now(),
-      upvote: data['upvote'] ?? 0,
+      upvote: data['upvotes'] ?? 0,
       markdowntext: data['markdowntext'] ?? '',
       tools: data['tools'] ?? '',
       category: data['category'] ?? '',
       likedby: data['likedby'] ?? '',
+      isDraft: data['isdraft'] ?? false,
     );
   }
 }
@@ -100,12 +106,13 @@ class Comment {
     Map data = doc.data();
 
     return Comment(
-        commentid: doc.id,
-        userid: data['userid'] ?? '',
-        commentTxt: data['commentTxt'] ?? '',
-        time: data['time'] ?? DateTime.now(),
-        upvote: data['upvote'] ?? 0,
-        downvote: data['downvote'] ?? 0);
+      commentid: doc.id,
+      userid: data['userid'] ?? '',
+      commentTxt: data['commentTxt'] ?? '',
+      time: data['time'] ?? DateTime.now(),
+      upvote: data['upvote'] ?? 0,
+      downvote: data['downvote'] ?? 0,
+    );
   }
 }
 
@@ -204,104 +211,6 @@ class BizAcc {
     );
   }
 }
-
-class Mproject {
-  String assest;
-  String tite;
-  String Author;
-  String avatar;
-  List list;
-  int like;
-  int comment;
-  bool islike;
-  bool isvideo;
-
-  Mproject(this.assest, this.tite, this.Author, this.avatar, this.list,
-      this.like, this.comment, this.islike, this.isvideo);
-}
-
-List<Mproject> p = [
-  Mproject(
-      'assets/vidoe_3.png',
-      'Future technology of GPS and Motion Sensors with easy tutorial explanations',
-      'John Wick',
-      'assets/profile 6.png',
-      ['Robotics', 'Electric'],
-      100,
-      20,
-      false,
-      false),
-  Mproject(
-      'assets/vidoe_3.png',
-      'Future technology of GPS and Motion Sensors with easy tutorial explanations',
-      'John Wick',
-      'assets/profile 6.png',
-      ['Robotics', 'Electric'],
-      100,
-      20,
-      true,
-      false),
-  Mproject(
-      'assets/vidoe_3.png',
-      'Falcon Project with various alloys',
-      'John Wick',
-      'assets/profile 6.png',
-      ['Robotics', 'Electric'],
-      100,
-      20,
-      false,
-      false),
-  Mproject(
-      'assets/vidoe_3.png',
-      'Falcon Project with various alloys',
-      'John Wick',
-      'assets/profile 6.png',
-      ['Robotics', 'Electric'],
-      100,
-      20,
-      true,
-      true),
-  Mproject(
-      'assets/vidoe_3.png',
-      'Falcon Project with various alloys',
-      'John Wick',
-      'assets/profile 6.png',
-      ['Robotics', 'Electric'],
-      500,
-      20,
-      false,
-      false),
-  Mproject(
-      'assets/vidoe_3.png',
-      'Falcon Project with various alloys',
-      'John Wick',
-      'assets/profile 6.png',
-      ['Robotics', 'Electric'],
-      10,
-      20,
-      false,
-      false),
-  Mproject(
-      'assets/vidoe_3.png',
-      'Falcon Project with various alloys',
-      'John Wick',
-      'assets/profile 6.png',
-      ['Robotics', 'Electric'],
-      100,
-      20,
-      true,
-      true),
-  Mproject(
-      'assets/vidoe_3.png',
-      'Falcon Project with various alloys',
-      'John Wick',
-      'assets/profile 6.png',
-      ['Robotics', 'Electric'],
-      100,
-      20,
-      false,
-      true),
-];
 
 class Docu {
   String name;

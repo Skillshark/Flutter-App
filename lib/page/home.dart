@@ -20,7 +20,7 @@ import 'package:skillshark/project/project.dart';
 import 'package:provider/provider.dart';
 import 'package:uuid/uuid.dart';
 
-List page = [Project(), Body(), Body(), Job(), Body()];
+List page = [Project(), Job(), Body()];
 
 class Home extends StatefulWidget {
   @override
@@ -30,8 +30,7 @@ class Home extends StatefulWidget {
 class _HomeState extends State<Home> {
   Size size;
   int currentindex = 0;
-  List hover = [false, false, false, false, false];
-  final Controller c = Get.put(Controller());
+  List hover = [false, false, false];
   Pagecontrol pp;
   var postid;
 
@@ -42,180 +41,162 @@ class _HomeState extends State<Home> {
     size = MediaQuery.of(context).size;
     return Scaffold(
       body: SafeArea(
-          child: Column(
-        children: [
-          PhysicalModel(
-            elevation: 3,
-            color: Colors.black,
-            child: Container(
-              color: Colors.white,
-              height: 60,
-              width: size.width,
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(0.0),
-                  child: Row(
-                    children: [
-                      SizedBox(
-                        width: 30,
-                      ),
-                      Container(
-                        height: 60,
-                        width: 90,
-                        decoration: BoxDecoration(
+        child: Column(
+          children: [
+            PhysicalModel(
+              elevation: 3,
+              color: Colors.black,
+              child: Container(
+                color: Colors.white,
+                height: 60,
+                width: size.width,
+                child: Center(
+                  child: Padding(
+                    padding: const EdgeInsets.all(0.0),
+                    child: Row(
+                      children: [
+                        SizedBox(
+                          width: 30,
+                        ),
+                        Container(
+                          height: 60,
+                          width: 90,
+                          decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(10),
                             image: DecorationImage(
-                                image: AssetImage(
-                                    'assets/images/login_page_logo.png'),
-                                fit: BoxFit.contain)),
-                      ),
-                      SizedBox(
-                        width: 30,
-                      ),
-                      option(
+                              image: AssetImage(
+                                'assets/images/login_page_logo.png',
+                              ),
+                              fit: BoxFit.contain,
+                            ),
+                          ),
+                        ),
+                        SizedBox(
+                          width: 30,
+                        ),
+                        option(
                           context,
                           0,
                           'Project',
-                          Icon(Icons.settings,
-                              size: 17,
-                              color: currentindex == 0
-                                  ? Colors.blue
-                                  : hover[0]
-                                      ? Colors.green
-                                      : Colors.black)),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      option(
-                          context,
-                          1,
-                          'Explore',
-                          Icon(Icons.flight_takeoff,
-                              size: 17,
-                              color: currentindex == 1
-                                  ? Colors.blue
-                                  : hover[1]
-                                      ? Colors.green
-                                      : Colors.black)),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      option(
-                          context,
-                          2,
-                          'Blogs',
-                          Icon(Icons.my_library_books_outlined,
-                              size: 17,
-                              color: currentindex == 2
-                                  ? Colors.blue
-                                  : hover[2]
-                                      ? Colors.green
-                                      : Colors.black)),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      option(
-                          context,
-                          3,
-                          'job',
-                          Icon(Icons.work,
-                              size: 17,
-                              color: currentindex == 3
-                                  ? Colors.blue
-                                  : hover[3]
-                                      ? Colors.green
-                                      : Colors.black)),
-                      SizedBox(
-                        width: 15,
-                      ),
-                      option(
-                          context,
-                          4,
-                          'learn',
-                          Icon(Icons.menu_book,
-                              size: 17,
-                              color: currentindex == 4
-                                  ? Colors.blue
-                                  : hover[4]
-                                      ? Colors.green
-                                      : Colors.black)),
-                      Expanded(child: Container()),
-                      firebaseUser == null
-                          ? signb(context)
-                          : FlatButton.icon(
-                              icon: Icon(
-                                Icons.add_circle,
-                                color: Colors.blue,
-                              ),
-                              onPressed: () {
-                                postid = Uuid().v1().toString();
-                                print(postid);
-                                PostdataService()
-                                    .postCreate(postid, firebaseUser.uid)
-                                    .then(
-                                      (value) => Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => Ap(
-                                            postid: postid,
+                          Icon(
+                            Icons.settings,
+                            size: 17,
+                            color: currentindex == 0
+                                ? Colors.blue
+                                : hover[0]
+                                    ? Colors.green
+                                    : Colors.black,
+                          ),
+                        ),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        option(
+                            context,
+                            1,
+                            'Job',
+                            Icon(Icons.work,
+                                size: 17,
+                                color: currentindex == 1
+                                    ? Colors.blue
+                                    : hover[1]
+                                        ? Colors.green
+                                        : Colors.black)),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        option(
+                            context,
+                            2,
+                            'Learn',
+                            Icon(Icons.menu_book,
+                                size: 17,
+                                color: currentindex == 2
+                                    ? Colors.blue
+                                    : hover[2]
+                                        ? Colors.green
+                                        : Colors.black)),
+                        SizedBox(
+                          width: 15,
+                        ),
+                        Expanded(child: Container()),
+                        firebaseUser == null
+                            ? signb(context)
+                            : FlatButton.icon(
+                                icon: Icon(
+                                  Icons.add_circle,
+                                  color: Colors.blue,
+                                ),
+                                onPressed: () {
+                                  postid = Uuid().v1().toString();
+                                  print(postid);
+                                  PostdataService()
+                                      .postCreate(postid, firebaseUser.uid)
+                                      .then(
+                                        (value) => Navigator.push(
+                                          context,
+                                          MaterialPageRoute(
+                                            builder: (context) => Ap(
+                                              postid: postid,
+                                            ),
                                           ),
                                         ),
-                                      ),
-                                    );
-                              },
-                              label: Text(
-                                'Add project',
-                                style:
-                                    GoogleFonts.lato(color: Colors.lightBlue),
+                                      );
+                                },
+                                label: Text(
+                                  'Add project',
+                                  style:
+                                      GoogleFonts.lato(color: Colors.lightBlue),
+                                ),
                               ),
+                        SizedBox(
+                          width: 6,
+                        ),
+                        firebaseUser == null ? login(context) : SizedBox(),
+                        SizedBox(
+                          width: 6,
+                        ),
+                        notif(
+                            context,
+                            Icon(
+                              Icons.notifications,
+                              size: 27,
                             ),
-                      SizedBox(
-                        width: 6,
-                      ),
-                      firebaseUser == null ? login(context) : SizedBox(),
-                      SizedBox(
-                        width: 6,
-                      ),
-                      notif(
-                          context,
-                          Icon(
-                            Icons.notifications,
-                            size: 27,
-                          ),
-                          7),
-                      SizedBox(
-                        width: 13,
-                      ),
-                      notif(
-                          context,
-                          Icon(
-                            Icons.email,
-                            size: 27,
-                          ),
-                          17),
-                      SizedBox(
-                        width: 5,
-                      ),
-                      firebaseUser == null
-                          ? Icon(Icons.person)
-                          : profilePreview(10, firebaseUser.uid),
-                      SizedBox(
-                        width: 30,
-                      ),
-                    ],
+                            7),
+                        SizedBox(
+                          width: 13,
+                        ),
+                        notif(
+                            context,
+                            Icon(
+                              Icons.email,
+                              size: 27,
+                            ),
+                            17),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        firebaseUser == null
+                            ? Icon(Icons.person)
+                            : profilePreview(10, firebaseUser.uid),
+                        SizedBox(
+                          width: 30,
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),
             ),
-          ),
-          Expanded(
-            child: Container(
-              height: size.height,
-              child: page[currentindex],
+            Expanded(
+              child: Container(
+                height: size.height,
+                child: page[currentindex],
+              ),
             ),
-          ),
-        ],
-      )),
+          ],
+        ),
+      ),
     );
   }
 

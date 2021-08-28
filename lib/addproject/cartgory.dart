@@ -21,6 +21,7 @@ class CartState extends State<Cart> {
   var catagoryController = TextEditingController();
   var linkController = TextEditingController();
   var toolController = TextEditingController();
+  var scroll = ScrollController();
 
   final _formKey = GlobalKey<FormState>();
 
@@ -30,7 +31,30 @@ class CartState extends State<Cart> {
       List tools = toolController.text.split(',');
       List catagoy = tagController.text.split(',');
       try {
-        PostdataService().postEdit3(widget.postid, tags, tools, catagoy);
+        PostdataService()
+            .postEdit3(widget.postid, tags, tools, catagoy)
+            .then((value) {
+          StreamBuilder<Post>(
+            stream: DatabaseService().getPost(widget.postid),
+            builder: (context, snapshot) {
+              if (snapshot.hasData) {
+                if (snapshot.data.title != '' &&
+                    snapshot.data.about != '' &&
+                    snapshot.data.videoUrl != '' &&
+                    snapshot.data.thumbnailUrl != '' &&
+                    snapshot.data.tags != [] &&
+                    snapshot.data.markdowntext != '') {
+                  PostdataService().postEditDraft(widget.postid);
+                  return null;
+                } else {
+                  return null;
+                }
+              } else {
+                return null;
+              }
+            },
+          );
+        });
       } finally {
         print('error');
       }

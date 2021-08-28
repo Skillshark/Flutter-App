@@ -21,7 +21,7 @@ Widget livetab(Size size, Pagecontrol pp, String userid) {
             physics: NeverScrollableScrollPhysics(),
             itemCount: snapshot.data.length,
             itemBuilder: (BuildContext context, int index) {
-              return Pcard(size, snapshot.data.elementAt(index).postid);
+              return Pcard(size, snapshot.data.elementAt(index).postid, true);
             },
           );
         } else {

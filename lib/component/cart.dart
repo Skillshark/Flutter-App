@@ -42,6 +42,7 @@ Widget Cart(Size size, BuildContext context) {
                   child: Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Container(
+                      padding: EdgeInsets.all(8.0),
                       height: 50,
                       width: 190,
                       decoration: BoxDecoration(
